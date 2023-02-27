@@ -13,14 +13,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService {
 
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     /**
      * 회원 가입
      */
     @Transactional
     public Long join(Member member) {
-        validateDuplicateMember(member);
+        validateDuplicateMember(member); // 중복 회원 검증
         memberRepository.save(member);
         return member.getId();
     }
