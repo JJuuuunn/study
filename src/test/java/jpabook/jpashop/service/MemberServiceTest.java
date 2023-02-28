@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
@@ -32,7 +32,7 @@ class MemberServiceTest {
 
         //then
         em.flush();
-        assertThat(member).isEqualTo(memberRepository.findOne(saveId));
+        assertEquals(member, memberRepository.findOne(saveId));
     }
 
 
