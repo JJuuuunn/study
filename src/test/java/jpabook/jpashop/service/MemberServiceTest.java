@@ -5,13 +5,12 @@ import jpabook.jpashop.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
@@ -33,7 +32,7 @@ class MemberServiceTest {
 
         //then
         em.flush();
-        assertThat(member.equals(memberRepository.findOne(saveId)));
+        assertThat(member).isEqualTo(memberRepository.findOne(saveId));
     }
 
 
@@ -50,7 +49,6 @@ class MemberServiceTest {
         memberService.join(member1);
 
         //then
-        assertThatThrownBy(() -> memberService.join(member2))
-                .isInstanceOf(IllegalStateException.class);
+        assertThrows(IllegalStateException.class, () -> memberService.join(member2));
     }
 }
