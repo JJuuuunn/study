@@ -3,7 +3,7 @@ package jpabook.jpashop.api;
 import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
-import jpabook.jpashop.repository.SimpleOrderDto;
+import jpabook.jpashop.repository.OrderSimpleQueryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,24 +35,30 @@ public class OrderSimpleApiController {
     }
 
     @GetMapping("/api/v2/simple-orders")
-    public List<SimpleOrderDto> orderV2() {
+    public List<OrderSimpleQueryDto> orderV2() {
         // ORDER 2개
         // N + 1 문제 -> 1 + 회원 N + 배송 N
         List<Order> orders = orderRepository.findAllByString(new OrderSearch());
 
-        List<SimpleOrderDto> result = orders.stream()
-                .map(SimpleOrderDto::new)
+        List<OrderSimpleQueryDto> result = orders.stream()
+                .map(OrderSimpleQueryDto::new)
                 .collect(Collectors.toList());
 
         return result;
     }
 
     @GetMapping("/api/v3/simple-orders")
-    public List<SimpleOrderDto> orderV3() {
+    public List<OrderSimpleQueryDto> orderV3() {
         List<Order> orders = orderRepository.findAllWithMemberDelivery();
-        List<SimpleOrderDto> result = orders.stream()
-                .map(SimpleOrderDto::new)
+        List<OrderSimpleQueryDto> result = orders.stream()
+                .map(OrderSimpleQueryDto::new)
                 .collect(Collectors.toList());
         return result;
     }
+
+    @GetMapping("/api/v4/simple-orders")
+    public List<OrderSimpleQueryDto> orderV4() {
+        return orderRepository.findOrderDtos();
+    }
+
 }
