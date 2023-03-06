@@ -35,7 +35,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    public void basicCRUD() {
+    public void testBasicCRUD() {
         //given
         Member member1 = new Member("member1");
         Member member2 = new Member("member2");
@@ -69,7 +69,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    public void findByUsernameAndAgeGreaterThen() {
+    public void tsetFindByUsernameAndAgeGreaterThen() {
         //given
         Member member1 = new Member("member", 10);
         Member member2 = new Member("member", 20);
@@ -86,12 +86,12 @@ class MemberRepositoryTest {
     }
 
     @Test
-    public void findHelloBy() {
+    public void testFindHelloBy() {
         List<Member> helloBy = memberRepository.findTop3HelloBy();
     }
 
     @Test
-    public void namedQuery() {
+    public void testNamedQuery() {
         //given
         Member member1 = new Member("member1", 10);
         Member member2 = new Member("member2", 20);
@@ -105,4 +105,18 @@ class MemberRepositoryTest {
         assertThat(result.get(0)).isEqualTo(member1);
     }
 
+    @Test
+    public void testQueryInRepository() {
+        //given
+        Member member1 = new Member("member1", 10);
+        Member member2 = new Member("member2", 20);
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+
+        //when
+        List<Member> result = memberRepository.findUser("member1", 10);
+
+        //then
+        assertThat(result.get(0)).isEqualTo(member1);
+    }
 }
