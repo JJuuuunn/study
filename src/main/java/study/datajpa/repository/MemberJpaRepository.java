@@ -7,7 +7,7 @@ import study.datajpa.entity.Member;
 
 
 @Repository
-public class    MemberJpaRepository {
+public class MemberJpaRepository {
 
     @PersistenceContext
     private EntityManager em;
