@@ -3,15 +3,14 @@ package study.datajpa.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import study.datajpa.dto.MemberDto;
 import study.datajpa.entity.Member;
 
+import javax.persistence.LockModeType;
+import javax.persistence.QueryHint;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,15 +49,30 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("select m from Member m left join fetch m.team")
     List<Member> findMemberFetchJoin();
 
+    //공통 메서드 오버라이드
     @Override
     @EntityGraph(attributePaths = {"team"})
     List<Member> findAll();
 
+    //JPQL + 엔티티 그래프
     @EntityGraph(attributePaths = {"team"})
-    @Query("elect m from Member m")
+    @Query("select m from Member m")
     List<Member> findMemberEntityGraph();
 
-    @EntityGraph(attributePaths = {"tram"})
-//    @EntityGraph("Member.all") // NamedEntityGraph 사용
-    List<Member> findEntityGraphByUsername(@Param("username") String username);
+    //메서드 이름으로 쿼리에서 특히 편리하다.
+    @EntityGraph(attributePaths = {"team"})
+    List<Member> findEntityGraphByUsername(String username);
+
+    // NamedEntityGraph 사용
+    @EntityGraph("Member.all")
+    @Query("select m from Member m")
+    List<Member> findNamedEntityGraph();
+
+    // JPA Hint
+    @QueryHints(value = @QueryHint(name = "org.hibernate.readOnly", value = "true"))
+    Member findReadOnlyByUsername(String username);
+
+    // JPA Lock
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    List<Member> findLockByUsername(String username);
 }
