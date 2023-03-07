@@ -25,9 +25,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Rollback(value = false)
 class MemberRepositoryTest {
 
-    @Autowired MemberRepository memberRepository;
-    @Autowired TeamRepository teamRepository;
-    @PersistenceContext EntityManager em;
+    @Autowired
+    MemberRepository memberRepository;
+    @Autowired
+    TeamRepository teamRepository;
+    @PersistenceContext
+    EntityManager em;
 
     @Test
     public void testMember() {
@@ -288,8 +291,34 @@ class MemberRepositoryTest {
             System.out.println("member.team.name = " + m.getTeam().getName());
         }
         System.out.println("=======================");
+    }
 
-        //then
+    @Test
+    public void queryHing() {
+        //given
+        Member member1 = new Member("member1", 10);
+        memberRepository.save(member1);
 
+        em.flush();
+        em.clear();
+
+        //when
+        Member findMember = memberRepository.findReadOnlyByUsername("member1");
+        findMember.setUsername("member2");
+
+        em.flush();
+    }
+
+    @Test
+    public void lock() {
+        //given
+        Member member1 = new Member("member1", 10);
+        memberRepository.save(member1);
+
+        em.flush();
+        em.clear();
+
+        //when
+        List<Member> result = memberRepository.findLockByUsername("member1");
     }
 }
