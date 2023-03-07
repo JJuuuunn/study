@@ -258,4 +258,38 @@ class MemberRepositoryTest {
         //then
         assertThat(resultCount).isEqualTo(3);
     }
+
+    @Test
+    public void findMemberLazy() {
+        //given
+        // member1 -> teamA
+        // member2 -> teamB
+
+        Team teamA = new Team("teamA");
+        Team teamB = new Team("teamB");
+        teamRepository.save(teamA);
+        teamRepository.save(teamB);
+
+        Member member1 = memberRepository.save(new Member("member1", 10, teamA));
+        Member member2 = memberRepository.save(new Member("member2", 15, teamB));
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+
+        em.flush();
+        em.clear();
+
+        //when
+        List<Member> members = memberRepository.findMemberFetchJoin();
+
+        System.out.println("=======================");
+        for (Member m : members) {
+            System.out.println("member = " + m.getUsername());
+            System.out.println("member.team.class = " + m.getTeam().getClass());
+            System.out.println("member.team.name = " + m.getTeam().getName());
+        }
+        System.out.println("=======================");
+
+        //then
+
+    }
 }
