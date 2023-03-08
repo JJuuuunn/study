@@ -3,6 +3,7 @@ package study.datajpa.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +31,8 @@ public class MemberController {
     }
 
     @GetMapping("/members")
-    public Page<Member> list(Pageable pageable) {
+    public Page<Member> list(@PageableDefault(size = 5, sort = "username",
+            direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Member> page = memberRepository.findAll(pageable);
         return page;
     }
