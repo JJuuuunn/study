@@ -407,4 +407,36 @@ class MemberRepositoryTest {
             System.out.println("usernameOnly : " + nestedClosedProjection.getUsername());
         }
     }
+
+    /**
+     * 네이티브쿼리
+     * 가장 마지막 최후의 수단으로 사용할 것을 생각
+     */
+    @Test
+    public void nativeQuery() {
+        //given
+        Team teamA = new Team("teamA");
+        em.persist(teamA);
+
+        Member memberA = new Member("memberA", 0, teamA);
+        Member memberB = new Member("memberB", 0, teamA);
+        em.persist(memberA);
+        em.persist(memberB);
+
+        em.flush();
+        em.clear();
+
+        //when
+//        Member result = memberRepository.findByNativeQuery("memberA");
+        Page<MemberProjection> result = memberRepository.findByNativeProjection(PageRequest.of(0, 10));
+        List<MemberProjection> content = result.getContent();
+
+        //then
+//        System.out.println("result = " + result);
+        for (MemberProjection memberProjection : content) {
+            System.out.println("memberProjection = " + memberProjection.getUsername());
+            System.out.println("memberProjection = " + memberProjection.getTeamName());
+        }
+
+    }
 }
