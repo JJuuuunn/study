@@ -4,10 +4,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +17,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -348,6 +346,41 @@ class MemberRepositoryTest {
         List<Member> result = memberRepository.findAll(spec);
 
         //then
-        Assertions.assertThat(result.size()).isEqualTo(1);
+        assertThat(result.size()).isEqualTo(1);
+    }
+
+    /**
+     * inner join 은 되나
+     * Outer join 은 안되서 비추
+     */
+    @Test
+    public void queryByExample() {
+        //given
+        Team teamA = new Team("teamA");
+        em.persist(teamA);
+
+        Member memberA = new Member("memberA", 0, teamA);
+        Member memberB = new Member("memberB", 0, teamA);
+        em.persist(memberA);
+        em.persist(memberB);
+
+        em.flush();
+        em.clear();
+
+        //when
+        //Probe
+        Member member = new Member("memberA");
+        Team team = new Team("teamA"); // 내부 조인으로 teamA 가능
+        member.setTeam(team);
+
+        ExampleMatcher matcher = ExampleMatcher.matching().withIgnorePaths("age");
+
+        Example<Member> example = Example.of(member, matcher);
+
+
+        List<Member> result = memberRepository.findAll(example);
+
+        //then
+        assertThat(result.size()).isEqualTo(1);
     }
 }
