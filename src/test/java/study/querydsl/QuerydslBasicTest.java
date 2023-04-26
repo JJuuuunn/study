@@ -1,5 +1,6 @@
 package study.querydsl;
 
+import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,5 +67,55 @@ class QuerydslBasicTest {
                 .fetchOne();
 
         assertThat(findMember.getUsername()).isEqualTo("member1");
+    }
+
+    @Test
+    public void search() {
+        Member findMember = queryFactory
+                .selectFrom(member)
+                .where(member.username.eq("member1")
+                        .and(member.age.eq(10)))
+                .fetchOne();
+
+        assertThat(findMember.getUsername()).isEqualTo("member1");
+    }
+
+    @Test
+    public void searchAndParam() {
+        Member findMember = queryFactory
+                .selectFrom(member)
+                .where(member.username.eq("member1"),
+                        (member.age.eq(10)))
+                .fetchOne();
+
+        assertThat(findMember.getUsername()).isEqualTo("member1");
+    }
+
+    @Test
+    public void resultFetch(){
+        // list
+        List<Member> fetch = queryFactory
+                .selectFrom(member)
+                .fetch();
+
+        // 단건 조회 (결과가 없으면 null, 둘 이상이면 NonUniqueResultException)
+        Member fetchOne = queryFactory
+                .selectFrom(member)
+                .fetchOne();
+
+        // 처음 한 건 조회 ( = limit(1).fetchOne();)
+        Member fetchFirst = queryFactory
+                .selectFrom(member)
+                .fetchFirst();
+
+        // 페이징 사용 (총 갯수는 results.getTotal()로 쿼리 추가 실행)
+        QueryResults<Member> results = queryFactory
+                .selectFrom(member)
+                .fetchResults();
+
+        // count 쿼리로 변경
+        long count = queryFactory
+                .selectFrom(member)
+                .fetchCount();
     }
 }
