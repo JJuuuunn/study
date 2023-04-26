@@ -1,4 +1,4 @@
- package study.querydsl;
+package study.querydsl;
 
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
@@ -20,6 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
+import static com.querydsl.jpa.JPAExpressions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static study.querydsl.entity.QMember.member;
 import static study.querydsl.entity.QTeam.team;
@@ -100,7 +101,7 @@ class QuerydslBasicTest {
     }
 
     @Test
-    public void resultFetch(){
+    public void resultFetch() {
         // list
         List<Member> fetch = queryFactory
                 .selectFrom(member)
@@ -128,13 +129,13 @@ class QuerydslBasicTest {
     }
 
     /**
-     *  회원 정렬 순서
-     *  1. 회원 나이 내림차순 (Desc)
-     *  2. 회원 이름 오름차순 (Asc)
-     *  단 2에서 회원 이름이 없으면 마지막에 출력(nulls last)
+     * 회원 정렬 순서
+     * 1. 회원 나이 내림차순 (Desc)
+     * 2. 회원 이름 오름차순 (Asc)
+     * 단 2에서 회원 이름이 없으면 마지막에 출력(nulls last)
      */
     @Test
-    public void sort(){
+    public void sort() {
         em.persist(new Member(null, 100));
         em.persist(new Member("member5", 100));
         em.persist(new Member("member6", 100));
@@ -155,7 +156,7 @@ class QuerydslBasicTest {
     }
 
     @Test
-    public void paging1(){
+    public void paging1() {
         List<Member> result = queryFactory
                 .selectFrom(member)
                 .orderBy(member.username.desc())
@@ -167,7 +168,7 @@ class QuerydslBasicTest {
     }
 
     @Test
-    public void paging2(){
+    public void paging2() {
         QueryResults<Member> queryResults = queryFactory
                 .selectFrom(member)
                 .orderBy(member.username.desc())
@@ -182,7 +183,7 @@ class QuerydslBasicTest {
     }
 
     @Test
-    public void aggregation(){
+    public void aggregation() {
         List<Tuple> result = queryFactory
                 .select(member.count(),
                         member.age.sum(),
@@ -202,10 +203,10 @@ class QuerydslBasicTest {
     }
 
     /**
-     *  팀의 이름과 각 팀의 편균 연령을 구해라.
+     * 팀의 이름과 각 팀의 편균 연령을 구해라.
      */
     @Test
-    public void group(){
+    public void group() {
         List<Tuple> result = queryFactory
                 .select(team.name, member.age.avg())
                 .from(member)
@@ -237,8 +238,8 @@ class QuerydslBasicTest {
     }
 
     /**
-     *  세타 조인 (연관관게가 없는 필드로 조인, 외부 조인 불가능(but 조인 on 사용하면 가능))
-     *  회원 이름이 팀 이름과 같은 회원 조회
+     * 세타 조인 (연관관게가 없는 필드로 조인, 외부 조인 불가능(but 조인 on 사용하면 가능))
+     * 회원 이름이 팀 이름과 같은 회원 조회
      */
     @Test
     public void theta_join() throws Exception {
@@ -260,6 +261,7 @@ class QuerydslBasicTest {
     /**
      * 예) 회원과 팀을 조인하면서, 팀 이름이 teamA인 팀만 조인, 회원은 모두 조회
      * JPQL : select m, t from Member m left join m, Team t on t.name = "teamA"
+     *
      * @throws Exception
      */
     @Test
@@ -333,8 +335,7 @@ class QuerydslBasicTest {
         List<Member> result = queryFactory
                 .selectFrom(member)
                 .where(member.age.eq(
-                        JPAExpressions
-                                .select(memberSub.age.max())
+                        select(memberSub.age.max())
                                 .from(memberSub)
                 ))
                 .fetch();
@@ -354,8 +355,7 @@ class QuerydslBasicTest {
         List<Member> result = queryFactory
                 .selectFrom(member)
                 .where(member.age.goe(
-                        JPAExpressions
-                                .select(memberSub.age.avg())
+                        select(memberSub.age.avg())
                                 .from(memberSub)
                 ))
                 .fetch();
@@ -375,8 +375,7 @@ class QuerydslBasicTest {
         List<Member> result = queryFactory
                 .selectFrom(member)
                 .where(member.age.in(
-                        JPAExpressions
-                                .select(memberSub.age)
+                        select(memberSub.age)
                                 .from(memberSub)
                                 .where(memberSub.age.gt(10))
                 ))
@@ -385,5 +384,29 @@ class QuerydslBasicTest {
         assertThat(result)
                 .extracting("age")
                 .containsExactly(20, 30, 40);
+    }
+
+    /**
+     * select 절에 subQuery
+     * from 절의 서브쿼리는 (JPA, JPQL) 에서 지원 X
+     * 해결방안
+     *  - 서브쿼리를 join 으로 변경(불가능한 상황도 있음)
+     *  - 쿼리를 2번 분리해서 실행
+     *  - nativeSQL을 사용
+     */
+    @Test
+    public void selectSubQuery() throws Exception {
+        QMember memberSub = new QMember("memberSub");
+
+        List<Tuple> result = queryFactory
+                .select(member.username,
+                        select(memberSub.age.avg())
+                                .from(memberSub))
+                .from(member)
+                .fetch();
+
+        for (Tuple tuple : result) {
+            System.out.println("tuple = " + tuple);
+        }
     }
 }
