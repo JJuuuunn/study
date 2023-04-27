@@ -3,6 +3,8 @@ package study.querydsl;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
@@ -15,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+import study.querydsl.dto.MemberDto;
+import study.querydsl.dto.UserDto;
 import study.querydsl.entity.Member;
 import study.querydsl.entity.QMember;
 import study.querydsl.entity.QTeam;
@@ -394,9 +398,9 @@ class QuerydslBasicTest {
      * select 절에 subQuery
      * from 절의 서브쿼리는 (JPA, JPQL) 에서 지원 X
      * 해결방안
-     *  - 서브쿼리를 join 으로 변경(불가능한 상황도 있음)
-     *  - 쿼리를 2번 분리해서 실행
-     *  - nativeSQL을 사용
+     * - 서브쿼리를 join 으로 변경(불가능한 상황도 있음)
+     * - 쿼리를 2번 분리해서 실행
+     * - nativeSQL을 사용
      */
     @Test
     public void selectSubQuery() throws Exception {
@@ -447,8 +451,8 @@ class QuerydslBasicTest {
     }
 
     /**
-     *  강의 이후 추가된 내용
-     *  orderBy 에서 Case 문 사용
+     * 강의 이후 추가된 내용
+     * orderBy 에서 Case 문 사용
      */
     @Test
     public void orderByCase() throws Exception {
@@ -484,7 +488,7 @@ class QuerydslBasicTest {
     }
 
     /**
-     *  문자가 아닌 다른 타입들은 .stringValue() 로 문자로 변활 가능 (주로 ENUM 처리 시 사용)
+     * 문자가 아닌 다른 타입들은 .stringValue() 로 문자로 변활 가능 (주로 ENUM 처리 시 사용)
      */
     @Test
     public void concat() throws Exception {
@@ -528,5 +532,94 @@ class QuerydslBasicTest {
         }
     }
 
+    /**
+     * 순수 JPA 에서 DTO 조회시 new 명령어 사용 (package 이름 다 적어야함)
+     * 생성자 방식만 지원
+     */
+    @Test
+    public void findDtoByJPQL() throws Exception {
+        List<MemberDto> result = em.createQuery("select new study.querydsl.dto.MemberDto(m.username, m.age) from Member m", MemberDto.class)
+                .getResultList();
 
+        for (MemberDto memberDto : result) {
+            System.out.println("memberDto = " + memberDto);
+        }
+    }
+
+    /**
+     * DTO 조회 - Setter 방식
+     */
+    @Test
+    public void findDtoBySetter() throws Exception {
+        List<MemberDto> result = queryFactory
+                .select(Projections.bean(MemberDto.class,
+                        member.username,
+                        member.age))
+                .from(member)
+                .fetch();
+
+        for (MemberDto memberDto : result) {
+            System.out.println("memberDto = " + memberDto);
+        }
+    }
+
+    /**
+     * DTO 조회 - Field 방식
+     */
+    @Test
+    public void findDtoByField() throws Exception {
+        List<MemberDto> result = queryFactory
+                .select(Projections.fields(MemberDto.class,
+                        member.username,
+                        member.age))
+                .from(member)
+                .fetch();
+
+        for (MemberDto memberDto : result) {
+            System.out.println("memberDto = " + memberDto);
+        }
+    }
+
+    /**
+     * DTO 조회 - Constructor(생성자) 방식
+     */
+    @Test
+    public void findDtoByConstructor() throws Exception {
+        List<MemberDto> result = queryFactory
+                .select(Projections.constructor(MemberDto.class,
+                        member.username,
+                        member.age))
+                .from(member)
+                .fetch();
+
+        for (MemberDto memberDto : result) {
+            System.out.println("memberDto = " + memberDto);
+        }
+    }
+
+    /**
+     * DTO 조회 - field 방식 주의사하아
+     * dto 와 필드명이 다른 경우 Null (as 로 변경 후 사용)
+     * 필드나 서브쿼리 별칭 사용(ExpressionUtils.as)
+     */
+    @Test
+    public void findUserDto() throws Exception {
+//        QMember memberSub = new QMember("memberSub");
+
+        List<UserDto> result = queryFactory
+                .select(Projections.fields(UserDto.class,
+                        member.username.as("name"),
+                        member.age
+
+//                        ExpressionUtils.as(JPAExpressions
+//                                .select(memberSub.age.max())
+//                                .from(memberSub), "age")
+                ))
+                .from(member)
+                .fetch();
+
+        for (UserDto userDto : result) {
+            System.out.println("userDto = " + userDto);
+        }
+    }
 }
