@@ -5,7 +5,9 @@ import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
@@ -668,7 +670,7 @@ class QuerydslBasicTest {
      * 순수 JPA에서는 new 명령어 사용하여 생성자 생성
      * QueryDsl(프로퍼티(Setter), 필드 직접 접근(Fields), 생성자(Constructor, QueryProjection(Q파일)))
      */
-    
+
     @Test
     public void dynamicQuery_BooleanBuilder() throws Exception {
         String usernameParam = "member1";
@@ -691,6 +693,48 @@ class QuerydslBasicTest {
                 .selectFrom(member)
                 .where(builder)
                 .fetch();
+    }
 
+    /**
+     * 동적 쿼리 where 다중 파라미터 (where 에서 null은 무시)i
+     * 장점 1. 조합이 가능
+     * 장점 2. 매서드 재활용 가능
+     * @throws Exception
+     */
+    @Test
+    public void dynamicQuery_WhereParam() throws Exception {
+        String usernameParam = "member1";
+        Integer ageParam = 10;
+
+        List<Member> result = searchMember2(usernameParam, ageParam);
+        assertThat(result.size()).isEqualTo(1);
+    }
+
+    private List<Member> searchMember2(String usernameCond, Integer ageCond) {
+        return queryFactory
+                .selectFrom(member)
+//                .where(usernameEq(usernameCond), ageEq(ageCond))
+                .where(allEq(usernameCond, ageCond))
+                .fetch();
+    }
+
+//    private Predicate usernameEq(String usernameCond) {
+//        return usernameCond != null ? member.username.eq(usernameCond) : null;
+//    }
+//
+//    private Predicate ageEq(Integer ageCond) {
+//        return ageCond != null ? member.age.eq(ageCond) : null;
+//    }
+
+    private BooleanExpression usernameEq(String usernameCond) {
+        return usernameCond != null ? member.username.eq(usernameCond) : null;
+    }
+
+    private BooleanExpression ageEq(Integer ageCond) {
+        return ageCond != null ? member.age.eq(ageCond) : null;
+    }
+
+    private BooleanExpression allEq(String usernameCond, Integer ageCond) {
+        return usernameEq(usernameCond).and(ageEq(ageCond));
     }
 }
