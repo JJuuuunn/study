@@ -510,8 +510,8 @@ class QuerydslBasicTest {
     }
 
     /**
-     *  중복 제거
-     *  JPQL 의 distinct 와 같은 기능 제공
+     * 중복 제거
+     * JPQL 의 distinct 와 같은 기능 제공
      */
     @Test
     public void distinct() throws Exception {
@@ -650,6 +650,7 @@ class QuerydslBasicTest {
      * 컴파일에서 오류를 잡아줘서 가장 이상적인 방법
      * 단점 1. Q파일을 만들어줘야함
      * 단점 2. @QueryProjection 으로 인해 의존성이 생김
+     *
      * @throws Exception
      */
     @Test
@@ -700,6 +701,7 @@ class QuerydslBasicTest {
      * 동적 쿼리 where 다중 파라미터 (where 에서 null은 무시)i
      * 장점 1. 조합이 가능
      * 장점 2. 매서드 재활용 가능
+     *
      * @throws Exception
      */
     @Test
@@ -742,6 +744,7 @@ class QuerydslBasicTest {
     /**
      * 수정 벌크 연산
      * 문제점 1. 영속성 컨텍스트를 무시하고 DB로 쿼리를 날려 db와 영속성 컨텍스트와 달라진 것을 주의해야함.
+     *
      * @throws Exception
      */
     @Test
@@ -792,6 +795,7 @@ class QuerydslBasicTest {
      * 1 더하기 .add(1)
      * 1 빼기 .add(-1)
      * 2 곱하기 .multiply(2)
+     *
      * @throws Exception
      */
     @Test
@@ -818,6 +822,7 @@ class QuerydslBasicTest {
     /**
      * 벌크 삭제 연산
      * 예시) 18살 이상 삭
+     *
      * @throws Exception
      */
     @Test
@@ -836,6 +841,35 @@ class QuerydslBasicTest {
 
         for (Member m : result) {
             System.out.println("m : " + m);
+        }
+    }
+
+    @Test
+    public void sqlFunction() throws Exception {
+        List<String> result = queryFactory
+                .select(
+                        Expressions.stringTemplate("function('replace', {0}, {1}, {2})",
+                                member.username, "member", "M"))
+                .from(member)
+                .fetch();
+
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+    }
+    
+    @Test
+    public void sqlFunction2() throws Exception {
+        List<String> result = queryFactory
+                .select(member.username)
+                .from(member)
+//                .where(member.username.eq(
+//                        Expressions.stringTemplate("function('lower', {0})", member.username)))
+                .where(member.username.eq(member.username.lower()))
+                .fetch();
+
+        for (String s : result) {
+            System.out.println("s = " + s);
         }
     }
 }
