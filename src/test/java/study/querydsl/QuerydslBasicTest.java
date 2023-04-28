@@ -505,6 +505,23 @@ class QuerydslBasicTest {
         }
     }
 
+    /**
+     *  중복 제거
+     *  JPQL 의 distinct 와 같은 기능 제공
+     */
+    @Test
+    public void distinct() throws Exception {
+        List<String> result = queryFactory
+                .select(member.username)
+                .distinct()
+                .from(member)
+                .fetch();
+
+        for (String s : result) {
+            System.out.println("s : " + s);
+        }
+    }
+
     @Test
     public void simpleProjection() throws Exception {
         List<String> result = queryFactory
@@ -650,5 +667,4 @@ class QuerydslBasicTest {
      * 순수 JPA에서는 new 명령어 사용하여 생성자 생성
      * QueryDsl(프로퍼티(Setter), 필드 직접 접근(Fields), 생성자(Constructor, QueryProjection(Q파일)))
      */
-
 }
