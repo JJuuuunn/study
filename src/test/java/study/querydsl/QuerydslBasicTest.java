@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import study.querydsl.dto.MemberDto;
+import study.querydsl.dto.QMemberDto;
 import study.querydsl.dto.UserDto;
 import study.querydsl.entity.Member;
 import study.querydsl.entity.QMember;
@@ -622,4 +623,32 @@ class QuerydslBasicTest {
             System.out.println("userDto = " + userDto);
         }
     }
+
+    /**
+     * Dto 조회 - QueryDsl 방식
+     * 컴파일에서 오류를 잡아줘서 가장 이상적인 방법
+     * 단점 1. Q파일을 만들어줘야함
+     * 단점 2. @QueryProjection 으로 인해 의존성이 생김
+     * @throws Exception
+     */
+    @Test
+    public void findDtoByQueryProjection() throws Exception {
+        List<MemberDto> result = queryFactory
+                .select(new QMemberDto(member.username, member.age))
+                .from(member)
+                .fetch();
+
+        for (MemberDto memberDto : result) {
+            System.out.println("userDto = " + memberDto);
+        }
+    }
+
+    /**
+     * Dto 조회 정리
+     * 결과가 하나일 때는 타입을 바로 지정
+     * 결과가 둘 이상일 때는 Tuple 사용(tuple은 가급적 repository 안에서만 사용)
+     * 순수 JPA에서는 new 명령어 사용하여 생성자 생성
+     * QueryDsl(프로퍼티(Setter), 필드 직접 접근(Fields), 생성자(Constructor, QueryProjection(Q파일)))
+     */
+
 }
