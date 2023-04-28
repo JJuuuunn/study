@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import study.querydsl.dto.MemberDto;
@@ -736,5 +737,105 @@ class QuerydslBasicTest {
 
     private BooleanExpression allEq(String usernameCond, Integer ageCond) {
         return usernameEq(usernameCond).and(ageEq(ageCond));
+    }
+
+    /**
+     * 수정 벌크 연산
+     * 문제점 1. 영속성 컨텍스트를 무시하고 DB로 쿼리를 날려 db와 영속성 컨텍스트와 달라진 것을 주의해야함.
+     * @throws Exception
+     */
+    @Test
+    @Commit
+    public void bulkUpdate() throws Exception {
+        // member1 = 10 -> member1
+        // member2 = 20 -> member2
+        // member3 = 30 -> member3
+        // member4 = 40 -> member4
+
+        long count = queryFactory
+                .update(member)
+                .set(member.username, "비회원")
+                .where(member.age.lt(28))
+                .execute();
+
+        // member1 = 10 -> 영속성 컨텍스트 : member1, DB : 비회원
+        // member2 = 20 -> 영속성 컨텍스트 : member2, DB : 비회원
+        // member3 = 30 -> 영속성 컨텍스트 : member3, DB : 유지
+        // member4 = 40 -> 영속성 컨텍스트 : member4, DB : 유지
+
+        List<Member> beforeResult = queryFactory
+                .selectFrom(member)
+                .fetch();
+        for (Member m : beforeResult) {
+            System.out.println("m : " + m);
+        }
+
+        em.flush();
+        em.clear();
+
+        List<Member> afterResult = queryFactory
+                .selectFrom(member)
+                .fetch();
+
+        System.out.println("영속성 컨텍스트 날리기 저어어어어어어어어어어어어어어어어어어어어어어어어어어어어어어어어어어어어어어어어어언");
+        for (Member m : beforeResult) {
+            System.out.println("m : " + m);
+        }
+        System.out.println("영속성 컨텍스트 날린 후우우우우우우우우우우우우우우우우우우우우우우우우우우우우우우우우우우우우우우우우우우우");
+        for (Member m : afterResult) {
+            System.out.println("m : " + m);
+        }
+    }
+
+    /**
+     * 벌크 사칙연산?
+     * 1 더하기 .add(1)
+     * 1 빼기 .add(-1)
+     * 2 곱하기 .multiply(2)
+     * @throws Exception
+     */
+    @Test
+    public void bulkAdd() throws Exception {
+        long count = queryFactory
+                .update(member)
+                .set(member.age, member.age.add(1))
+//                .set(member.age, member.age.add(-1))
+//                .set(member.age, member.age.multiply(1))
+                .execute();
+
+        em.flush();
+        em.clear();
+
+        List<Member> result = queryFactory
+                .selectFrom(member)
+                .fetch();
+
+        for (Member m : result) {
+            System.out.println("m : " + m);
+        }
+    }
+
+    /**
+     * 벌크 삭제 연산
+     * 예시) 18살 이상 삭
+     * @throws Exception
+     */
+    @Test
+    public void bulkDelete() throws Exception {
+        long count = queryFactory
+                .delete(member)
+                .where(member.age.gt(18))
+                .execute();
+
+        em.flush();
+        em.clear();
+
+        List<Member> result = queryFactory
+                .selectFrom(member)
+                .fetch();
+
+        for (Member m : result) {
+            System.out.println("m : " + m);
+        }
     }
 }
