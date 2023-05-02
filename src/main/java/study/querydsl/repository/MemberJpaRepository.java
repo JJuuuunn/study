@@ -118,8 +118,6 @@ public class MemberJpaRepository {
                 .fetch();
     }
 
-
-
     private BooleanExpression usernameEq(String username) {
         return hasText(username) ? member.username.eq(username) : null;
     }
