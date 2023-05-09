@@ -12,11 +12,10 @@ public class MemberService {
     private final MemberRepository memberRepository = new MemoryMemberRepository();
 
     /**
-     * 회원 개발
+     * 회원 가입
      */
     public Long join(Member member) {
         validateDuplicateMember(member); // 중복 회원 검증
-
         memberRepository.save(member);
         return member.getId();
     }
