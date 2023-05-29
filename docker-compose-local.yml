@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  find-pharmacy-redis:
+    container_name: find-pharmacy-redis
+    build:
+      dockerfile: Dockerfile
+      context: ./redis
+    image: jjuuuunn/find-pharmacy-redis
+    ports:
+      - "6379:6379"
+  find-pharmacy-database:
+    container_name: find-pharmacy-database
+    build:
+      dockerfile: Dockerfile
+      context: ./database
+    image: jjuuuunn/find-pharmacy-database
+    environment:
+      - MARIADB_DATABASE=find-pharmacy
+      - MARIADB_ROOT_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+    volumes:
+      - ./database/config:/etc/mysql/conf.d
+    ports:
+      - "3306:3306"
