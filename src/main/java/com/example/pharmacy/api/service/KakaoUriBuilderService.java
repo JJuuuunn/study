@@ -10,7 +10,7 @@ import java.net.URI;
 @Service
 public class KakaoUriBuilderService {
 
-    private static final String KAKAO_LOCAL_SEARCH_ADDRESS_URL = "https://dapi.kako.com/v2/local/search/address.json";
+    private static final String KAKAO_LOCAL_SEARCH_ADDRESS_URL = "https://dapi.kakao.com/v2/local/search/address.json";
 
     public URI buildUriByAddressSearch(String address) {
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(KAKAO_LOCAL_SEARCH_ADDRESS_URL);
