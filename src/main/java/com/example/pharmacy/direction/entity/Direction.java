@@ -29,6 +29,6 @@ public class Direction extends BaseTimeEntity {
     private double targetLatitude;
     private double targetLongitude;
 
-    // 고객 주소 와 약국 주소 사이의 거리
+    // 고객과 약국 간의 거리
     private double distance;
 }

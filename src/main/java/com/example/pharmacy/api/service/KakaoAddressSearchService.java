@@ -21,8 +21,9 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class KakaoAddressSearchService {
 
-    private final RestTemplate restTemplate;
     private final KakaoUriBuilderService kakaoUriBuilderService;
+
+    private final RestTemplate restTemplate;
 
     @Value("${kakao.rest.api.key}")
     private String kakaoRestApiKey;
@@ -34,7 +35,7 @@ public class KakaoAddressSearchService {
     )
     public KakaoApiResponseDto requestAddressSearch(String address) {
 
-        if (ObjectUtils.isEmpty(address)) return null;
+        if(ObjectUtils.isEmpty(address)) return null;
 
         URI uri = kakaoUriBuilderService.buildUriByAddressSearch(address);
 
@@ -47,7 +48,7 @@ public class KakaoAddressSearchService {
 
     @Recover
     public KakaoApiResponseDto recover(RuntimeException e, String address) {
-        log.info("All the retries failed. address: {}, error: {}", address, e.getMessage());
+        log.error("All the retries failed. address: {}, error : {}", address, e.getMessage());
         return null;
     }
 }
