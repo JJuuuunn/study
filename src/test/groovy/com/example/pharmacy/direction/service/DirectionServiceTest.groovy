@@ -11,10 +11,13 @@ class DirectionServiceTest extends Specification {
 
     private PharmacySearchService pharmacySearchService = Mock()
     private DirectionRepository directionRepository = Mock()
+    private Base62Service base62Service = Mock()
 
     private KakaoCategorySearchService kakaoCategorySearchService = Mock()
 
-    private DirectionService directionService = new DirectionService(pharmacySearchService, directionRepository, kakaoCategorySearchService)
+    private DirectionService directionService = new DirectionService(
+            pharmacySearchService, directionRepository,
+            base62Service, kakaoCategorySearchService)
 
     private List<PharmacyDto> pharmacyList
 
@@ -37,6 +40,22 @@ class DirectionServiceTest extends Specification {
                         .longitude(127.029052)
                         .build()
         )
+    }
+
+    def "calculateDistance"() {
+        given:
+        def latitude1 = 37.5505
+        def longitude1 = 127.0817
+
+        def latitude2 = 37.541
+        def longitude2 = 127.0766
+        def result = "1.1"
+
+        when:
+        def distance = directionService.calculateDistance(latitude1, longitude1, latitude2, longitude2)
+
+        then:
+        String.format("%.1f", distance) == result
     }
 
     def "buildDirectionList - 결과 값이 거리순 정렬이 되는지 확인"() {

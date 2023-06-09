@@ -29,7 +29,7 @@ public class DirectionService {
 
     private final PharmacySearchService pharmacySearchService;
     private final DirectionRepository directionRepository;
-//    private final Base62Service base62Service;
+    private final Base62Service base62Service;
 
     private final KakaoCategorySearchService kakaoCategorySearchService;
 
@@ -39,19 +39,19 @@ public class DirectionService {
         return directionRepository.saveAll(directionList);
     }
 
-//    @Transactional(readOnly = true)
-//    public String findDirectionUrlById(String encodedId) {
-//
-//        Long decodedId = base62Service.decodeDirectionId(encodedId);
-//        Direction direction = directionRepository.findById(decodedId).orElse(null);
-//
-//        String params = String.join(",", direction.getTargetPharmacyName(),
-//                String.valueOf(direction.getTargetLatitude()), String.valueOf(direction.getTargetLongitude()));
-//        String result = UriComponentsBuilder.fromHttpUrl(DIRECTION_BASE_URL + params)
-//                .toUriString();
-//
-//        return result;
-//    }
+    @Transactional(readOnly = true)
+    public String findDirectionUrlById(String encodedId) {
+
+        Long decodedId = base62Service.decodeDirectionId(encodedId);
+        Direction direction = directionRepository.findById(decodedId).orElse(null);
+
+        String params = String.join(",", direction.getTargetPharmacyName(),
+                String.valueOf(direction.getTargetLatitude()), String.valueOf(direction.getTargetLongitude()));
+        String result = UriComponentsBuilder.fromHttpUrl(DIRECTION_BASE_URL + params)
+                .toUriString();
+
+        return result;
+    }
 
     public List<Direction> buildDirectionList(DocumentDto documentDto) {
         if(Objects.isNull(documentDto)) return Collections.emptyList();
