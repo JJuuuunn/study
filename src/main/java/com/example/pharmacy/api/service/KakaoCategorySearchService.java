@@ -18,6 +18,7 @@ import java.net.URI;
 public class KakaoCategorySearchService {
 
     private final KakaoUriBuilderService kakaoUriBuilderService;
+
     private final RestTemplate restTemplate;
 
     private static final String PHARMACY_CATEGORY = "PM9";

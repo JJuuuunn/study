@@ -12,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequiredArgsConstructor
 public class FormController {
-
     private final PharmacyRecommendationService pharmacyRecommendationService;
 
     @GetMapping("/")
