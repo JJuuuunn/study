@@ -77,6 +77,4 @@ public class PharmacyRepositoryService {
     public List<Pharmacy> findAll() {
         return pharmacyRepository.findAll();
     }
-
-
 }

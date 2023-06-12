@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired
 
 class KakaoAddressSearchServiceTest extends AbstractIntegrationContainerBaseTest {
 
-    @Autowired KakaoAddressSearchService kakaoAddressSearchService
+    @Autowired private KakaoAddressSearchService kakaoAddressSearchService
 
-    def "address 파라미터 값이 null이면, requestAddressSearch 메소드는 null를 리턴한다."() {
+    def "address 파라미터 값이 null이면, requestAddressSearch 메소드는 null을 리턴한다."() {
         given:
-        String address = null
+        def address = null
 
         when:
         def result = kakaoAddressSearchService.requestAddressSearch(address)
@@ -31,7 +31,9 @@ class KakaoAddressSearchServiceTest extends AbstractIntegrationContainerBaseTest
         result.documentList.get(0).addressName != null
     }
 
-    def "정상적인 주소를 입력했을 경우, 정장적으로 위도 경도를 반환한다."() {
+
+    def "정상적인 주소를 입력했을 경우, 정상적으로 위도 경도로 변환 된다."() {
+
         given:
         boolean actualResult = false
 

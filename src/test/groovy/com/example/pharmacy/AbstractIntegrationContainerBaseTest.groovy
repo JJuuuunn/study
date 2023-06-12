@@ -5,13 +5,13 @@ import org.testcontainers.containers.GenericContainer
 import spock.lang.Specification
 
 @SpringBootTest
-class AbstractIntegrationContainerBaseTest extends Specification {
+abstract class AbstractIntegrationContainerBaseTest extends Specification {
 
     static final GenericContainer MY_REDIS_CONTAINER
 
     static {
         MY_REDIS_CONTAINER = new GenericContainer<>("redis:6")
-        .withExposedPorts(6379)
+                .withExposedPorts(6379)
 
         MY_REDIS_CONTAINER.start()
 
