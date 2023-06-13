@@ -36,8 +36,8 @@ spring:
       ddl-auto: validate
     show-sql: true
 
-pharmacy:
-  recommendation:
+find:
+  pharmacy:
     base:
       url: http://localhost:8080/dir/
 
@@ -59,7 +59,7 @@ spring:
       ddl-auto: validate # prod 배포시 validate
     show-sql: true
 
-pharmacy:
-  recommendation:
+find:
+  pharmacy:
     base:
       url: http://localhost:8080/dir/

@@ -1,6 +1,6 @@
 version: "3.8"                                          # 파일 규격 버전
 services:                                               # 이 항목 밑에 실행하려는 컨테이너들을 정의
-  pharmacy-recommendation-redis:                        # 서비스명
+  find-pharmacy-redis:                        # 서비스명
     container_name: find-pharmacy-redis       # 컨테이너 명
     build:
       dockerfile: Dockerfile
@@ -8,7 +8,7 @@ services:                                               # 이 항목 밑에 실�
     image: jjuuuunn/find-pharmacy-redis
     ports:
       - "6379:6379"
-  pharmacy-recommendation-database:
+  find-pharmacy-database:
     container_name: find-pharmacy-database
     build:
       dockerfile: Dockerfile

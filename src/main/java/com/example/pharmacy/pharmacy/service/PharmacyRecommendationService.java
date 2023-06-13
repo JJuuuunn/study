@@ -29,7 +29,7 @@ public class PharmacyRecommendationService {
     private final DirectionService directionService;
     private final Base62Service base62Service;
 
-    @Value("${pharmacy.recommendation.base.url}")
+    @Value("${find.pharmacy.base.url}")
     private String baseUrl;
 
     public List<OutputDto> recommendPharmacyList(String address) {
