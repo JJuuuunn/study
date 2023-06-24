@@ -1,5 +1,6 @@
 package com.yang.kakaomap.direction.entity;
 
+import com.yang.kakaomap.common.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @Builder
 @Getter
-public class Direction {
+public class Direction extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
