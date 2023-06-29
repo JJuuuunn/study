@@ -1,6 +1,6 @@
 package com.yang.kakaomap.direction.entity;
 
-import com.yang.kakaomap.common.BaseTimeEntity;
+import com.yang.kakaomap.common.entity.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,10 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity(name = "direction")
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Getter
+@NoArgsConstructor
 public class Direction extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,4 +32,17 @@ public class Direction extends BaseTimeEntity {
 
     // 목적지과 주변 위치(주차장 or 약국) 간의 거리
     private double distance;
+
+    @Builder
+    public Direction(Long id, String inputAddress, double inputLatitude, double inputLongitude, String targetPharmacyName, String targetAddress, double targetLatitude, double targetLongitude, double distance) {
+        this.id = id;
+        this.inputAddress = inputAddress;
+        this.inputLatitude = inputLatitude;
+        this.inputLongitude = inputLongitude;
+        this.targetPharmacyName = targetPharmacyName;
+        this.targetAddress = targetAddress;
+        this.targetLatitude = targetLatitude;
+        this.targetLongitude = targetLongitude;
+        this.distance = distance;
+    }
 }
