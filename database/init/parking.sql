@@ -2,16 +2,17 @@ DROP TABLE IF EXISTS `parking`;
 
 CREATE TABLE `parking`
 (
-    `id`                   varchar(20) NOT NULL,
+    `id`                   bigint(20) NOT NULL AUTO_INCREMENT,
+    `parking_no`           varchar(20),
+    `parking_name`         varchar(20),
     `st_name_address`      varchar(255),
     `rd_num_address`       varchar(255),
-
-    `latitude`             double,
-    `longitude`            double,
-
     `tel`                  varchar(12),
     `num_parking`          integer,
     `info`                 varchar(255),
+
+    `latitude`             double NOT NULL,
+    `longitude`            double NOT NULL,
 
     `basic_time`           time,
     `basic_charge`         integer,

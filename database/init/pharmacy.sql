@@ -2,12 +2,14 @@ DROP TABLE IF EXISTS `pharmacy`;
 
 CREATE TABLE `pharmacy`
 (
-    `id`                   varchar(10) NOT NULL,
+    `id`                   bigint(20) NOT NULL AUTO_INCREMENT,
+    `hp_id`                varchar(10) NOT NULL,
     `name`                 varchar(100) NOT NULL,
     `info`                 varchar(300),
     `tel`                  varchar(14),
     `address`              varchar(200) NOT NULL,
     `zip_code`             varchar(10),
+
     `latitude`             double NOT NULL,
     `longitude`            double NOT NULL,
 
