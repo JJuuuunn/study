@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.io.BufferedInputStream;
 import java.net.URL;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,27 +21,29 @@ public class ParkingParsingService {
     private final ParkingRepository parkingRepository;
 
     static final String PARKINGURL = "http://api.data.go.kr/openapi/tn_pubr_prkplce_info_api";
-    static final String SERVICEKEY = "이부분은 yml로 빼든 해야지";
+    static final String SERVICEKEY = "YwHbHVu7k3RhjvNkyg4KAPrGCajCTKFrKTwDQoPNH%2BVunkDaf8kt1wewc1ExeDLpnqaYUZs9m6oMpqPo2CEFcw%3D%3D";
     static final String URLTYPE = "json";
 
 
     @Transactional
     public void save() throws Exception {
-        for (int i = 1; i <= totalRow(); i += 1000) {
+        long totalRow = totalRow();
+        if (totalRow % 1000 > 0) totalRow =  totalRow / 1000 + 1;
+
+        for (int i = 1; i <= totalRow; i ++) {
             parkingRepository.saveAll(parsing(i));
         }
     }
 
-    private static int totalRow() throws Exception {
+    private static long totalRow() throws Exception {
         JSONParser jsonParser = new JSONParser();
 
         JSONObject jsonObject = (JSONObject) jsonParser.parse(readUrl(1, 1));
         JSONObject response = (JSONObject) jsonObject.get("response");
         JSONObject body = (JSONObject) response.get("body");
 
-        return (Integer) body.get("totalCount");
+        return Long.valueOf((String) body.get("totalCount"));
     }
-
     private List<Parking> parsing(int pageNo) throws Exception {
         JSONParser jsonParser = new JSONParser();
 
@@ -60,28 +61,28 @@ public class ParkingParsingService {
                     .parkingName((String) row.get("prkplceNm"))
                     .stNameAddress((String) row.get("rdnmadr"))
                     .rdNumAddress((String) row.get("lnmadr"))
-                    .latitude((double) row.get("longitude"))
-                    .longitude((double) row.get("longitude"))
+                    .latitude(((String) row.get("latitude")))
+                    .longitude((String) row.get("longitude"))
                     .tel((String) row.get("phoneNumber"))
-                    .numParking((Integer) row.get("prkcmprt"))
+                    .numParking((String) row.get("prkcmprt"))
                     .info((String) row.get("parkingchrgeInfo"))
 
-                    .basicTime((LocalTime) row.get("basicTime"))
-                    .basicCharge((Integer) row.get("basicCharge"))
-                    .addUnitTime((LocalTime) row.get("addUnitTime"))
-                    .addUnitCharge((Integer) row.get("addUnitCharge"))
-                    .dayTime((LocalTime) row.get("dayTime"))
-                    .dayCharge((Integer) row.get("dayCharge"))
-                    .monthCharge((Integer) row.get("monthCharge"))
+                    .basicTime((String) row.get("basicTime"))
+                    .basicCharge((String) row.get("basicCharge"))
+                    .addUnitTime((String) row.get("addUnitTime"))
+                    .addUnitCharge((String) row.get("addUnitCharge"))
+                    .dayTime((String) row.get("dayTime"))
+                    .dayCharge((String) row.get("dayCharge"))
+                    .monthCharge((String) row.get("monthCharge"))
                     .payType((String) row.get("payType"))
 
                     .operateDay((String) row.get("operDay"))
-                    .weekdayOpenTime((LocalTime) row.get("weekdayOperOpenHhmm"))
-                    .weekdayCloseTime((LocalTime) row.get("weekdayOperColseHhmm"))
-                    .satOpenTime((LocalTime) row.get("satOperOperOpenHhmm"))
-                    .satCloseTime((LocalTime) row.get("satOperCloseHhmm"))
-                    .holOpenTime((LocalTime) row.get("holidayOperOpenHhmm"))
-                    .holCloseTime((LocalTime) row.get("holidayCloseOpenHhmm"))
+                    .weekdayOpenTime((String) row.get("weekdayOperOpenHhmm"))
+                    .weekdayCloseTime((String) row.get("weekdayOperColseHhmm"))
+                    .satOpenTime((String) row.get("satOperOperOpenHhmm"))
+                    .satCloseTime((String) row.get("satOperCloseHhmm"))
+                    .holOpenTime((String) row.get("holidayOperOpenHhmm"))
+                    .holCloseTime((String) row.get("holidayCloseOpenHhmm"))
                     .build();
 
             parkingList.add(parking);
