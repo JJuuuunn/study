@@ -20,15 +20,15 @@ public class ParkingParsingService {
 
     private final ParkingRepository parkingRepository;
 
-    static final String PARKINGURL = "http://api.data.go.kr/openapi/tn_pubr_prkplce_info_api";
-    static final String SERVICEKEY = "YwHbHVu7k3RhjvNkyg4KAPrGCajCTKFrKTwDQoPNH%2BVunkDaf8kt1wewc1ExeDLpnqaYUZs9m6oMpqPo2CEFcw%3D%3D";
-    static final String URLTYPE = "json";
+    private static final String PARKINGURL = "http://api.data.go.kr/openapi/tn_pubr_prkplce_info_api";
+    private static final String SERVICEKEY = "YwHbHVu7k3RhjvNkyg4KAPrGCajCTKFrKTwDQoPNH%2BVunkDaf8kt1wewc1ExeDLpnqaYUZs9m6oMpqPo2CEFcw%3D%3D";
+    private static final String URLTYPE = "json";
 
 
     @Transactional
     public void save() throws Exception {
         long totalRow = totalRow();
-        if (totalRow % 1000 > 0) totalRow =  totalRow / 1000 + 1;
+        if (totalRow % 1000 > 0) totalRow = totalRow / 1000 + 1;
 
         for (int i = 1; i <= totalRow; i ++) {
             parkingRepository.saveAll(parsing(i));
