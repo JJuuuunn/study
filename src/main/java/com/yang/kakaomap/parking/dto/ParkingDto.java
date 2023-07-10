@@ -22,8 +22,13 @@ public class ParkingDto {
                 .id(parking.getId())
                 .parkingName(parking.getParkingName())
                 .parkingAddress(parking.getStNameAddress())
-                .latitude(Double.parseDouble(parking.getLatitude()))
-                .longitude(Double.parseDouble(parking.getLongitude()))
+                .latitude(nullCheck(parking.getLatitude()))
+                .longitude(nullCheck(parking.getLongitude()))
                 .build();
+    }
+
+    private static double nullCheck(String column) {
+        if (column == null || column.isEmpty()) return 0;
+        else return Double.valueOf(column);
     }
 }
