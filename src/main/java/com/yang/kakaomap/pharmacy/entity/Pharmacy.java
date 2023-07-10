@@ -21,33 +21,33 @@ public class Pharmacy extends BaseTimeEntity {
     private Long id;
     private String hpId; // 기관 Id (hpId)
     private String name; // 이름
-    private String info; // 상세설명
+    private String info; // 상세설명 x
     private String tel; // 전화번호
     private String address; // 주소
     private String zipCode; // 우편번호 (postCdn1 + postCdn2)
-    private double latitude; // 위도
-    private double longitude; // 경도일
+    private String latitude; // 위도
+    private String longitude; // 경도일
 
     // 요일별(+공휴일) 영엄시간 (오픈시간 ~ 마감시간)
-    private LocalTime monOpenTime;
-    private LocalTime monCloseTime;
-    private LocalTime tueOpenTime;
-    private LocalTime tueCloseTime;
-    private LocalTime wedOpenTime;
-    private LocalTime wedCloseTime;
-    private LocalTime thuOpenTime;
-    private LocalTime thuCloseTime;
-    private LocalTime friOpenTime;
-    private LocalTime friCloseTime;
-    private LocalTime satOpenTime;
-    private LocalTime satCloseTime;
-    private LocalTime sunOpenTime;
-    private LocalTime sunCloseTime;
-    private LocalTime holOpenTime;
-    private LocalTime holCloseTime;
+    private String monOpenTime;
+    private String monCloseTime;
+    private String tueOpenTime;
+    private String tueCloseTime;
+    private String wedOpenTime;
+    private String wedCloseTime;
+    private String thuOpenTime;
+    private String thuCloseTime;
+    private String friOpenTime;
+    private String friCloseTime;
+    private String satOpenTime;
+    private String satCloseTime;
+    private String sunOpenTime;
+    private String sunCloseTime;
+    private String holOpenTime;
+    private String holCloseTime;
 
     @Builder
-    public Pharmacy(Long id, String hpId, String name, String info, String tel, String address, String zipCode, double latitude, double longitude, LocalTime monOpenTime, LocalTime monCloseTime, LocalTime tueOpenTime, LocalTime tueCloseTime, LocalTime wedOpenTime, LocalTime wedCloseTime, LocalTime thuOpenTime, LocalTime thuCloseTime, LocalTime friOpenTime, LocalTime friCloseTime, LocalTime satOpenTime, LocalTime satCloseTime, LocalTime sunOpenTime, LocalTime sunCloseTime, LocalTime holOpenTime, LocalTime holCloseTime) {
+    public Pharmacy(Long id, String hpId, String name, String info, String tel, String address, String zipCode, String latitude, String longitude, String monOpenTime, String monCloseTime, String tueOpenTime, String tueCloseTime, String wedOpenTime, String wedCloseTime, String thuOpenTime, String thuCloseTime, String friOpenTime, String friCloseTime, String satOpenTime, String satCloseTime, String sunOpenTime, String sunCloseTime, String holOpenTime, String holCloseTime) {
         this.id = id;
         this.hpId = hpId;
         this.name = name;
