@@ -5,9 +5,10 @@ import java.sql.*;
 public abstract class ObjectDBIO {
 
 	private Connection conn = null;
-	private String jdbc_url = "jdbc:oracle:thin:@localhost:1521";
-	private String db_id = "hr";
-	private String db_pwd = "hr";
+	private String jdbc_url = "jdbc:mysql://localhost:3306/HRInfoSystem";
+	// TODO: env 파일로 변경할것
+	private String db_id = "yang";
+	private String db_pwd = "1234";
 	
 	// Setter
 	public void setDb_id(String db_id) {
@@ -25,11 +26,12 @@ public abstract class ObjectDBIO {
 	// DB Connect
 	private boolean open() {
 		try{
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbc_url, db_id, db_pwd);
 			return true;
 		} 
 		catch(ClassNotFoundException e) {
+			System.err.println(" !! JDBC Driver load Error : " + e.getMessage());
 			e.printStackTrace();
 			return false;
 		} 
