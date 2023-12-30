@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  database-mysql:
+    container_name: mysql-HRInfoSystem
+    image: mysql/mysql-server:8.0
+
+    environment:
+      MYSQL_DATABASE: HRInfoSystem
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_USER: yang
+      MYSQL_PASSWORD: 1234
+      TZ: Asia/Seoul
+
+#    호스트의 포트와 컨테이너의 포트를 매핑함
+    ports:
+      - '3306:3306'
+
+    command:
+      - '--character-set-server=utf8mb4'
+      - '--collation-server=utf8mb4_unicode_ci'
+
+#    오류 등으로 컨테이너가 종료됐을때 재시작 여부
+    restart: always
