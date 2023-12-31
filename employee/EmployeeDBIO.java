@@ -8,6 +8,25 @@ import student.Student;
 import lib.ObjectDBIO;
 
 public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
+    public boolean insertEmp(Staff emp) {
+        String insertSql = "insert into EMPLOYEE values (?, ?, ?, ?, ?, ?, null)";
+        Connection conn = super.open();
+        try {
+            PreparedStatement pstm = conn.prepareStatement(insertSql);
+            pstm.setString(1, emp.getENo());    // eno
+            pstm.setString(2, emp.getName());   // name
+            pstm.setInt(3, emp.getYear());      // year
+            pstm.setInt(4, emp.getMonth());     // month
+            pstm.setInt(5, emp.getDate());      // date
+            pstm.setString(6, emp.getRole());   // role
+            pstm.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            super.close();
+        }
+        return true;
+    }
 
 	public boolean insertStaff(Staff emp) {
 		String strSql = "insert into EMPLOYEE values('" + emp.getENo() + "','" + emp.getName() + "'," + emp.getYear() + "," + 
