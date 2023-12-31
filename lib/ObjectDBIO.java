@@ -1,5 +1,7 @@
 package lib;
 
+import employee.Employee;
+
 import java.sql.*;
 
 public abstract class ObjectDBIO {
@@ -9,7 +11,7 @@ public abstract class ObjectDBIO {
 	// TODO: env 파일로 변경할것
 	private String db_id = "yang";
 	private String db_pwd = "1234";
-	
+
 	// Setter
 	public void setDb_id(String db_id) {
 		this.db_id = db_id;
@@ -24,21 +26,18 @@ public abstract class ObjectDBIO {
 	}
 	
 	// DB Connect
-	private boolean open() {
+	protected Connection open() {
 		try{
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbc_url, db_id, db_pwd);
-			return true;
-		} 
-		catch(ClassNotFoundException e) {
+		} catch(ClassNotFoundException e) {
 			System.err.println(" !! JDBC Driver load Error : " + e.getMessage());
 			e.printStackTrace();
-			return false;
-		} 
-		catch(SQLException e) {
+			return null;
+		} catch(SQLException e) {
 			e.printStackTrace();
-			return false;
 		}
+		return conn;
 	}
 	
 	// DB Disconnect
