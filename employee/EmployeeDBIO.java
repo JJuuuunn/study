@@ -8,7 +8,13 @@ import student.Student;
 import lib.ObjectDBIO;
 
 public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
-    public boolean insertEmp(Staff emp) {
+
+	/**
+	 * insertEmp 메소드
+	 * @param emp
+	 * @return
+	 */
+	public boolean insertEmp(Staff emp) {
         String insertSql = "insert into EMPLOYEE values (?, ?, ?, ?, ?, ?, null)";
         Connection conn = super.open();
         try {
@@ -28,6 +34,24 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         return true;
     }
 
+	public boolean insertStaff(Staff emp) {
+		String strSql = "insert into EMPLOYEE values('" + emp.getENo() + "','" + emp.getName() + "'," + emp.getYear() + "," +
+		emp.getMonth() + "," + emp.getDate() + ",'" + emp.getRole() + "', null )";
+
+		super.execute(strSql);
+		return true;
+	}
+
+	public boolean insertSecretary(Secretary emp) {
+		return insertStaff(emp);
+	}
+
+	/**
+	 * getEmployeeList 메소드
+	 * @param strUserID
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<Employee> selectEmpList(String strUserID) throws SQLException {
 		ArrayList<Employee> resArray = new ArrayList<Employee>();
 		String selectSql = "select * from EMPLOYEE where (role != 'Manager') or (secno = ?)";
@@ -61,18 +85,6 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
 			e.printStackTrace();
 		}
 		return resArray;
-	}
-
-	public boolean insertStaff(Staff emp) {
-		String strSql = "insert into EMPLOYEE values('" + emp.getENo() + "','" + emp.getName() + "'," + emp.getYear() + "," + 
-		emp.getMonth() + "," + emp.getDate() + ",'" + emp.getRole() + "', null )";
-		
-		super.execute(strSql);
-		return true;
-	}
-	
-	public boolean insertSecretary(Secretary emp) {
-		return insertStaff(emp);
 	}
 	
 	public boolean insertManager(Manager emp) {
