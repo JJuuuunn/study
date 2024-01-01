@@ -28,6 +28,41 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         return true;
     }
 
+	public ArrayList<Employee> selectEmpList(String strUserID) throws SQLException {
+		ArrayList<Employee> resArray = new ArrayList<Employee>();
+		String selectSql = "select * from EMPLOYEE where (role != 'Manager') or (secno = ?)";
+
+		Connection conn = super.open();
+		PreparedStatement pstm = conn.prepareStatement(selectSql);
+		pstm.setString(1, strUserID);	// secno
+
+		ResultSet rs = null;
+		try {
+			rs = pstm.executeQuery(selectSql);
+			while(rs.next()) {
+				Employee emp = null;
+				if(rs.getString("role").equals("Staff")) {
+					emp = new Staff(rs.getString("eno"), rs.getString("name"), rs.getInt("enteryear"),
+							rs.getInt("entermonth"), rs.getInt("enterday"));
+				}
+				else if(rs.getString("role").equals("Secretary")) {
+					emp = new Secretary(rs.getString("eno"), rs.getString("name"), rs.getInt("enteryear"),
+							rs.getInt("entermonth"), rs.getInt("enterday"));
+				}
+				else if(rs.getString("role").equals("Manager")) {
+					emp = new Manager(rs.getString("eno"), rs.getString("secno"), rs.getString("name"),
+							rs.getInt("enteryear"), rs.getInt("entermonth"), rs.getInt("enterday"));
+				}
+				resArray.add(emp);
+			}
+			rs.close();
+			super.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return resArray;
+	}
+
 	public boolean insertStaff(Staff emp) {
 		String strSql = "insert into EMPLOYEE values('" + emp.getENo() + "','" + emp.getName() + "'," + emp.getYear() + "," + 
 		emp.getMonth() + "," + emp.getDate() + ",'" + emp.getRole() + "', null )";
