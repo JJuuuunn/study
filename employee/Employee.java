@@ -1,7 +1,11 @@
 package employee;
 
+import lombok.Builder;
+import lombok.experimental.SuperBuilder;
+
 import java.util.GregorianCalendar;
 
+@Builder
 public abstract class Employee {
 	private String m_strENo;
 	private String m_strName;
