@@ -1,7 +1,10 @@
 package employee;
 
+import lombok.experimental.SuperBuilder;
+
 import java.util.GregorianCalendar;
 
+@SuperBuilder
 public abstract class Employee {
 	private String m_strENo;
 	private String m_strName;
@@ -14,8 +17,7 @@ public abstract class Employee {
 	private int m_nMonth;
 	private int m_nDate;
 
-	Employee(String strENo, String strName, int nYear, int nMonth, int nDate)
-	{
+	Employee(String strENo, String strName, int nYear, int nMonth, int nDate) {
 		setENo(strENo);
 		setName(strName);
 		setEnteringDay(nYear, nMonth, nDate);
@@ -40,8 +42,11 @@ public abstract class Employee {
 	// SETTER
 	public void setENo(String strENo) { m_strENo = strENo; }
 	public void setName(String strName) { m_strName = strName; }
-	public void setEnteringDay(int nYear, int nMonth, int nDate)
-	{
+	public void setEnteringDay() {
+		m_EnteringDay = new GregorianCalendar();
+		setEnteringDay(getYear(), getMonth(), getDate());
+	}
+	public void setEnteringDay(int nYear, int nMonth, int nDate) {
 		m_EnteringDay.clear();
 		m_EnteringDay.set(nYear, nMonth, nDate);
 	}

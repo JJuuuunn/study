@@ -1,5 +1,8 @@
 package employee;
 
+import lombok.experimental.SuperBuilder;
+
+@SuperBuilder
 public class Manager extends Employee {
 	public Manager(String strENo, String strSecNo, String strName, int nYear, int nMonth, int nDate)
 	{

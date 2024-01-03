@@ -51,7 +51,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         ArrayList<Employee> resArray = searchEmployee(emp.getSecNo());
         if (resArray.isEmpty()) return false;
 
-        String insertSql = "insert into EmPLOYEE values(?,?,?,?,?,?,?)";
+        String insertSql = "insert into EMPLOYEE values(?,?,?,?,?,?,?)";
 
         Connection conn = super.open();
         try {
@@ -78,7 +78,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      * getEmployeeList 메소드
      *
      * @param strUserID
-     * @return
+     * @return EmployeeList
      * @throws SQLException
      */
     public ArrayList<Employee> getEmployeeList(String strUserID) {
@@ -87,75 +87,107 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         String selectSql = "select * from EMPLOYEE where (role != 'Manager') or (secno = ?)";
 
         Connection conn = super.open();
-		ResultSet rs = null;
-		try {
+        ResultSet rs = null;
+        try {
             PreparedStatement pstm = conn.prepareStatement(selectSql);
-            pstm.setString(1, strUserID);	// secno
+            pstm.setString(1, strUserID);    // secno
 
-			rs = pstm.executeQuery();
-			while(rs.next()) {
-				Employee emp = null;
-				if(rs.getString("role").equals("Staff")) {
-					emp = new Staff(rs.getString("eno"), rs.getString("name"), rs.getInt("enteryear"),
-							rs.getInt("entermonth"), rs.getInt("enterday"));
-				}
-				else if(rs.getString("role").equals("Secretary")) {
-					emp = new Secretary(rs.getString("eno"), rs.getString("name"), rs.getInt("enteryear"),
-							rs.getInt("entermonth"), rs.getInt("enterday"));
-				}
-				else if(rs.getString("role").equals("Manager")) {
-					emp = new Manager(rs.getString("eno"), rs.getString("secno"), rs.getString("name"),
-							rs.getInt("enteryear"), rs.getInt("entermonth"), rs.getInt("enterday"));
-				}
-				resArray.add(emp);
-			}
-			rs.close();
-			super.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return resArray;
-	}
+            rs = pstm.executeQuery();
+            while (rs.next()) {
+                Employee emp = getEmployee(rs);
+
+                resArray.add(emp);
+            }
+            rs.close();
+            super.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return resArray;
+    }
 
     /**
      * searchEmployee 메소드
      *
      * @param strENo
-     * @return
+     * @return EmployeeList
      * @throws SQLException
      */
     public ArrayList<Employee> searchEmployee(String strENo) {
         ArrayList<Employee> resArray = new ArrayList<Employee>();
         String selectSql = "select * from EMPLOYEE where eno = ?";
 
-		Connection conn = super.open();
-		ResultSet rs = null;
-		try {
-		    PreparedStatement pstm = conn.prepareStatement(selectSql);
-		    pstm.setString(1, strENo);	// secno
+        Connection conn = super.open();
+        ResultSet rs = null;
+        try {
+            PreparedStatement pstm = conn.prepareStatement(selectSql);
+            pstm.setString(1, strENo);    // secno
 
             rs = pstm.executeQuery();
-			while(rs.next()) {
-				Employee emp = null;
-				if(rs.getString("role").equals("Staff")) {
-					emp = new Staff(rs.getString("eno"), rs.getString("name"), rs.getInt("enteryear"),
-							rs.getInt("entermonth"), rs.getInt("enterday"));
-				}
-				else if(rs.getString("role").equals("Secretary")) {
-					emp = new Secretary(rs.getString("eno"), rs.getString("name"), rs.getInt("enteryear"),
-							rs.getInt("entermonth"), rs.getInt("enterday"));
-				}
-				else if(rs.getString("role").equals("Manager")) {
-					emp = new Manager(rs.getString("eno"), rs.getString("secno"), rs.getString("name"),
-							rs.getInt("enteryear"), rs.getInt("entermonth"), rs.getInt("enterday"));
-				}
-				resArray.add(emp);
-			}
-			rs.close();
-			super.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return resArray;
-	}
+            while (rs.next()) {
+                Employee emp = getEmployee(rs);
+
+                resArray.add(emp);
+            }
+            rs.close();
+            super.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return resArray;
+    }
+
+    /**
+     *
+     * @param rs
+     * @return Employee
+     * @throws SQLException
+     */
+    private static Employee getEmployee(ResultSet rs) throws SQLException {
+        if (rs.getString("role").equals("Staff")) {
+            Staff staff = Staff.builder()
+                    .m_strENo(rs.getString("eno"))
+                    .m_strName(rs.getString("name"))
+                    .m_nYear(rs.getInt("enteryear"))
+                    .m_nMonth(rs.getInt("entermonth"))
+                    .m_nDate(rs.getInt("enterday"))
+                    .m_strRole("Staff")
+                    .m_nFirstPay(2000L)
+                    .build();
+            staff.setEnteringDay();
+            staff.setNowPay(staff.getPay());
+
+            return staff;
+        } else if (rs.getString("role").equals("Secretary")) {
+            Secretary secretary = Secretary.builder()
+                    .m_strENo(rs.getString("eno"))
+                    .m_strName(rs.getString("name"))
+                    .m_nYear(rs.getInt("enteryear"))
+                    .m_nMonth(rs.getInt("entermonth"))
+                    .m_nDate(rs.getInt("enterday"))
+                    .m_strRole("Secretary")
+                    .m_nFirstPay(2000L)
+                    .build();
+            secretary.setEnteringDay();
+            secretary.setNowPay(secretary.getPay());
+
+            return secretary;
+        } else if (rs.getString("role").equals("Manager")) {
+            Manager manager = Manager.builder()
+                    .m_strENo(rs.getString("eno"))
+                    .m_strName(rs.getString("name"))
+                    .m_nYear(rs.getInt("enteryear"))
+                    .m_nMonth(rs.getInt("entermonth"))
+                    .m_nDate(rs.getInt("enterday"))
+                    .m_strSecNo(rs.getString("secno"))
+                    .m_strRole("Manager")
+                    .m_nFirstPay(2000L)
+                    .build();
+            manager.setEnteringDay();
+            manager.setNowPay(manager.getPay());
+
+            return manager;
+        }
+        return null;
+    }
 }
