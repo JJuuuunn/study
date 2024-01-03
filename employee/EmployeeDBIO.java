@@ -51,7 +51,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         ArrayList<Employee> resArray = searchEmployee(emp.getSecNo());
         if (resArray.isEmpty()) return false;
 
-        String insertSql = "insert into EmPLOYEE values(?,?,?,?,?,?,?)";
+        String insertSql = "insert into EMPLOYEE values(?,?,?,?,?,?,?)";
 
         Connection conn = super.open();
         try {
