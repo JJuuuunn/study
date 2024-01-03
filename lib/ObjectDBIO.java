@@ -52,6 +52,18 @@ public abstract class ObjectDBIO {
 		}
 	}
 
+	// DB Disconnect
+	protected boolean close(Connection connection) {
+		try {
+			connection.close();
+			return true;
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 	protected ResultSet execute(String strSql, ResultSet rs)
 	{		
 		try {
