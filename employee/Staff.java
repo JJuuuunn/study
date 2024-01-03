@@ -4,11 +4,13 @@ import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
 public class Staff extends Employee {
+
+
 	public Staff(String strENo, String strName, int nYear, int nMonth, int nDate)
 	{
 		super(strENo, strName, nYear, nMonth, nDate);
 		super.setRole("Staff");
-		setFirstPay(2000L);
+		super.setFirstPay(2000L);
 		super.setNowPay(getPay());
 	}
 
