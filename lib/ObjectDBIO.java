@@ -1,7 +1,5 @@
 package lib;
 
-import employee.Employee;
-
 import java.sql.*;
 
 public abstract class ObjectDBIO {
@@ -24,8 +22,16 @@ public abstract class ObjectDBIO {
 	public void setJdbc_url(String jdbc_url) {
 		this.jdbc_url = jdbc_url;
 	}
-	
-	// DB Connect
+
+
+	/**
+	 * DB Connect
+	 * ObjectDBIO에서 실행되던 쿼리를 자식클래스에서 실행하게 하기위해
+	 * 접근제어자를 Protected로 변경하여 DB를 연결 후 반환
+	 * 기존에 private 였던걸 protected로 변경
+	 *
+	 * @return Connection
+	 */
 	protected Connection open() {
 		try{
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -52,7 +58,13 @@ public abstract class ObjectDBIO {
 		}
 	}
 
-	// DB Disconnect
+	/**
+	 * DB Disconnect
+	 * 하위 클래스로 보낸 DB Connection을 닫기 위해서 파라미터로 닫아야 할 Connection을 가져옴
+	 *
+	 * @param connection
+	 * @return
+	 */
 	protected boolean close(Connection connection) {
 		try {
 			connection.close();
@@ -64,6 +76,14 @@ public abstract class ObjectDBIO {
 		}
 	}
 
+	/**
+	 * Employee 패키지에서는 삭제완료
+	 * Student 패키지에서는 삭제 예정
+	 *
+	 * @param strSql
+	 * @param rs
+	 * @return
+	 */
 	protected ResultSet execute(String strSql, ResultSet rs)
 	{		
 		try {
@@ -77,6 +97,12 @@ public abstract class ObjectDBIO {
 		return rs;
 	}
 
+	/**
+	 * Employee 패키지에서는 삭제완료
+	 * Student 패키지에서는 삭제 예정
+	 *
+	 * @param strSql
+	 */
 	protected void execute(String strSql)
 	{		
 		try {
