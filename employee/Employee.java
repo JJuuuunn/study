@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 
 @SuperBuilder
 public abstract class Employee {
+	private Long id;
 	private String m_strENo;
 	private String m_strName;
 	private GregorianCalendar m_EnteringDay = new GregorianCalendar();

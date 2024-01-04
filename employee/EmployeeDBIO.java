@@ -19,7 +19,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      * @return boolean -> 정보가 등록되면 true
      */
     public boolean insertStaff(Staff emp) {
-        String insertSql = "insert into EMPLOYEE values (?, ?, ?, ?, ?, ?, null)";
+        String insertSql = "insert into EMPLOYEE values (null, ?, ?, ?, ?, ?, ?, null)";
 
         Connection conn = super.open();
         try {
@@ -61,7 +61,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         ArrayList<Employee> resArray = searchEmployee(emp.getSecNo());
         if (resArray.isEmpty()) return false;
 
-        String insertSql = "insert into EMPLOYEE values(?,?,?,?,?,?,?)";
+        String insertSql = "insert into EMPLOYEE values(null, ?,?,?,?,?,?,?)";
 
         Connection conn = super.open();
         try {
@@ -93,7 +93,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      * @throws SQLException
      */
     public ArrayList<Employee> getEmployeeList(String strUserID) {
-        ArrayList<Employee> resArray = new ArrayList<Employee>();
+        ArrayList<Employee> resArray = new ArrayList<>();
 
         String selectSql = "select * from EMPLOYEE where (role != 'Manager') or (secno = ?)";
 
