@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 public class RestrictionLevel {
     private Long id;
     @Getter
-    private String employeeId;
+    private Long employeeId;
     @Getter
-    private AccessRole accessRole;
+    private Long accessRole;
     private LocalDateTime createdAt;
     @Getter
     private LocalDateTime expiredAt;
@@ -25,7 +25,7 @@ public class RestrictionLevel {
      * @param period
      */
     @Builder
-    public RestrictionLevel(String employeeId, AccessRole role, Long period) {
+    public RestrictionLevel(Long employeeId, Long role, Long period) {
         this.employeeId = employeeId;
         this.accessRole = role;
         this.createdAt = LocalDateTime.now();
@@ -40,7 +40,7 @@ public class RestrictionLevel {
      * @param expiredAt
      */
     @Builder
-    public RestrictionLevel(String employeeId, AccessRole role, LocalDateTime createdAt, LocalDateTime expiredAt) {
+    public RestrictionLevel(Long employeeId, Long role, LocalDateTime createdAt, LocalDateTime expiredAt) {
         this.employeeId = employeeId;
         this.accessRole = role;
         this.createdAt = createdAt;
