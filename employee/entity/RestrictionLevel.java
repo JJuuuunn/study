@@ -1,6 +1,5 @@
 package employee.entity;
 
-import employee.AccessRole;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
