@@ -1,4 +1,4 @@
-package employee;
+package employee.entity;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -10,10 +10,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RestrictionLevel {
     private Long id;
-    @Getter private String employeeId;
-    @Getter private AccessRole accessRole;
+    @Getter
+    private String employeeId;
+    @Getter
+    private AccessRole accessRole;
     private LocalDateTime createdAt;
-    @Getter private LocalDateTime expiredAt;
+    @Getter
+    private LocalDateTime expiredAt;
 
     /**
      * 최초 권한을 줄때 사용하기 위한 생성자

@@ -3,7 +3,10 @@ package employee;
 import java.sql.*;
 import java.util.ArrayList;
 
-import student.Student;
+import employee.entity.Employee;
+import employee.entity.Manager;
+import employee.entity.Secretary;
+import employee.entity.Staff;
 
 import lib.ObjectDBIO;
 

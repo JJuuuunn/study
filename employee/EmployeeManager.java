@@ -1,5 +1,10 @@
 package employee;
 
+import employee.entity.Employee;
+import employee.entity.Manager;
+import employee.entity.Secretary;
+import employee.entity.Staff;
+
 import java.util.ArrayList;
 
 public class EmployeeManager extends EmployeeDBIO{
