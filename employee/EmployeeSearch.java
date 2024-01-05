@@ -1,5 +1,7 @@
 package employee;
 
+import employee.entity.Employee;
+
 import java.util.ArrayList;
 
 public interface EmployeeSearch {
