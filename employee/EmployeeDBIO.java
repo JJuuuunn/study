@@ -2,7 +2,9 @@ package employee;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Optional;
 
+import employee.dto.EmployeeWithLevelDto;
 import employee.entity.Employee;
 import employee.entity.Manager;
 import employee.entity.Secretary;
@@ -88,23 +90,36 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
     }
 
     /**
-     * 매니저를 제외한 전체 직원을 찾는 메소드
-     * TODO : 매니저를 제외하고 출력되도록 sql문 수정
+     * 해당 직원의 eno를 통해 접근 권한을 확인하고
+     * 접근 가능한 데이터까지 찾아서 반환 메소드
      *
-     * @param strUserID
+     * @param eno -> 검색을 사용하고 있는 직원의 ID
      * @return EmployeeList
      * @throws SQLException
      */
-    public ArrayList<Employee> getEmployeeList(String strUserID) {
-        ArrayList<Employee> resArray = new ArrayList<>();
-
-        String selectSql = "select * from EMPLOYEE where (role != 'Manager') or (secno = ?)";
-
+    public ArrayList<Employee> getEmployeeList(String eno) {
         Connection conn = super.open();
         ResultSet rs = null;
+
+        Optional<EmployeeWithLevelDto> optional = findById(eno, conn);
+        if (optional.isEmpty()) { // 없는 직원이면 데이터에 접근하면 안되기 때문에 빈 리스트 반환
+            return new ArrayList<>();
+        }
+
+        EmployeeWithLevelDto dto = optional.get();
+
+        String selectSql = "select e.*, r.* " +
+                "from EMPLOYEE " +
+                "as e " +
+                "left join RESTRICTION_LEVEL as r " +
+                "on e.ID = r.EMPLOYEE_ID " +
+                "where r.ACCESS_ROLE <= ? || " +
+                "(r.ACCESS_ROLE is NULL && e.ROLE != 'Manager');";
+
+        ArrayList<Employee> resArray = new ArrayList<>();
         try {
             PreparedStatement pstm = conn.prepareStatement(selectSql);
-            pstm.setString(1, strUserID);    // secno
+            pstm.setLong(1, dto.getRole()); // role
 
             rs = pstm.executeQuery();
             while (rs.next()) {
@@ -112,12 +127,58 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
 
                 resArray.add(emp);
             }
+
             rs.close();
             super.close();
-        } catch (SQLException e) {
+        } catch (
+                SQLException e) {
             e.printStackTrace();
         }
         return resArray;
+    }
+
+    /**
+     * 직원의 ENO를 통해 직원의 권한을 찾는 메소드
+     *
+     * @param eno
+     * @param conn
+     * @return
+     */
+    private static Optional<EmployeeWithLevelDto> findById(String eno, Connection conn) {
+        String selectSql = "select e.eno, e.name, r.access_role, r.expired_at " +
+                "from EMPLOYEE as e " +
+                "join RESTRICTION_LEVEL as r " +
+                "on e.id = r.employee_id " +
+                "where eno = ? ";
+
+        ResultSet rs;
+        Optional<EmployeeWithLevelDto> optional = null;
+
+        try {
+            PreparedStatement pstm = conn.prepareStatement(selectSql);
+            pstm.setString(1, eno);
+
+            rs = pstm.executeQuery();
+
+            if (!rs.next()) {
+                optional = Optional.empty();
+            } else {
+                optional = Optional.of(
+                        EmployeeWithLevelDto.builder()
+                                .eno(rs.getString("eno"))
+                                .name(rs.getString("name"))
+                                .role(rs.getLong("access_role"))
+                                .expiredAt(rs.getTimestamp("expired_at").toLocalDateTime())
+                                .build()
+                );
+            }
+
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return optional;
     }
 
     /**
