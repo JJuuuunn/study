@@ -114,7 +114,9 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
                 "left join RESTRICTION_LEVEL as r " +
                 "on e.ID = r.EMPLOYEE_ID " +
                 "where r.ACCESS_ROLE <= ? || " +
-                "(r.ACCESS_ROLE is NULL && e.ROLE != 'Manager');";
+                "r.ACCESS_ROLE is NULL && " +
+                "e.ROLE != 'Manager'" +
+                "order by e.eno";
 
         ArrayList<Employee> resArray = new ArrayList<>();
         try {
@@ -162,6 +164,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
 
             if (!rs.next()) {
                 optional = Optional.empty();
+                System.out.println("존재하지 않는 회원입니다.");
             } else {
                 optional = Optional.of(
                         EmployeeWithLevelDto.builder()
