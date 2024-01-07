@@ -228,10 +228,12 @@ public class IntegrationSystem {
 	
 	public void getEmployeeList(String strUserID) {
 		ArrayList<Employee> resArray = empMan.getEmployeeList(strUserID);
-		for(Employee emp : resArray)
-		{
-			System.out.println(emp.getENo() + ", " + emp.getName() + ", " + emp.getYear() + "." + emp.getMonth() + "." + emp.getDate() + "," +
-					emp.getSecNo() + ", " + emp.getPay());
+		System.out.printf("%-5s \t %-7s \t %-10s \t %-5s \t %-10s\n", "eno", "name", "date", "secNo", "pay");
+		System.out.println("===========================================================");
+		for(Employee emp : resArray) {
+			System.out.printf("%-5s \t %-7s \t %04d.%02d.%02d \t %-5s \t %-10d\n", emp.getENo(), emp.getName(),
+					emp.getYear(), emp.getMonth(), emp.getDate(),
+					emp.getSecNo(), emp.getPay());
 		}
 	}
 	
