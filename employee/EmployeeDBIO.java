@@ -1,6 +1,8 @@
 package employee;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -107,6 +109,10 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         }
 
         EmployeeWithLevelDto dto = optional.get();
+        if (dto.getExpiredAt().isBefore(LocalDateTime.now())) {
+            System.out.println("접근권한이 만료되었습니다.");
+            return new ArrayList<>();
+        }
 
         String selectSql = "select e.*, r.* " +
                 "from EMPLOYEE " +
