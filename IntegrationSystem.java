@@ -72,10 +72,12 @@ public class IntegrationSystem {
                             buffer = br.readLine();
                             Instance.getEmployeeList(buffer);
                         } else if (nSel == 5) {
+                            System.out.println("본인의 사원 번호를 입력 하세요.");
+                            String eno = br.readLine();
                             System.out.println("검색 할 사원 번호를 입력 하세요. (관리자 검색 가능)");
                             System.out.println("===========================================================");
                             buffer = br.readLine();
-                            Instance.searchEmployee(buffer);
+                            Instance.searchEmployee(eno, buffer);
                         } else if (nSel == 6) {
                             break;
                         }
@@ -218,17 +220,20 @@ public class IntegrationSystem {
 
     public void getEmployeeList(String strUserID) {
         ArrayList<Employee> resArray = empMan.getEmployeeList(strUserID);
-        System.out.printf("%-5s \t %-7s \t %-10s \t %-5s \t %-10s\n", "eno", "name", "date", "secNo", "pay");
-        System.out.println("===========================================================");
-        for (Employee emp : resArray) {
-            System.out.printf("%-5s \t %-7s \t %04d.%02d.%02d \t %-5s \t %-10d\n", emp.getENo(), emp.getName(),
-                    emp.getYear(), emp.getMonth(), emp.getDate(),
-                    emp.getSecNo(), emp.getPay());
+
+        if (!resArray.isEmpty()) {
+            System.out.printf("%-5s \t %-7s \t %-10s \t %-5s \t %-10s\n", "eno", "name", "date", "secNo", "pay");
+            System.out.println("===========================================================");
+            for (Employee emp : resArray) {
+                System.out.printf("%-5s \t %-7s \t %04d.%02d.%02d \t %-5s \t %-10d\n", emp.getENo(), emp.getName(),
+                        emp.getYear(), emp.getMonth(), emp.getDate(),
+                        emp.getSecNo(), emp.getPay());
+            }
         }
     }
 
-    public void searchEmployee(String strENo) {
-        ArrayList<Employee> resArray = empMan.searchEmployee(strENo);
+    public void searchEmployee(String eno, String strENo) {
+        ArrayList<Employee> resArray = empMan.searchEmployee(eno, strENo);
         for (Employee emp : resArray) {
             System.out.printf("%-5s \t %-7s \t %-10s \t %-5s \t %-10s\n", "eno", "name", "date", "secNo", "pay");
             System.out.println("===========================================================");
