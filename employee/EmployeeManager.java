@@ -31,8 +31,8 @@ public class EmployeeManager extends EmployeeDBIO{
 		return resArray;
 	}
 	
-	public ArrayList<Employee> searchEmployee(String strENo) {
-		ArrayList<Employee> resArray = super.searchEmployee(strENo);
+	public ArrayList<Employee> searchEmployee(String eno, String strENo) {
+		ArrayList<Employee> resArray = super.searchEmployee(eno, strENo);
 		return resArray;
 	}
 }

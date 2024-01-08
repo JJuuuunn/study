@@ -1,15 +1,19 @@
 package employee.entity;
 
+import lombok.Getter;
+
+@Getter
 public enum AccessRole {
-    // TODO : 접근 권한 어디까지 만들어야 할까?
-    UNTIL_STAFF(1), // 직원 정보까지 접근 가능한 권한
-    UNTIL_SECRETARY(2), // 비서 정보까지 접근 가능한 권한
-    UNTIL_MANAGER(3), // 매니저 정보까지 접근 가능한 권한
-    UNTIL_OWNER(4); // 모든 정보까지 접근 가능한 권한
+    UNTIL_STAFF(1, "직원 정보까지 접근 가능"),
+    UNTIL_SECRETARY(2, "비서 정보까지 접근 가능"),
+    UNTIL_MANAGER(3, "매니저 정보까지 접근 가능"),
+    UNTIL_OWNER(4, "모든 정보에 접근 가능");
 
     private int value;
+    private String desc;
 
-    AccessRole(int value) {
+    AccessRole(int value, String desc) {
         this.value = value;
+        this.desc = desc;
     }
 }

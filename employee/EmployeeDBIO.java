@@ -1,8 +1,11 @@
 package employee;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Optional;
 
+import employee.dto.EmployeeWithLevelDto;
 import employee.entity.Employee;
 import employee.entity.Manager;
 import employee.entity.Secretary;
@@ -61,7 +64,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      * @return boolean -> 정보가 등록되면 true
      */
     public boolean insertManager(Manager emp) {
-        ArrayList<Employee> resArray = searchEmployee(emp.getSecNo());
+        ArrayList<Employee> resArray = searchEmployee(null, emp.getSecNo());
         if (resArray.isEmpty()) return false;
 
         String insertSql = "insert into EMPLOYEE values(null, ?,?,?,?,?,?,?)";
@@ -88,36 +91,105 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
     }
 
     /**
-     * 매니저를 제외한 전체 직원을 찾는 메소드
-     * TODO : 매니저를 제외하고 출력되도록 sql문 수정
+     * 해당 직원의 eno를 통해 접근 권한을 확인하고
+     * 접근 가능한 데이터까지 찾아서 반환 메소드
      *
-     * @param strUserID
+     * @param eno -> 검색을 사용하고 있는 직원의 ID
      * @return EmployeeList
      * @throws SQLException
      */
-    public ArrayList<Employee> getEmployeeList(String strUserID) {
-        ArrayList<Employee> resArray = new ArrayList<>();
-
-        String selectSql = "select * from EMPLOYEE where (role != 'Manager') or (secno = ?)";
-
+    public ArrayList<Employee> getEmployeeList(String eno) {
         Connection conn = super.open();
         ResultSet rs = null;
+
+        Optional<EmployeeWithLevelDto> optional = findById(eno, conn);
+        if (optional.isEmpty()) { // 없는 직원이면 데이터에 접근하면 안되기 때문에 빈 리스트 반환
+            return new ArrayList<>();
+        } else {
+            EmployeeWithLevelDto dto = optional.get();
+            if (dto.getRole() == 0) {
+                System.out.println("접근권한이 없습니다.");
+                return new ArrayList<>();
+            } else if (dto.getExpiredAt().isBefore(LocalDateTime.now())) {
+                System.out.println("접근권한이 만료되었습니다.");
+                return new ArrayList<>();
+            }
+
+            ArrayList<Employee> resArray = new ArrayList<>();
+            String selectSql = "select e.*, r.* " +
+                    "from EMPLOYEE " +
+                    "as e " +
+                    "left join RESTRICTION_LEVEL as r " +
+                    "on e.ID = r.EMPLOYEE_ID " +
+                    "where r.ACCESS_ROLE <= ? || " +
+                    "r.ACCESS_ROLE is NULL && " +
+                    "e.ROLE != 'Manager' " +
+                    "order by e.eno";
+
+            try {
+                PreparedStatement pstm = conn.prepareStatement(selectSql);
+                pstm.setLong(1, dto.getRole()); // role
+
+                rs = pstm.executeQuery();
+                while (rs.next()) {
+                    Employee emp = getEmployee(rs);
+
+                    resArray.add(emp);
+                }
+
+                rs.close();
+                super.close();
+            } catch (
+                    SQLException e) {
+                e.printStackTrace();
+            }
+            return resArray;
+        }
+    }
+
+    /**
+     * 직원의 ENO를 통해 직원의 권한을 찾는 메소드
+     *
+     * @param eno
+     * @param conn
+     * @return
+     */
+    private static Optional<EmployeeWithLevelDto> findById(String eno, Connection conn) {
+        String selectSql = "select e.eno, e.name, r.access_role, r.expired_at " +
+                "from EMPLOYEE as e " +
+                "left join RESTRICTION_LEVEL as r " +
+                "on e.id = r.employee_id " +
+                "where eno = ? ";
+
+        ResultSet rs;
+        Optional<EmployeeWithLevelDto> optional = null;
+
         try {
             PreparedStatement pstm = conn.prepareStatement(selectSql);
-            pstm.setString(1, strUserID);    // secno
+            pstm.setString(1, eno);
 
             rs = pstm.executeQuery();
-            while (rs.next()) {
-                Employee emp = getEmployee(rs);
 
-                resArray.add(emp);
+            if (!rs.next()) {
+                optional = Optional.empty();
+                System.out.println("존재하지 않는 회원입니다.");
+            } else {
+                optional = Optional.of(
+                        EmployeeWithLevelDto.builder()
+                                .eno(rs.getString("eno"))
+                                .name(rs.getString("name"))
+                                .role(rs.getLong("access_role"))
+                                .expiredAt(checkDateTimeNull(rs.getTimestamp("expired_at")))
+                                .build()
+                );
             }
+
             rs.close();
-            super.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return resArray;
+
+        return optional;
     }
 
     /**
@@ -128,29 +200,54 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      * @return EmployeeList
      * @throws SQLException
      */
-    public ArrayList<Employee> searchEmployee(String strENo) {
-        ArrayList<Employee> resArray = new ArrayList<>();
-        String selectSql = "select * from EMPLOYEE where eno = ?";
-
+    public ArrayList<Employee> searchEmployee(String eno, String strENo) {
         Connection conn = super.open();
         ResultSet rs = null;
-        try {
-            PreparedStatement pstm = conn.prepareStatement(selectSql);
-            pstm.setString(1, strENo);    // secno
 
-            rs = pstm.executeQuery();
-            while (rs.next()) {
-                Employee emp = getEmployee(rs);
-
-                resArray.add(emp);
+        Optional<EmployeeWithLevelDto> optional = findById(eno, conn);
+        if (optional.isEmpty()) { // 없는 직원이면 데이터에 접근하면 안되기 때문에 빈 리스트 반환
+            return new ArrayList<>();
+        } else {
+            EmployeeWithLevelDto dto = optional.get();
+            if (dto.getRole() == 0) {
+                System.out.println("접근권한이 없습니다.");
+                return new ArrayList<>();
+            } else if (dto.getExpiredAt().isBefore(LocalDateTime.now())) {
+                System.out.println("접근권한이 만료되었습니다.");
+                return new ArrayList<>();
             }
-            rs.close();
-            super.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+
+            ArrayList<Employee> resArray = new ArrayList<>();
+            String selectSql = "select e.*, r.* " +
+                    "from EMPLOYEE as e " +
+                    "left join RESTRICTION_LEVEL as r " +
+                    "on e.ID = r.EMPLOYEE_ID " +
+                    "where eno = ? && " +
+                    "(r.ACCESS_ROLE <= ? || " +
+                    "r.ACCESS_ROLE is NULL) " +
+                    "order by e.eno";
+
+            rs = null;
+            try {
+                PreparedStatement pstm = conn.prepareStatement(selectSql);
+                pstm.setString(1, strENo);    // secno
+                pstm.setLong(2, dto.getRole()); // role
+
+                rs = pstm.executeQuery();
+                while (rs.next()) {
+                    Employee emp = getEmployee(rs);
+
+                    resArray.add(emp);
+                }
+                rs.close();
+                super.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return resArray;
         }
-        return resArray;
     }
+
 
     /**
      * SQL을 통해서 데이터베이스에서 가져온 ResultSet을
@@ -208,5 +305,12 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
             return manager;
         }
         return null;
+    }
+
+    private static LocalDateTime checkDateTimeNull(Timestamp str) {
+        if (str == null) {
+            return null;
+        }
+        return str.toLocalDateTime();
     }
 }
