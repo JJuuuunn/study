@@ -17,16 +17,20 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
 
     /**
      * 직원 정보를 추가하는 메소드
+     * 추가하기전에 이미 존재하는 사원번호인지 확인
      * secno는 매니저와 OnetoOne 관계이므로 여기서는 임시로 null
-     * <p>
-     * TODO : secno에 null 대신 넣을 값 생각하기
      *
      * @param emp
      * @return boolean -> 정보가 등록되면 true
      */
     public boolean insertStaff(Staff emp) {
-        String insertSql = "insert into EMPLOYEE values (null, ?, ?, ?, ?, ?, ?, null)";
 
+        if (existsByEno(emp.getENo())) {
+            System.out.println("이미 존재하는 사원번호입니다.");
+            return false;
+        }
+
+        String insertSql = "insert into EMPLOYEE values (null, ?, ?, ?, ?, ?, ?, null)";
         Connection conn = super.open();
         try {
             PreparedStatement pstm = conn.prepareStatement(insertSql);
@@ -40,14 +44,47 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            System.out.println("등록되었습니다.");
             close(conn);
         }
         return true;
     }
 
     /**
+     * 사원번호를 통해 직원이 존재하는지 확인하는 메소드
+     *
+     * @param Eno
+     * @return
+     */
+    private boolean existsByEno(String Eno) {
+        Connection conn = super.open();
+        String exsistsSql = "select exists(" +
+                "select 1 " +
+                "from EMPLOYEE " +
+                "where eno = ?)";
+
+        boolean exists = false;
+        try {
+            PreparedStatement pstm = conn.prepareStatement(exsistsSql);
+            pstm.setString(1, Eno);
+
+            ResultSet resultSet = pstm.executeQuery();
+
+            if (resultSet.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(conn);
+        }
+        return false;
+    }
+
+    /**
      * Secretary 정보를 추가하는 메소드
      * Staff 클래스가 Secretary 클래스의 부모 클래스이므로 호환 가능
+     * 추가하기전에 이미 존재하는 사원번호인지 확인
      *
      * @param emp
      * @return boolean -> 정보가 등록되면 true
@@ -59,16 +96,21 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
     /**
      * 매니저를 추가하는 메소드
      * 최소 한명 이상의 Staff 또는 Secretary가 있어야 동작
+     * 추가하기전에 이미 존재하는 사원번호인지 확인
      *
      * @param emp
      * @return boolean -> 정보가 등록되면 true
      */
     public boolean insertManager(Manager emp) {
+        if (existsByEno(emp.getENo())) {
+            System.out.println("이미 존재하는 사원번호입니다.");
+            return false;
+        }
+
         ArrayList<Employee> resArray = searchEmployee(null, emp.getSecNo());
         if (resArray.isEmpty()) return false;
 
         String insertSql = "insert into EMPLOYEE values(null, ?,?,?,?,?,?,?)";
-
         Connection conn = super.open();
         try {
             PreparedStatement pstm = conn.prepareStatement(insertSql);
@@ -102,7 +144,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         Connection conn = super.open();
         ResultSet rs = null;
 
-        Optional<EmployeeWithLevelDto> optional = findById(eno, conn);
+        Optional<EmployeeWithLevelDto> optional = findById(eno);
         if (optional.isEmpty()) { // 없는 직원이면 데이터에 접근하면 안되기 때문에 빈 리스트 반환
             return new ArrayList<>();
         } else {
@@ -139,8 +181,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
 
                 rs.close();
                 super.close();
-            } catch (
-                    SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
             return resArray;
@@ -148,13 +189,13 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
     }
 
     /**
-     * 직원의 ENO를 통해 직원의 권한을 찾는 메소드
+     * eno를 통해 직원을 찾는 메소드
      *
      * @param eno
-     * @param conn
      * @return
      */
-    private static Optional<EmployeeWithLevelDto> findById(String eno, Connection conn) {
+    private Optional<EmployeeWithLevelDto> findById(String eno) {
+        Connection conn = super.open();
         String selectSql = "select e.eno, e.name, r.access_role, r.expired_at " +
                 "from EMPLOYEE as e " +
                 "left join RESTRICTION_LEVEL as r " +
@@ -187,6 +228,8 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
             rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            super.close();
         }
 
         return optional;
@@ -194,7 +237,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
 
     /**
      * 특정 직원을 찾는 메소드
-     * TODO : Role과 다른 데이터 접근 권한에 관한 테이블을 새로 만들어 추후에 권한을 학인 후 메소드 사용 가능하도록 변경
+     * 접근 권한을 확인하고 접근 가능한 데이터까지 찾아서 반환
      *
      * @param strENo
      * @return EmployeeList
@@ -204,7 +247,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         Connection conn = super.open();
         ResultSet rs = null;
 
-        Optional<EmployeeWithLevelDto> optional = findById(eno, conn);
+        Optional<EmployeeWithLevelDto> optional = findById(eno);
         if (optional.isEmpty()) { // 없는 직원이면 데이터에 접근하면 안되기 때문에 빈 리스트 반환
             return new ArrayList<>();
         } else {
@@ -259,7 +302,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      * @return Employee
      * @throws SQLException
      */
-    private static Employee getEmployee(ResultSet rs) throws SQLException {
+    private Employee getEmployee(ResultSet rs) throws SQLException {
         if (rs.getString("role").equals("Staff")) {
             Staff staff = Staff.builder()
                     .m_strENo(rs.getString("eno"))
@@ -307,7 +350,13 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         return null;
     }
 
-    private static LocalDateTime checkDateTimeNull(Timestamp str) {
+    /**
+     * Timestamp를 LocalDateTime으로 변환하고 NULL 체크하는 메소드
+     *
+     * @param str
+     * @return
+     */
+    private LocalDateTime checkDateTimeNull(Timestamp str) {
         if (str == null) {
             return null;
         }
