@@ -11,6 +11,8 @@ import employee.entity.Manager;
 import employee.entity.Secretary;
 import employee.entity.Staff;
 
+import employee.error.code.EmployeeErrorCode;
+import employee.error.exception.EmployeeException;
 import lib.ObjectDBIO;
 
 public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
@@ -27,6 +29,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
 
         if (existsByEno(emp.getENo())) {
             System.out.println("이미 존재하는 사원번호입니다.");
+            new EmployeeException(EmployeeErrorCode.EMPLOYEE_ALREADY_EXIST).printStackTrace();
             return false;
         }
 
@@ -74,7 +77,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
                 return true;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             close(conn);
         }
@@ -104,6 +107,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
     public boolean insertManager(Manager emp) {
         if (existsByEno(emp.getENo())) {
             System.out.println("이미 존재하는 사원번호입니다.");
+            new EmployeeException(EmployeeErrorCode.EMPLOYEE_ALREADY_EXIST).printStackTrace();
             return false;
         }
 
@@ -150,10 +154,10 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         } else {
             EmployeeWithLevelDto dto = optional.get();
             if (dto.getRole() == 0) {
-                System.out.println("접근권한이 없습니다.");
+                new EmployeeException(EmployeeErrorCode.EMPLOYEE_NOT_AUTHORIZED).printStackTrace();
                 return new ArrayList<>();
             } else if (dto.getExpiredAt().isBefore(LocalDateTime.now())) {
-                System.out.println("접근권한이 만료되었습니다.");
+                new EmployeeException(EmployeeErrorCode.EMPLOYEE_EXPIRED_AUTHORITY).printStackTrace();
                 return new ArrayList<>();
             }
 
@@ -213,7 +217,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
 
             if (!rs.next()) {
                 optional = Optional.empty();
-                System.out.println("존재하지 않는 회원입니다.");
+                new EmployeeException(EmployeeErrorCode.EMPLOYEE_NOT_FOUND).printStackTrace();
             } else {
                 optional = Optional.of(
                         EmployeeWithLevelDto.builder()
@@ -248,15 +252,16 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         ResultSet rs = null;
 
         Optional<EmployeeWithLevelDto> optional = findById(eno);
-        if (optional.isEmpty()) { // 없는 직원이면 데이터에 접근하면 안되기 때문에 빈 리스트 반환
+        if (optional.isEmpty()) {
+            new EmployeeException(EmployeeErrorCode.EMPLOYEE_NOT_FOUND).printStackTrace();
             return new ArrayList<>();
         } else {
             EmployeeWithLevelDto dto = optional.get();
             if (dto.getRole() == 0) {
-                System.out.println("접근권한이 없습니다.");
+                new EmployeeException(EmployeeErrorCode.EMPLOYEE_NOT_AUTHORIZED).printStackTrace();
                 return new ArrayList<>();
             } else if (dto.getExpiredAt().isBefore(LocalDateTime.now())) {
-                System.out.println("접근권한이 만료되었습니다.");
+                new EmployeeException(EmployeeErrorCode.EMPLOYEE_EXPIRED_AUTHORITY).printStackTrace();
                 return new ArrayList<>();
             }
 
