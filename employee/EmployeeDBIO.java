@@ -25,8 +25,13 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      * @return boolean -> 정보가 등록되면 true
      */
     public boolean insertStaff(Staff emp) {
-        String insertSql = "insert into EMPLOYEE values (null, ?, ?, ?, ?, ?, ?, null)";
 
+        if (existsByEno(emp.getENo())) {
+            System.out.println("이미 존재하는 사원번호입니다.");
+            return false;
+        }
+
+        String insertSql = "insert into EMPLOYEE values (null, ?, ?, ?, ?, ?, ?, null)";
         Connection conn = super.open();
         try {
             PreparedStatement pstm = conn.prepareStatement(insertSql);
@@ -40,9 +45,35 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            System.out.println("등록되었습니다.");
             close(conn);
         }
         return true;
+    }
+
+    private boolean existsByEno(String Eno) {
+        Connection conn = super.open();
+        String exsistsSql = "select exists(" +
+                "select 1 " +
+                "from EMPLOYEE " +
+                "where eno = ?)";
+
+        boolean exists = false;
+        try {
+            PreparedStatement pstm = conn.prepareStatement(exsistsSql);
+            pstm.setString(1, Eno);
+
+            ResultSet resultSet = pstm.executeQuery();
+
+            if (resultSet.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(conn);
+        }
+        return false;
     }
 
     /**
@@ -64,11 +95,15 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      * @return boolean -> 정보가 등록되면 true
      */
     public boolean insertManager(Manager emp) {
+        if (existsByEno(emp.getENo())) {
+            System.out.println("이미 존재하는 사원번호입니다.");
+            return false;
+        }
+
         ArrayList<Employee> resArray = searchEmployee(null, emp.getSecNo());
         if (resArray.isEmpty()) return false;
 
         String insertSql = "insert into EMPLOYEE values(null, ?,?,?,?,?,?,?)";
-
         Connection conn = super.open();
         try {
             PreparedStatement pstm = conn.prepareStatement(insertSql);
@@ -102,7 +137,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         Connection conn = super.open();
         ResultSet rs = null;
 
-        Optional<EmployeeWithLevelDto> optional = findById(eno, conn);
+        Optional<EmployeeWithLevelDto> optional = findById(eno);
         if (optional.isEmpty()) { // 없는 직원이면 데이터에 접근하면 안되기 때문에 빈 리스트 반환
             return new ArrayList<>();
         } else {
@@ -139,22 +174,14 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
 
                 rs.close();
                 super.close();
-            } catch (
-                    SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
             return resArray;
         }
     }
-
-    /**
-     * 직원의 ENO를 통해 직원의 권한을 찾는 메소드
-     *
-     * @param eno
-     * @param conn
-     * @return
-     */
-    private static Optional<EmployeeWithLevelDto> findById(String eno, Connection conn) {
+    private Optional<EmployeeWithLevelDto> findById(String eno) {
+        Connection conn = super.open();
         String selectSql = "select e.eno, e.name, r.access_role, r.expired_at " +
                 "from EMPLOYEE as e " +
                 "left join RESTRICTION_LEVEL as r " +
@@ -187,6 +214,8 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
             rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            super.close();
         }
 
         return optional;
@@ -204,7 +233,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         Connection conn = super.open();
         ResultSet rs = null;
 
-        Optional<EmployeeWithLevelDto> optional = findById(eno, conn);
+        Optional<EmployeeWithLevelDto> optional = findById(eno);
         if (optional.isEmpty()) { // 없는 직원이면 데이터에 접근하면 안되기 때문에 빈 리스트 반환
             return new ArrayList<>();
         } else {
@@ -259,7 +288,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      * @return Employee
      * @throws SQLException
      */
-    private static Employee getEmployee(ResultSet rs) throws SQLException {
+    private Employee getEmployee(ResultSet rs) throws SQLException {
         if (rs.getString("role").equals("Staff")) {
             Staff staff = Staff.builder()
                     .m_strENo(rs.getString("eno"))
@@ -307,7 +336,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         return null;
     }
 
-    private static LocalDateTime checkDateTimeNull(Timestamp str) {
+    private LocalDateTime checkDateTimeNull(Timestamp str) {
         if (str == null) {
             return null;
         }
