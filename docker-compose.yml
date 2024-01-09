@@ -8,9 +8,9 @@ services:
     environment:
       MYSQL_DATABASE: HRInfoSystem
       MYSQL_ROOT_HOST: '%'
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_USER: yang
-      MYSQL_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       TZ: Asia/Seoul
 
 #    호스트의 포트와 컨테이너의 포트를 매핑함
@@ -20,6 +20,14 @@ services:
     command:
       - '--character-set-server=utf8mb4'
       - '--collation-server=utf8mb4_unicode_ci'
+
+    build:
+        context: .db
+        dockerfile: Dockerfile
+
+    volumes:
+        - ./db/config:/etc/mysql/conf.d
+        - ./db/init:/docker-entrypoint-initdb.d
 
 #    오류 등으로 컨테이너가 종료됐을때 재시작 여부
     restart: always
