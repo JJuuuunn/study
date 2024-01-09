@@ -21,5 +21,13 @@ services:
       - '--character-set-server=utf8mb4'
       - '--collation-server=utf8mb4_unicode_ci'
 
+    build:
+        context: .db
+        dockerfile: Dockerfile
+
+    volumes:
+        - ./db/config:/etc/mysql/conf.d
+        - ./db/init:/docker-entrypoint-initdb.d
+
 #    오류 등으로 컨테이너가 종료됐을때 재시작 여부
     restart: always
