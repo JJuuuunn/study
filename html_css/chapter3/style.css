@@ -1,0 +1,73 @@
+html {
+    height: 100%;
+    width: 100
+  }
+  
+  .box {
+    border: 50px solid #e74c3c;
+  
+    width: 200px;
+    
+    margin-top: 10px;
+    margin-bottom: 10px;
+    
+  
+    padding-top: 50px;
+    padding-left: 50px;
+    padding-bottom: 50px;
+  }
+  
+  .green {
+    border-color: #27ae60;
+  }
+  
+  .blue {
+    border-color: #3498db;
+  }
+  
+  .challenge2 {
+    background-color:silver;
+    background-image:
+    radial-gradient(circle at 100% 150%, silver 24%, white 24%, white 28%, silver 28%, silver 36%, white 36%, white 40%, transparent 40%, transparent),
+    radial-gradient(circle at 0    150%, silver 24%, white 24%, white 28%, silver 28%, silver 36%, white 36%, white 40%, transparent 40%, transparent),
+    radial-gradient(circle at 50%  100%, white 10%, silver 10%, silver 23%, white 23%, white 30%, silver 30%, silver 43%, white 43%, white 50%, silver 50%, silver 63%, white 63%, white 71%, transparent 71%, transparent),
+    radial-gradient(circle at 100% 50%, white 5%, silver 5%, silver 15%, white 15%, white 20%, silver 20%, silver 29%, white 29%, white 34%, silver 34%, silver 44%, white 44%, white 49%, transparent 49%, transparent),
+    radial-gradient(circle at 0    50%, white 5%, silver 5%, silver 15%, white 15%, white 20%, silver 20%, silver 29%, white 29%, white 34%, silver 34%, silver 44%, white 44%, white 49%, transparent 49%, transparent);
+    background-size: 100px 50px;
+  }
+  
+  
+  h1 {
+    color: #9b59b6;
+  }
+  
+  .p-color {
+    color: #2980b9;
+  }
+  
+  p {
+      font-size: 16px;
+      font-family: Verdana, sans-serif;
+      font-style: italic;
+  }
+  
+  .sub-header {
+    color: #2980b9;
+  }
+  
+  p::first-letter {
+    font-size: 200%;
+    color: #2980b9;
+  }
+  
+  h1::before {
+    content: "Topic: ";
+  }
+  
+  .challenge2 {
+      padding: 10px;
+  }
+  
+  .challenge2 h1:first-of-type {
+    text-align: center;
+  }
