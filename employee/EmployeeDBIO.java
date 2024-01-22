@@ -70,7 +70,6 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
                 "from EMPLOYEE " +
                 "where eno = ?)";
 
-        boolean exists = false;
         try {
             PreparedStatement pstm = conn.prepareStatement(exsistsSql);
             pstm.setString(1, Eno);
@@ -104,23 +103,27 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      * 매니저를 추가하는 메소드
      * 최소 한명 이상의 Staff 또는 Secretary가 있어야 동작
      * 추가하기전에 이미 존재하는 사원번호인지 확인
+     * <p>
+     * TODO : 예외처리 리펙토링하기
      *
      * @param emp
      * @return boolean -> 정보가 등록되면 true
      */
     public boolean insertManager(Manager emp) {
-        if (existsByEno(emp.getENo())) {
-            System.out.println("이미 존재하는 사원번호입니다.");
-            new EmployeeException(EmployeeErrorCode.EMPLOYEE_ALREADY_EXIST).printStackTrace();
-            return false;
-        }
-
-        ArrayList<Employee> resArray = searchEmployee(null, emp.getSecNo());
-        if (resArray.isEmpty()) return false;
-
-        String insertSql = "insert into EMPLOYEE values(null, ?,?,?,?,?,?,?)";
-        Connection conn = super.open();
+        boolean result = false;
         try {
+            if (existsByEno(emp.getENo())) { // 이미 존재하는 사원번호인지 확인
+                throw new EmployeeException(EmployeeErrorCode.EMPLOYEE_ALREADY_EXIST);
+            }
+
+            ArrayList<Employee> resArray = searchEmployee(null, emp.getSecNo()); // 비서 사원번호가 존재하는지 확인
+            if (resArray.isEmpty()) { // 비서 사원번호가 존재하지 않으면 false TODO : 예외처리하기
+                throw new EmployeeException(EmployeeErrorCode.EMPLOYEE_NOT_FOUND);
+            }
+
+            String insertSql = "insert into EMPLOYEE values(null, ?,?,?,?,?,?,?)";
+            Connection conn = super.open();
+
             PreparedStatement pstm = conn.prepareStatement(insertSql);
             pstm.setString(1, emp.getENo());    // eno
             pstm.setString(2, emp.getName());   // name
@@ -131,13 +134,17 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
             pstm.setString(7, emp.getSecNo());  // secNo
 
             pstm.execute();
+
+            result = true;
+            System.out.println("등록되었습니다.");
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+        } catch (EmployeeException e) {
+            e.printStackTrace();
         } finally {
             super.close();
+            return result;
         }
-        return true;
     }
 
     /**
@@ -178,7 +185,6 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
             rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
-
         } catch (EmployeeException e) {
             e.printStackTrace();
         } finally {
@@ -252,11 +258,12 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      * @throws SQLException
      */
     public ArrayList<Employee> searchEmployee(String eno, String strENo) {
-        Connection conn = super.open();
         ResultSet rs = null;
         ArrayList<Employee> resArray = new ArrayList<>();
 
         try {
+            Connection conn = super.open();
+
             EmployeeWithLevelDto dto = findById(eno).orElseThrow(() -> new EmployeeException(EmployeeErrorCode.EMPLOYEE_NOT_FOUND));
             checkRole(dto); // 직원의 권한이 존재하는지 확인하는 메소드
 
