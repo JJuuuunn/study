@@ -78,27 +78,30 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      * @return
      */
     private boolean existsByEno(String Eno) {
-        Connection conn = super.open();
-        String exsistsSql = "select exists(" +
-                "select 1 " +
-                "from EMPLOYEE " +
-                "where eno = ?)";
+        Connection conn = null;
+        CallableStatement cstmt = null;
+        boolean exists = false;
 
         try {
-            PreparedStatement pstm = conn.prepareStatement(exsistsSql);
-            pstm.setString(1, Eno);
+            String callSql = "{call CheckEmployeeExistence(?, ?)}";
 
-            ResultSet resultSet = pstm.executeQuery();
+            conn = super.open();
+            cstmt = conn.prepareCall(callSql);
 
-            if (resultSet.next()) {
-                return true;
-            }
+            cstmt.setString(1, Eno);
+
+            cstmt.registerOutParameter(2, Types.BOOLEAN);
+
+            cstmt.execute();
+
+            exists = cstmt.getBoolean(2);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            close(cstmt);
             super.close(conn);
+            return exists;
         }
-        return false;
     }
 
 
