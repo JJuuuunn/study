@@ -111,6 +111,8 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      */
     public boolean insertManager(Manager emp) {
         boolean result = false;
+        Connection conn = null;
+
         try {
             if (existsByEno(emp.getENo())) { // 이미 존재하는 사원번호인지 확인
                 throw new EmployeeException(EmployeeErrorCode.EMPLOYEE_ALREADY_EXIST);
@@ -122,7 +124,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
             }
 
             String insertSql = "insert into EMPLOYEE values(null, ?,?,?,?,?,?,?)";
-            Connection conn = super.open();
+            conn = super.open();
 
             PreparedStatement pstm = conn.prepareStatement(insertSql);
             pstm.setString(1, emp.getENo());    // eno
@@ -142,7 +144,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         } catch (EmployeeException e) {
             e.printStackTrace();
         } finally {
-            super.close();
+            super.close(conn);
             return result;
         }
     }
@@ -155,11 +157,13 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      * @return EmployeeList
      */
     public ArrayList<Employee> getEmployeeList(String eno) {
-        Connection conn = super.open();
+        Connection conn = null;
         ResultSet rs = null;
         ArrayList<Employee> resArray = new ArrayList<>();
 
         try {
+            conn = super.open();
+
             EmployeeWithLevelDto dto = findById(eno).orElseThrow(() -> new EmployeeException(EmployeeErrorCode.EMPLOYEE_NOT_FOUND));
             checkRole(dto); // 직원의 권한이 존재하는지 확인하는 메소드
 
@@ -188,7 +192,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         } catch (EmployeeException e) {
             e.printStackTrace();
         } finally {
-            super.close();
+            super.close(conn);
             return resArray;
         }
     }
@@ -209,7 +213,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      * @return
      */
     private Optional<EmployeeWithLevelDto> findById(String eno) {
-        Connection conn = super.open();
+        Connection conn = null;
         String selectSql = "select e.eno, e.name, r.access_role, r.expired_at " +
                 "from EMPLOYEE as e " +
                 "left join RESTRICTION_LEVEL as r " +
@@ -220,6 +224,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         Optional<EmployeeWithLevelDto> optional = null;
 
         try {
+            conn = super.open();
             PreparedStatement pstm = conn.prepareStatement(selectSql);
             pstm.setString(1, eno);
 
@@ -244,7 +249,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         } catch (EmployeeException e) {
             e.printStackTrace();
         } finally {
-            super.close();
+            super.close(conn);
             return optional;
         }
     }
@@ -259,10 +264,11 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      */
     public ArrayList<Employee> searchEmployee(String eno, String strENo) {
         ResultSet rs = null;
+        Connection conn = null;
         ArrayList<Employee> resArray = new ArrayList<>();
 
         try {
-            Connection conn = super.open();
+            conn = super.open();
 
             EmployeeWithLevelDto dto = findById(eno).orElseThrow(() -> new EmployeeException(EmployeeErrorCode.EMPLOYEE_NOT_FOUND));
             checkRole(dto); // 직원의 권한이 존재하는지 확인하는 메소드
@@ -287,12 +293,12 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
                 resArray.add(emp);
             }
             rs.close();
-            super.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (EmployeeException e) {
             e.printStackTrace();
         } finally {
+            close(conn);
             return resArray;
         }
     }
