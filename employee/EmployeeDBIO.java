@@ -27,33 +27,47 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      * @return boolean -> 정보가 등록되면 true
      */
     public boolean insertStaff(Staff emp) {
-        boolean reslut = false;
-        Connection conn = super.open();
+        boolean result = false;
+        Connection conn = null;
+        CallableStatement cstmt = null;
+        String ackMessage = null;
+
         try {
-            if (existsByEno(emp.getENo())) {
-                throw new EmployeeException(EmployeeErrorCode.EMPLOYEE_ALREADY_EXIST);
-            }
+            String callSql = "{call InsertEmployee(?, ?, ?, ?, ?, ?, ?)}";
 
-            String insertSql = "insert into EMPLOYEE values (null, ?, ?, ?, ?, ?, ?, null)";
-            PreparedStatement pstm = conn.prepareStatement(insertSql);
-            pstm.setString(1, emp.getENo());    // eno
-            pstm.setString(2, emp.getName());   // name
-            pstm.setInt(3, emp.getYear());      // year
-            pstm.setInt(4, emp.getMonth());     // month
-            pstm.setInt(5, emp.getDate());      // date
-            pstm.setString(6, emp.getRole());   // role
-            pstm.execute();
+            conn = super.open();
+            cstmt = conn.prepareCall(callSql);
 
-            reslut = true;
-            System.out.println("등록되었습니다.");
+            cstmt.setString(1, emp.getENo());
+            cstmt.setString(2, emp.getName());
+            cstmt.setInt(3, emp.getYear());
+            cstmt.setInt(4, emp.getMonth());
+            cstmt.setInt(5, emp.getDate());
+            cstmt.setString(6, emp.getRole());
+
+            cstmt.registerOutParameter(7, Types.VARCHAR);
+
+            cstmt.execute();
+
+            ackMessage = cstmt.getString(7);
+            System.out.println(ackMessage);
+            result = true;
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (EmployeeException e) {
-            e.printStackTrace();
-
         } finally {
+            close(cstmt);
             close(conn);
-            return reslut;
+            return result;
+        }
+    }
+
+    private static void close(CallableStatement cstmt) {
+        try {
+            if (cstmt != null) {
+                cstmt.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -86,6 +100,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         }
         return false;
     }
+
 
     /**
      * Secretary 정보를 추가하는 메소드
