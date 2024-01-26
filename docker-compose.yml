@@ -3,7 +3,7 @@ version: '3'
 services:
   database-mysql:
     container_name: mysql-HRInfoSystem
-    image: mysql/mysql-server:8.0
+    image: mysql:8.0
 
     environment:
       MYSQL_DATABASE: HRInfoSystem
@@ -13,7 +13,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       TZ: Asia/Seoul
 
-#    호스트의 포트와 컨테이너의 포트를 매핑함
+    #    호스트의 포트와 컨테이너의 포트를 매핑함
     ports:
       - '3306:3306'
 
@@ -22,12 +22,13 @@ services:
       - '--collation-server=utf8mb4_unicode_ci'
 
     build:
-        context: .db
-        dockerfile: Dockerfile
+      context: .db
+      dockerfile: Dockerfile
 
     volumes:
-        - ./db/config:/etc/mysql/conf.d
-        - ./db/init:/docker-entrypoint-initdb.d
+      - ./db/config/:/etc/conf.d
+      - ./db/config/my.cnf:/etc/my.cnf
+      - ./db/init:/docker-entrypoint-initdb.d
 
-#    오류 등으로 컨테이너가 종료됐을때 재시작 여부
+    #    오류 등으로 컨테이너가 종료됐을때 재시작 여부
     restart: always
