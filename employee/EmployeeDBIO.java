@@ -33,6 +33,8 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         String ackMessage = null;
 
         try {
+            existsByEno(emp.getENo()); // 이미 존재하는 사원번호인지 확인
+
             String callSql = "{call InsertEmployee(?, ?, ?, ?, ?, ?, ?)}";
 
             conn = super.open();

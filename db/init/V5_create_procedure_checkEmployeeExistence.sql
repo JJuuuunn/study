@@ -1,7 +1,7 @@
 DELIMITER $$
 
 CREATE PROCEDURE CheckEmployeeExistence(
-    IN p_ENo VARCHAR(255),
+    IN p_ENo VARCHAR(255)  CHARACTER SET UTF8MB4,
     OUT p_Exists BOOLEAN
 )
 BEGIN
