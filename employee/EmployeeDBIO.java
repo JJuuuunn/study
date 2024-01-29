@@ -141,33 +141,31 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
     public ArrayList<Employee> getEmployeeList(String eno) {
         Connection conn = null;
         ResultSet rs = null;
+        CallableStatement cstmt = null;
         ArrayList<Employee> resArray = new ArrayList<>();
 
         try {
             conn = super.open();
+            String callSql = "{call GetEmployeeList(?, ?)}";
 
-            EmployeeWithLevelDto dto = findById(eno).orElseThrow(() -> new EmployeeException(EmployeeErrorCode.EMPLOYEE_NOT_FOUND));
-            checkRole(dto); // 직원의 권한이 존재하는지 확인하는 메소드
+            cstmt = conn.prepareCall(callSql);
+            cstmt.setString(1, eno);
+            cstmt.registerOutParameter(2, Types.VARCHAR);
 
-            String selectSql = "select e.*, r.* " +
-                    "from EMPLOYEE as e " +
-                    "left join RESTRICTION_LEVEL as r " +
-                    "on e.ID = r.EMPLOYEE_ID " +
-                    "where r.ACCESS_ROLE <= ? || " +
-                    "r.ACCESS_ROLE is NULL && " +
-                    "e.ROLE != 'Manager' " +
-                    "order by e.eno";
+            cstmt.execute();
 
-            PreparedStatement pstm = conn.prepareStatement(selectSql);
-            pstm.setLong(1, dto.getRole()); // role
+            String ackMessage = cstmt.getString(2);
 
-            rs = pstm.executeQuery();
-            while (rs.next()) {
-                Employee emp = getEmployee(rs);
+            if (ackMessage != null) {
+                System.out.println(ackMessage);
+            } else {
+                rs = cstmt.getResultSet();
+                while (rs.next()) {
+                    Employee emp = getEmployee(rs);
 
-                resArray.add(emp);
+                    resArray.add(emp);
+                }
             }
-
             rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -175,6 +173,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
             e.printStackTrace();
         } finally {
             super.close(conn);
+            close(cstmt);
             return resArray;
         }
     }
