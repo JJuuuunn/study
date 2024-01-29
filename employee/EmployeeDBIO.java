@@ -178,63 +178,6 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         }
     }
 
-    private static void checkRole(EmployeeWithLevelDto dto) {
-        if (dto.getRole() == 0) {
-            throw new EmployeeException(EmployeeErrorCode.EMPLOYEE_NOT_AUTHORIZED);
-        } else if (dto.getExpiredAt().isBefore(LocalDateTime.now())) {
-            throw new EmployeeException(EmployeeErrorCode.EMPLOYEE_EXPIRED_AUTHORITY);
-        }
-    }
-
-    /**
-     * eno를 통해 직원을 찾는 메소드
-     * 접근 권한을 확인하고 접근 가능한 데이터까지 찾아서 반환
-     *
-     * @param eno
-     * @return
-     */
-    private Optional<EmployeeWithLevelDto> findById(String eno) {
-        Connection conn = null;
-        String selectSql = "select e.eno, e.name, r.access_role, r.expired_at " +
-                "from EMPLOYEE as e " +
-                "left join RESTRICTION_LEVEL as r " +
-                "on e.id = r.employee_id " +
-                "where eno = ? ";
-
-        ResultSet rs;
-        Optional<EmployeeWithLevelDto> optional = null;
-
-        try {
-            conn = super.open();
-            PreparedStatement pstm = conn.prepareStatement(selectSql);
-            pstm.setString(1, eno);
-
-            rs = pstm.executeQuery();
-
-            if (!rs.next()) {
-                throw new EmployeeException(EmployeeErrorCode.EMPLOYEE_NOT_FOUND);
-            } else {
-                optional = Optional.of(
-                        EmployeeWithLevelDto.builder()
-                                .eno(rs.getString("eno"))
-                                .name(rs.getString("name"))
-                                .role(rs.getLong("access_role"))
-                                .expiredAt(checkDateTimeNull(rs.getTimestamp("expired_at")))
-                                .build()
-                );
-            }
-
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (EmployeeException e) {
-            e.printStackTrace();
-        } finally {
-            super.close(conn);
-            return optional;
-        }
-    }
-
     /**
      * 특정 직원을 찾는 메소드
      * 접근 권한을 확인하고 접근 가능한 데이터까지 찾아서 반환
@@ -246,32 +189,32 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
     public ArrayList<Employee> searchEmployee(String eno, String strENo) {
         ResultSet rs = null;
         Connection conn = null;
+        CallableStatement cstmt = null;
         ArrayList<Employee> resArray = new ArrayList<>();
 
         try {
             conn = super.open();
 
-            EmployeeWithLevelDto dto = findById(eno).orElseThrow(() -> new EmployeeException(EmployeeErrorCode.EMPLOYEE_NOT_FOUND));
-            checkRole(dto); // 직원의 권한이 존재하는지 확인하는 메소드
+            String callSql = "{call SearchEmployee(?, ?, ?)}";
 
-            String selectSql = "select e.*, r.* " +
-                    "from EMPLOYEE as e " +
-                    "left join RESTRICTION_LEVEL as r " +
-                    "on e.ID = r.EMPLOYEE_ID " +
-                    "where eno = ? && " +
-                    "(r.ACCESS_ROLE <= ? || " +
-                    "r.ACCESS_ROLE is NULL) " +
-                    "order by e.eno";
+            cstmt = conn.prepareCall(callSql);
+            cstmt.setString(1, eno);
+            cstmt.setString(2, strENo);
+            cstmt.registerOutParameter(3, Types.VARCHAR);
 
-            PreparedStatement pstm = conn.prepareStatement(selectSql);
-            pstm.setString(1, strENo);    // secno
-            pstm.setLong(2, dto.getRole()); // role
+            cstmt.execute();
 
-            rs = pstm.executeQuery();
-            while (rs.next()) {
-                Employee emp = getEmployee(rs);
+            String ackMessage = cstmt.getString(3);
 
-                resArray.add(emp);
+            if (ackMessage != null) {
+                System.out.println(ackMessage);
+            } else {
+                rs = cstmt.getResultSet();
+                while (rs.next()) {
+                    Employee emp = getEmployee(rs);
+
+                    resArray.add(emp);
+                }
             }
             rs.close();
         } catch (SQLException e) {
@@ -280,6 +223,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
             e.printStackTrace();
         } finally {
             close(conn);
+            close(cstmt);
             return resArray;
         }
     }
