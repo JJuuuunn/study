@@ -33,8 +33,6 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
         String ackMessage = null;
 
         try {
-            existsByEno(emp.getENo()); // 이미 존재하는 사원번호인지 확인
-
             String callSql = "{call InsertEmployee(?, ?, ?, ?, ?, ?, ?)}";
 
             conn = super.open();
@@ -74,40 +72,6 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
     }
 
     /**
-     * 사원번호를 통해 직원이 존재하는지 확인하는 메소드
-     *
-     * @param Eno
-     * @return
-     */
-    private boolean existsByEno(String Eno) {
-        Connection conn = null;
-        CallableStatement cstmt = null;
-        boolean exists = false;
-
-        try {
-            String callSql = "{call CheckEmployeeExistence(?, ?)}";
-
-            conn = super.open();
-            cstmt = conn.prepareCall(callSql);
-
-            cstmt.setString(1, Eno);
-
-            cstmt.registerOutParameter(2, Types.BOOLEAN);
-
-            cstmt.execute();
-
-            exists = cstmt.getBoolean(2);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            close(cstmt);
-            super.close(conn);
-            return exists;
-        }
-    }
-
-
-    /**
      * Secretary 정보를 추가하는 메소드
      * Staff 클래스가 Secretary 클래스의 부모 클래스이므로 호환 가능
      * 추가하기전에 이미 존재하는 사원번호인지 확인
@@ -131,40 +95,38 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      */
     public boolean insertManager(Manager emp) {
         boolean result = false;
+        CallableStatement cstmt = null;
         Connection conn = null;
+        String ackMessage = null;
 
         try {
-            if (existsByEno(emp.getENo())) { // 이미 존재하는 사원번호인지 확인
-                throw new EmployeeException(EmployeeErrorCode.EMPLOYEE_ALREADY_EXIST);
-            }
+            String callSql = "{call InsertManger(?, ?, ?, ?, ?, ?, ?, ?)}";
 
-            ArrayList<Employee> resArray = searchEmployee(null, emp.getSecNo()); // 비서 사원번호가 존재하는지 확인
-            if (resArray.isEmpty()) { // 비서 사원번호가 존재하지 않으면 false TODO : 예외처리하기
-                throw new EmployeeException(EmployeeErrorCode.EMPLOYEE_NOT_FOUND);
-            }
-
-            String insertSql = "insert into EMPLOYEE values(null, ?,?,?,?,?,?,?)";
             conn = super.open();
+            cstmt = conn.prepareCall(callSql);
 
-            PreparedStatement pstm = conn.prepareStatement(insertSql);
-            pstm.setString(1, emp.getENo());    // eno
-            pstm.setString(2, emp.getName());   // name
-            pstm.setInt(3, emp.getYear());      // year
-            pstm.setInt(4, emp.getMonth());     // month
-            pstm.setInt(5, emp.getDate());      // date
-            pstm.setString(6, emp.getRole());   // role
-            pstm.setString(7, emp.getSecNo());  // secNo
+            cstmt.setString(1, emp.getENo());    // eno
+            cstmt.setString(2, emp.getName());   // name
+            cstmt.setInt(3, emp.getYear());      // year
+            cstmt.setInt(4, emp.getMonth());     // month
+            cstmt.setInt(5, emp.getDate());      // date
+            cstmt.setString(6, emp.getRole());   // role
+            cstmt.setString(7, emp.getSecNo());  // secNo
 
-            pstm.execute();
+            cstmt.registerOutParameter(8, Types.VARCHAR); // ackMessage
 
+            cstmt.execute();
+
+            ackMessage = cstmt.getString(8);
+            System.out.println(ackMessage);
             result = true;
-            System.out.println("등록되었습니다.");
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (EmployeeException e) {
             e.printStackTrace();
         } finally {
             super.close(conn);
+            close(cstmt);
             return result;
         }
     }
