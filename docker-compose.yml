@@ -11,7 +11,6 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      TZ: Asia/Seoul
 
     #    호스트의 포트와 컨테이너의 포트를 매핑함
     ports:
