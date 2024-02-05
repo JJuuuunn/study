@@ -3,16 +3,12 @@ package employee;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Optional;
 
-import employee.dto.EmployeeWithLevelDto;
-import employee.entity.Employee;
-import employee.entity.Manager;
-import employee.entity.Secretary;
-import employee.entity.Staff;
+import employee.domain.Employee;
+import employee.domain.Manager;
+import employee.domain.Secretary;
+import employee.domain.Staff;
 
-import employee.error.code.EmployeeErrorCode;
 import employee.error.exception.EmployeeException;
 import lib.ObjectDBIO;
 

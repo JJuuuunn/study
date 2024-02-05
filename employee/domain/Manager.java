@@ -1,4 +1,4 @@
-package employee.entity;
+package employee.domain;
 
 import employee.PayRaiseRate;
 import lombok.experimental.SuperBuilder;
