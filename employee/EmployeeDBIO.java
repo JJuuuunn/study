@@ -237,46 +237,15 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      */
     private Employee getEmployee(ResultSet rs) throws SQLException {
         if (rs.getString("role").equals("Staff")) {
-            Staff staff = Staff.builder()
-                    .m_strENo(rs.getString("eno"))
-                    .m_strName(rs.getString("name"))
-                    .m_nYear(rs.getInt("enteryear"))
-                    .m_nMonth(rs.getInt("entermonth"))
-                    .m_nDate(rs.getInt("enterday"))
-                    .m_strRole("Staff")
-                    .m_nFirstPay(2000L)
-                    .build();
-            staff.setEnteringDay();
-            staff.setNowPay(staff.getPay());
+            Staff staff = Staff.from(rs);
 
             return staff;
         } else if (rs.getString("role").equals("Secretary")) {
-            Secretary secretary = Secretary.builder()
-                    .m_strENo(rs.getString("eno"))
-                    .m_strName(rs.getString("name"))
-                    .m_nYear(rs.getInt("enteryear"))
-                    .m_nMonth(rs.getInt("entermonth"))
-                    .m_nDate(rs.getInt("enterday"))
-                    .m_strRole("Secretary")
-                    .m_nFirstPay(2000L)
-                    .build();
-            secretary.setEnteringDay();
-            secretary.setNowPay(secretary.getPay());
+            Secretary secretary = Secretary.from(rs);
 
             return secretary;
         } else if (rs.getString("role").equals("Manager")) {
-            Manager manager = Manager.builder()
-                    .m_strENo(rs.getString("eno"))
-                    .m_strName(rs.getString("name"))
-                    .m_nYear(rs.getInt("enteryear"))
-                    .m_nMonth(rs.getInt("entermonth"))
-                    .m_nDate(rs.getInt("enterday"))
-                    .m_strSecNo(rs.getString("secno"))
-                    .m_strRole("Manager")
-                    .m_nFirstPay(2000L)
-                    .build();
-            manager.setEnteringDay();
-            manager.setNowPay(manager.getPay());
+            Manager manager = Manager.from(rs);
 
             return manager;
         }
