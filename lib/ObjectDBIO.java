@@ -7,8 +7,8 @@ public abstract class ObjectDBIO {
 	private Connection conn = null;
 	private String jdbc_url = "jdbc:mysql://localhost:3306/HRInfoSystem";
 	// TODO: env 파일로 변경할것
-	private String db_id = "yang";
-	private String db_pwd = "1234";
+	private String db_id = "root";
+	private String db_pwd = "0";
 
 	// Setter
 	public void setDb_id(String db_id) {

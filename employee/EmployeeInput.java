@@ -1,8 +1,8 @@
 package employee;
 
-import employee.entity.Manager;
-import employee.entity.Secretary;
-import employee.entity.Staff;
+import employee.domain.Manager;
+import employee.domain.Secretary;
+import employee.domain.Staff;
 
 public interface EmployeeInput {
 	public boolean insertStaff(Staff emp);

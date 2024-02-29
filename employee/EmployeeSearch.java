@@ -1,6 +1,6 @@
 package employee;
 
-import employee.entity.Employee;
+import employee.domain.Employee;
 
 import java.util.ArrayList;
 

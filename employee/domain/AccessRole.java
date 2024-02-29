@@ -1,4 +1,4 @@
-package employee.entity;
+package employee.domain;
 
 import lombok.Getter;
 

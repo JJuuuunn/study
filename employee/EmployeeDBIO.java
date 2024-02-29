@@ -3,16 +3,12 @@ package employee;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Optional;
 
-import employee.dto.EmployeeWithLevelDto;
-import employee.entity.Employee;
-import employee.entity.Manager;
-import employee.entity.Secretary;
-import employee.entity.Staff;
+import employee.domain.Employee;
+import employee.domain.Manager;
+import employee.domain.Secretary;
+import employee.domain.Staff;
 
-import employee.error.code.EmployeeErrorCode;
 import employee.error.exception.EmployeeException;
 import lib.ObjectDBIO;
 
@@ -27,64 +23,48 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      * @return boolean -> 정보가 등록되면 true
      */
     public boolean insertStaff(Staff emp) {
-        boolean reslut = false;
-        Connection conn = super.open();
+        boolean result = false;
+        Connection conn = null;
+        CallableStatement cstmt = null;
+        String ackMessage = null;
+
         try {
-            if (existsByEno(emp.getENo())) {
-                throw new EmployeeException(EmployeeErrorCode.EMPLOYEE_ALREADY_EXIST);
-            }
+            String callSql = "{call InsertEmployee(?, ?, ?, ?, ?, ?, ?)}";
 
-            String insertSql = "insert into EMPLOYEE values (null, ?, ?, ?, ?, ?, ?, null)";
-            PreparedStatement pstm = conn.prepareStatement(insertSql);
-            pstm.setString(1, emp.getENo());    // eno
-            pstm.setString(2, emp.getName());   // name
-            pstm.setInt(3, emp.getYear());      // year
-            pstm.setInt(4, emp.getMonth());     // month
-            pstm.setInt(5, emp.getDate());      // date
-            pstm.setString(6, emp.getRole());   // role
-            pstm.execute();
+            conn = super.open();
+            cstmt = conn.prepareCall(callSql);
 
-            reslut = true;
-            System.out.println("등록되었습니다.");
+            cstmt.setString(1, emp.getENo());
+            cstmt.setString(2, emp.getName());
+            cstmt.setInt(3, emp.getYear());
+            cstmt.setInt(4, emp.getMonth());
+            cstmt.setInt(5, emp.getDate());
+            cstmt.setString(6, emp.getRole());
+
+            cstmt.registerOutParameter(7, Types.VARCHAR);
+
+            cstmt.execute();
+
+            ackMessage = cstmt.getString(7);
+            System.out.println(ackMessage);
+            result = true;
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (EmployeeException e) {
-            e.printStackTrace();
-
         } finally {
+            close(cstmt);
             close(conn);
-            return reslut;
+            return result;
         }
     }
 
-    /**
-     * 사원번호를 통해 직원이 존재하는지 확인하는 메소드
-     *
-     * @param Eno
-     * @return
-     */
-    private boolean existsByEno(String Eno) {
-        Connection conn = super.open();
-        String exsistsSql = "select exists(" +
-                "select 1 " +
-                "from EMPLOYEE " +
-                "where eno = ?)";
-
+    private static void close(CallableStatement cstmt) {
         try {
-            PreparedStatement pstm = conn.prepareStatement(exsistsSql);
-            pstm.setString(1, Eno);
-
-            ResultSet resultSet = pstm.executeQuery();
-
-            if (resultSet.next()) {
-                return true;
+            if (cstmt != null) {
+                cstmt.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            super.close(conn);
         }
-        return false;
     }
 
     /**
@@ -111,40 +91,38 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      */
     public boolean insertManager(Manager emp) {
         boolean result = false;
+        CallableStatement cstmt = null;
         Connection conn = null;
+        String ackMessage = null;
 
         try {
-            if (existsByEno(emp.getENo())) { // 이미 존재하는 사원번호인지 확인
-                throw new EmployeeException(EmployeeErrorCode.EMPLOYEE_ALREADY_EXIST);
-            }
+            String callSql = "{call InsertManger(?, ?, ?, ?, ?, ?, ?, ?)}";
 
-            ArrayList<Employee> resArray = searchEmployee(null, emp.getSecNo()); // 비서 사원번호가 존재하는지 확인
-            if (resArray.isEmpty()) { // 비서 사원번호가 존재하지 않으면 false TODO : 예외처리하기
-                throw new EmployeeException(EmployeeErrorCode.EMPLOYEE_NOT_FOUND);
-            }
-
-            String insertSql = "insert into EMPLOYEE values(null, ?,?,?,?,?,?,?)";
             conn = super.open();
+            cstmt = conn.prepareCall(callSql);
 
-            PreparedStatement pstm = conn.prepareStatement(insertSql);
-            pstm.setString(1, emp.getENo());    // eno
-            pstm.setString(2, emp.getName());   // name
-            pstm.setInt(3, emp.getYear());      // year
-            pstm.setInt(4, emp.getMonth());     // month
-            pstm.setInt(5, emp.getDate());      // date
-            pstm.setString(6, emp.getRole());   // role
-            pstm.setString(7, emp.getSecNo());  // secNo
+            cstmt.setString(1, emp.getENo());    // eno
+            cstmt.setString(2, emp.getName());   // name
+            cstmt.setInt(3, emp.getYear());      // year
+            cstmt.setInt(4, emp.getMonth());     // month
+            cstmt.setInt(5, emp.getDate());      // date
+            cstmt.setString(6, emp.getRole());   // role
+            cstmt.setString(7, emp.getSecNo());  // secNo
 
-            pstm.execute();
+            cstmt.registerOutParameter(8, Types.VARCHAR); // ackMessage
 
+            cstmt.execute();
+
+            ackMessage = cstmt.getString(8);
+            System.out.println(ackMessage);
             result = true;
-            System.out.println("등록되었습니다.");
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (EmployeeException e) {
             e.printStackTrace();
         } finally {
             super.close(conn);
+            close(cstmt);
             return result;
         }
     }
@@ -159,90 +137,31 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
     public ArrayList<Employee> getEmployeeList(String eno) {
         Connection conn = null;
         ResultSet rs = null;
+        CallableStatement cstmt = null;
         ArrayList<Employee> resArray = new ArrayList<>();
 
         try {
             conn = super.open();
+            String callSql = "{call GetEmployeeList(?, ?)}";
 
-            EmployeeWithLevelDto dto = findById(eno).orElseThrow(() -> new EmployeeException(EmployeeErrorCode.EMPLOYEE_NOT_FOUND));
-            checkRole(dto); // 직원의 권한이 존재하는지 확인하는 메소드
+            cstmt = conn.prepareCall(callSql);
+            cstmt.setString(1, eno);
+            cstmt.registerOutParameter(2, Types.VARCHAR);
 
-            String selectSql = "select e.*, r.* " +
-                    "from EMPLOYEE as e " +
-                    "left join RESTRICTION_LEVEL as r " +
-                    "on e.ID = r.EMPLOYEE_ID " +
-                    "where r.ACCESS_ROLE <= ? || " +
-                    "r.ACCESS_ROLE is NULL && " +
-                    "e.ROLE != 'Manager' " +
-                    "order by e.eno";
+            cstmt.execute();
 
-            PreparedStatement pstm = conn.prepareStatement(selectSql);
-            pstm.setLong(1, dto.getRole()); // role
+            String ackMessage = cstmt.getString(2);
 
-            rs = pstm.executeQuery();
-            while (rs.next()) {
-                Employee emp = getEmployee(rs);
-
-                resArray.add(emp);
-            }
-
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (EmployeeException e) {
-            e.printStackTrace();
-        } finally {
-            super.close(conn);
-            return resArray;
-        }
-    }
-
-    private static void checkRole(EmployeeWithLevelDto dto) {
-        if (dto.getRole() == 0) {
-            throw new EmployeeException(EmployeeErrorCode.EMPLOYEE_NOT_AUTHORIZED);
-        } else if (dto.getExpiredAt().isBefore(LocalDateTime.now())) {
-            throw new EmployeeException(EmployeeErrorCode.EMPLOYEE_EXPIRED_AUTHORITY);
-        }
-    }
-
-    /**
-     * eno를 통해 직원을 찾는 메소드
-     * 접근 권한을 확인하고 접근 가능한 데이터까지 찾아서 반환
-     *
-     * @param eno
-     * @return
-     */
-    private Optional<EmployeeWithLevelDto> findById(String eno) {
-        Connection conn = null;
-        String selectSql = "select e.eno, e.name, r.access_role, r.expired_at " +
-                "from EMPLOYEE as e " +
-                "left join RESTRICTION_LEVEL as r " +
-                "on e.id = r.employee_id " +
-                "where eno = ? ";
-
-        ResultSet rs;
-        Optional<EmployeeWithLevelDto> optional = null;
-
-        try {
-            conn = super.open();
-            PreparedStatement pstm = conn.prepareStatement(selectSql);
-            pstm.setString(1, eno);
-
-            rs = pstm.executeQuery();
-
-            if (!rs.next()) {
-                throw new EmployeeException(EmployeeErrorCode.EMPLOYEE_NOT_FOUND);
+            if (ackMessage != null) {
+                System.out.println(ackMessage);
             } else {
-                optional = Optional.of(
-                        EmployeeWithLevelDto.builder()
-                                .eno(rs.getString("eno"))
-                                .name(rs.getString("name"))
-                                .role(rs.getLong("access_role"))
-                                .expiredAt(checkDateTimeNull(rs.getTimestamp("expired_at")))
-                                .build()
-                );
-            }
+                rs = cstmt.getResultSet();
+                while (rs.next()) {
+                    Employee emp = getEmployee(rs);
 
+                    resArray.add(emp);
+                }
+            }
             rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -250,7 +169,8 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
             e.printStackTrace();
         } finally {
             super.close(conn);
-            return optional;
+            close(cstmt);
+            return resArray;
         }
     }
 
@@ -265,32 +185,32 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
     public ArrayList<Employee> searchEmployee(String eno, String strENo) {
         ResultSet rs = null;
         Connection conn = null;
+        CallableStatement cstmt = null;
         ArrayList<Employee> resArray = new ArrayList<>();
 
         try {
             conn = super.open();
 
-            EmployeeWithLevelDto dto = findById(eno).orElseThrow(() -> new EmployeeException(EmployeeErrorCode.EMPLOYEE_NOT_FOUND));
-            checkRole(dto); // 직원의 권한이 존재하는지 확인하는 메소드
+            String callSql = "{call SearchEmployee(?, ?, ?)}";
 
-            String selectSql = "select e.*, r.* " +
-                    "from EMPLOYEE as e " +
-                    "left join RESTRICTION_LEVEL as r " +
-                    "on e.ID = r.EMPLOYEE_ID " +
-                    "where eno = ? && " +
-                    "(r.ACCESS_ROLE <= ? || " +
-                    "r.ACCESS_ROLE is NULL) " +
-                    "order by e.eno";
+            cstmt = conn.prepareCall(callSql);
+            cstmt.setString(1, eno);
+            cstmt.setString(2, strENo);
+            cstmt.registerOutParameter(3, Types.VARCHAR);
 
-            PreparedStatement pstm = conn.prepareStatement(selectSql);
-            pstm.setString(1, strENo);    // secno
-            pstm.setLong(2, dto.getRole()); // role
+            cstmt.execute();
 
-            rs = pstm.executeQuery();
-            while (rs.next()) {
-                Employee emp = getEmployee(rs);
+            String ackMessage = cstmt.getString(3);
 
-                resArray.add(emp);
+            if (ackMessage != null) {
+                System.out.println(ackMessage);
+            } else {
+                rs = cstmt.getResultSet();
+                while (rs.next()) {
+                    Employee emp = getEmployee(rs);
+
+                    resArray.add(emp);
+                }
             }
             rs.close();
         } catch (SQLException e) {
@@ -299,6 +219,7 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
             e.printStackTrace();
         } finally {
             close(conn);
+            close(cstmt);
             return resArray;
         }
     }
@@ -316,46 +237,15 @@ public abstract class EmployeeDBIO extends ObjectDBIO implements EmployeeIO {
      */
     private Employee getEmployee(ResultSet rs) throws SQLException {
         if (rs.getString("role").equals("Staff")) {
-            Staff staff = Staff.builder()
-                    .m_strENo(rs.getString("eno"))
-                    .m_strName(rs.getString("name"))
-                    .m_nYear(rs.getInt("enteryear"))
-                    .m_nMonth(rs.getInt("entermonth"))
-                    .m_nDate(rs.getInt("enterday"))
-                    .m_strRole("Staff")
-                    .m_nFirstPay(2000L)
-                    .build();
-            staff.setEnteringDay();
-            staff.setNowPay(staff.getPay());
+            Staff staff = Staff.from(rs);
 
             return staff;
         } else if (rs.getString("role").equals("Secretary")) {
-            Secretary secretary = Secretary.builder()
-                    .m_strENo(rs.getString("eno"))
-                    .m_strName(rs.getString("name"))
-                    .m_nYear(rs.getInt("enteryear"))
-                    .m_nMonth(rs.getInt("entermonth"))
-                    .m_nDate(rs.getInt("enterday"))
-                    .m_strRole("Secretary")
-                    .m_nFirstPay(2000L)
-                    .build();
-            secretary.setEnteringDay();
-            secretary.setNowPay(secretary.getPay());
+            Secretary secretary = Secretary.from(rs);
 
             return secretary;
         } else if (rs.getString("role").equals("Manager")) {
-            Manager manager = Manager.builder()
-                    .m_strENo(rs.getString("eno"))
-                    .m_strName(rs.getString("name"))
-                    .m_nYear(rs.getInt("enteryear"))
-                    .m_nMonth(rs.getInt("entermonth"))
-                    .m_nDate(rs.getInt("enterday"))
-                    .m_strSecNo(rs.getString("secno"))
-                    .m_strRole("Manager")
-                    .m_nFirstPay(2000L)
-                    .build();
-            manager.setEnteringDay();
-            manager.setNowPay(manager.getPay());
+            Manager manager = Manager.from(rs);
 
             return manager;
         }

@@ -1,7 +1,7 @@
-import employee.entity.Employee;
-import employee.entity.Manager;
-import employee.entity.Secretary;
-import employee.entity.Staff;
+import employee.domain.Employee;
+import employee.domain.Manager;
+import employee.domain.Secretary;
+import employee.domain.Staff;
 import student.*;
 import employee.*;
 
