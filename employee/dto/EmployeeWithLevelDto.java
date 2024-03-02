@@ -15,6 +15,13 @@ public class EmployeeWithLevelDto {
     private Long role;
     private LocalDateTime expiredAt;
 
+    /**
+     * ResultSet에서 검색된 데이터를 기반으로 EmployeeWithLevelDto 객체를 생성합니다.
+     *
+     * @param rs 직원 데이터를 포함하는 ResultSet
+     * @return ResultSet 데이터로 생성된 EmployeeWithLevelDto 객체
+     * @throws SQLException 데이터베이스 접근 오류가 발생한 경우
+     */
     public EmployeeWithLevelDto from(ResultSet rs) throws SQLException {
         return EmployeeWithLevelDto.builder()
                 .eno(rs.getString("e.eno"))
