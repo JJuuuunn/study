@@ -81,7 +81,7 @@
         <form action="/member/modMember.do" method="post">
             <div class="form-group">
                 <label for="id">아이디</label>
-                <input type="text" class="form-control" id="id" name="id" value="${member.id()}">
+                <input type="text" class="form-control" id="id" name="id" value="${member.id()}" readonly>
             </div>
             <div class="form-group">
                 <label for="password">비밀번호</label>
