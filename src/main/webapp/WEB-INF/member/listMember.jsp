@@ -80,12 +80,12 @@
             </tr>
             <c:forEach items="${memberList}" var="member">
                 <tr>
-                    <td>${member.id()}</td>
-                    <td>${member.password()}</td>
-                    <td>${member.name()}</td>
-                    <td>${member.email()}</td>
-                    <td>${member.createdAt()}</td>
-                    <td>${member.modifiedAt()}</td>
+                    <td><c:out value="${member.id()}"/></td>
+                    <td><c:out value="${member.password()}"/></td>
+                    <td><c:out value="${member.name()}"/></td>
+                    <td><c:out value="${member.email()}"/></td>
+                    <td><c:out value="${member.createdAt()}"/></td>
+                    <td><c:out value="${member.modifiedAt()}"/></td>
                     <td><a href="/member/modMember.do?id=${member.id()}">수정</a></td>
                     <td><a href="/member/delMember.do?id=${member.id()}">삭제</a></td>
                 </tr>

@@ -70,11 +70,11 @@
         </div>
         <div class="form-group">
             <label for="password">비밀번호</label>
-            <input type="password" class="form-control" id="password" name="password" value="${member.password()}">
+            <input type="password" class="form-control" id="password" name="password">
         </div>
         <div class="form-group">
             <label for="passwordCheck">비밀번호 확인</label>
-            <input type="password" class="form-control" id="passwordCheck" name="passwordCheck" onchange="pwCheck()">
+            <input type="password" class="form-control" id="passwordCheck" name="passwordCheck" onkeyup="pwCheck()">
             <div id="passwordCheckMessage" style="color: red;"></div>
         </div>
         <div class="form-group">

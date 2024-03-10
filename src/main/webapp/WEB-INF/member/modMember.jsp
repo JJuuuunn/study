@@ -81,28 +81,28 @@
         <form action="/member/modMember.do" method="post">
             <div class="form-group">
                 <label for="id">아이디</label>
-                <input type="text" class="form-control" id="id" name="id" value="${member.id()}" readonly>
+                <input type="text" class="form-control" id="id" name="id" value="<c:out value="${member.id()}" />" readonly>
             </div>
             <div class="form-group">
                 <label for="password">비밀번호</label>
-                <input type="password" class="form-control" id="password" name="password" value="${member.password()}">
+                <input type="password" class="form-control" id="password" name="password" value="<c:out value="${member.password()}" />">
             </div>
             <div class="form-group">
                 <label for="passwordCheck">비밀번호 확인</label>
-                <input type="password" class="form-control" id="passwordCheck" name="passwordCheck" onchange="pwCheck()">
+                <input type="password" class="form-control" id="passwordCheck" name="passwordCheck" onkeyup="pwCheck()">
                 <div id="passwordCheckMessage" style="color: red;"></div>
             </div>
             <div class="form-group">
                 <label for="name">이름</label>
-                <input type="text" class="form-control" id="name" name="name" value="${member.name()}">
+                <input type="text" class="form-control" id="name" name="name" value="<c:out value="${member.name()}" />">
             </div>
             <div class="form-group">
                 <label for="email">이메일</label>
-                <input type="email" class="form-control" id="email" name="email" value="${member.email()}">
+                <input type="email" class="form-control" id="email" name="email" value="<c:out value="${member.email()}" />">
             </div>
             <div class="form-group date">
-                <span>가입 날짜 : ${member.createdAt()}</span>
-                <span>수정 날짜 : ${member.modifiedAt()}</span>
+                <span>가입 날짜 : <c:out value="${member.createdAt()}" /></span>
+                <span>수정 날짜 : <c:out value="${member.modifiedAt()}" /></span>
             </div>
             <div class="buttons">
                 <button type="submit" class="btn btn-primary" disabled>수정</button>
