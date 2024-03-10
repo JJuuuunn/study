@@ -63,6 +63,9 @@
 </head>
 <body>
 <div class="container">
+    <div class="logout-button">
+        <a href="/signIn.do">로그아웃</a>
+    </div>
     <div class="header">
         <h1>Member - LIST</h1>
     </div>

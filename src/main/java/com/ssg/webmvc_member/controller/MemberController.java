@@ -2,6 +2,7 @@ package com.ssg.webmvc_member.controller;
 
 import com.ssg.webmvc_member.dto.MemberDTO;
 import com.ssg.webmvc_member.dto.ModifiedDTO;
+import com.ssg.webmvc_member.dto.SignInDTO;
 import com.ssg.webmvc_member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -10,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -28,7 +30,9 @@ public class MemberController extends HttpServlet {
             case "/addMember.do" -> req.getRequestDispatcher("/WEB-INF/member/addMember.jsp").forward(req, resp);
             case "/modMember.do" -> {
                 String id = req.getParameter("id");
+                System.out.println("id: " + id);
                 MemberDTO member = memberService.getMember(id);
+                System.out.println("member: " + member);
                 if (member == null) {
                     resp.sendRedirect("/member/listMembers.do");
                 } else {

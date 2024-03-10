@@ -19,22 +19,32 @@ public enum MemberService {
     }
 
     public void singUp(MemberDTO dto) {
-        if (memberDao.existsById(dto.id())) {
-            throw new RuntimeException("이미 존재하는 ID입니다.");
-        } else {
-            MemberVO vo = MemberVO.builder()
-                    .id(dto.id())
-                    .name(dto.name())
-                    .email(dto.email())
-                    .password(dto.password())
-                    .build();
-            memberDao.save(vo);
+        boolean isExist = memberDao.existsById(dto.id());
+        try {
+            if (isExist) {
+                throw new RuntimeException("이미 존재하는 ID입니다.");
+            } else {
+                MemberVO vo = MemberVO.builder()
+                        .id(dto.id())
+                        .name(dto.name())
+                        .email(dto.email())
+                        .password(dto.password())
+                        .build();
+                memberDao.save(vo);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public MemberDTO signIn(SignInDTO dto) {
-        Optional<MemberDTO> optional = memberDao.findByIdAndPassword(dto);
-        MemberDTO memberDTO = optional.orElseThrow(() -> new RuntimeException("로그인 실패"));
+        MemberDTO memberDTO = null;
+        try {
+            memberDTO = memberDao.findByIdAndPassword(dto)
+                    .orElseThrow(() -> new RuntimeException("로그인 실패"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return memberDTO;
     }
 
@@ -47,10 +57,36 @@ public enum MemberService {
     }
 
     public List<MemberDTO> listAll() {
-        return memberDao.findAll().orElseThrow(() -> new RuntimeException("회원이 존재하지 않습니다."));
+        List<MemberDTO> memberList = null;
+        try {
+            memberList = memberDao.findAll().orElseThrow(() -> new RuntimeException("회원이 존재하지 않습니다."));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return memberList;
     }
 
     public MemberDTO getMember(String id) {
-        return memberDao.findById(id).orElseThrow(() -> new RuntimeException("회원이 존재하지 않습니다."));
+        MemberDTO dto = null;
+        try {
+            dto = memberDao.findById(id).orElseThrow(() -> new RuntimeException("해당 회원이 존재하지 않습니다."));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dto;
+    }
+
+    public boolean checkMember(MemberDTO dto) {
+        boolean result = false;
+        try {
+            if (memberDao.existsByIdAndPassword(dto.id(), dto.password())) {
+                result = true;
+            } else {
+                throw new RuntimeException("아이디 또는 비밀번호가 일치하지 않습니다.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

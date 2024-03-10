@@ -178,4 +178,22 @@ public class MemberDao {
         }
         return Optional.ofNullable(memberDTO);
     }
+
+    public boolean existsByIdAndPassword(String id, String password) {
+        String SELECT_SQL = "SELECT * FROM MVC_MEMBER WHERE ID = ? AND PASSWORD = ?";
+        boolean exists = false;
+        try (
+                Connection connection = DBConnectionUtil.INSTANCE.getConnection();
+                PreparedStatement pstmt = connection.prepareStatement(SELECT_SQL);
+        ) {
+            pstmt.setString(1, id);
+            pstmt.setString(2, password);
+
+            ResultSet rs = pstmt.executeQuery();
+            exists = rs.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return exists;
+    }
 }

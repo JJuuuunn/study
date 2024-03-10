@@ -24,6 +24,12 @@
             font-size: 15px;
         }
 
+        .logout-button {
+            position: absolute; /* Add this line */
+            top: 15px; /* Adjust as needed */
+            right: 15px; /* Adjust as needed */
+        }
+
         .header {
             text-align: center;
             margin-bottom: 20px;
@@ -74,6 +80,9 @@
     </script>
 <body>
 <div class="container">
+    <div class="logout-button">
+        <a href="/signIn.do">로그아웃</a>
+    </div>
     <div class="header">
         <h1>Member - MODIFY</h1>
     </div>
