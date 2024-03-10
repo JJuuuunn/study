@@ -157,4 +157,63 @@ class MemberDaoTest {
         assertThat(memberList).extracting(MemberDTO::name).contains("testName1", "testName2");
         assertThat(memberList).extracting(MemberDTO::email).contains("testEmail1", "testEmail2");
     }
+
+    @Test
+    @DisplayName("MemberDao.findById - ID로 회원 조회 성공")
+    public void givenId_whenFindById_thenMemberVOIsFound() {
+        // given
+        String id = "testId1";
+
+        // when
+        Optional<MemberDTO> optional = memberDao.findById(id);
+        MemberDTO memberDTO = optional.get();
+
+        // then
+        assertThat(memberDTO).isNotNull();
+        assertThat(memberDTO.id()).isEqualTo("testId1");
+        assertThat(memberDTO.password()).isEqualTo("testPw1");
+        assertThat(memberDTO.name()).isEqualTo("testName1");
+        assertThat(memberDTO.email()).isEqualTo("testEmail1");
+    }
+
+    @Test
+    @DisplayName("MemberDao.findById - ID로 회원 조회 실패")
+    public void givenId_whenFindById_thenMemberVOIsNotFound() {
+        // given
+        String id = "testId99999";
+
+        // when
+        Optional<MemberDTO> optional = memberDao.findById(id);
+
+        // then
+        assertThat(optional).isEmpty();
+    }
+
+    @Test
+    @DisplayName("MemberDao.existsByIdAndPassword - ID와 비밀번호가 일치하는 회원이 존재하는 경우")
+    public void givenIdAndPassword_whenExistsByIdAndPassword_thenTrue() {
+        // given
+        String id = "testId1";
+        String password = "testPw1";
+
+        // when
+        boolean result = memberDao.existsByIdAndPassword(id, password);
+
+        // then
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    @DisplayName("MemberDao.existsByIdAndPassword - ID와 비밀번호가 일치하는 회원이 존재하지 않는 경우")
+    public void givenIdAndPassword_whenExistsByIdAndPassword_thenFalse() {
+        // given
+        String id = "testId1";
+        String password = "testPw99999";
+
+        // when
+        boolean result = memberDao.existsByIdAndPassword(id, password);
+
+        // then
+        assertThat(result).isFalse();
+    }
 }
