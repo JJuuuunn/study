@@ -1,0 +1,36 @@
+# Compiled Java classes
+*.class
+
+# Log files
+*.log
+
+# IntelliJ IDEA files
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Gradle files
+.gradle/
+build/
+
+# Maven files
+target/
+
+# Eclipse files
+.classpath
+.project
+.settings/
+
+# JSP-specific
+work/
+
+# Operating system specific files
+.DS_Store
+Thumbs.db
+
+# macOS specific
+.idea/workspace.xml
+
+# Windows specific
+.idea/.name
