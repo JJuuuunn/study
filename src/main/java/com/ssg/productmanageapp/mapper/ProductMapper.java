@@ -44,4 +44,8 @@ public interface ProductMapper {
      */
     ProductVO findProductByName(String name);
 
+    /**
+     * 테스트 데이터들을 삭제합니다.
+     */
+    void deleteTestDatas();
 }

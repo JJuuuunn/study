@@ -1,4 +1,12 @@
 package com.ssg.productmanageapp.dto;
 
-public class ProductAddDTO {
+import lombok.Builder;
+
+@Builder
+public record ProductAddDTO(
+        String productName,
+        double price,
+        int stockQuantity
+) {
+
 }
