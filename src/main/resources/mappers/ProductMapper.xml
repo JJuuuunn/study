@@ -2,86 +2,49 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ssg.todo.mapper.TodoMapper">
+<mapper namespace="com.ssg.productmanageapp.mapper.ProductMapper">
 
-    <select id="getTime" resultType="string">
-        select now()
-    </select>
 
-    <select id="selectOne" resultType="com.ssg.todo.domain.TodoVO">
-        select *
-        from tbl_todo
-        where tno = #{tno}
-    </select>
+<!--    Return Value      Modifier	       	Description-->
+<!--    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<!--    void	            addProduct	       	상품을 추가합니다.-->
+<!--    Product	        findProductById	   	상품을 조회합니다.-->
+<!--    List<Product>	    findAllProducts	   	전체 상품 목록을 조회합니다.-->
+<!--    List<Product>	    findProductsByName	상품 이름으로 상품을 검색합니다.-->
+<!--    void	            updateProduct	   	상품 정보를 수정합니다.-->
+<!--    void      	    deleteProduct	   	상품을 제거합니다.-->
 
-    <delete id="deleteTestData">
-        delete
-        from tbl_todo
-        where title like '%test%'
-    </delete>
 
-    <insert id="insert" parameterType="com.ssg.todo.domain.TodoVO" useGeneratedKeys="true" keyProperty="tno">
-        insert into tbl_todo(title, dueDate, writer)
-        values (#{title}, #{dueDate}, #{writer})
+    <insert id="addProduct" parameterType="com.ssg.productmanageapp.domain.ProductVO" useGeneratedKeys="true" keyProperty="productId">
+        INSERT INTO PRODUCT (PRODUCT_NAME, PRICE, STOCKQUANTITY)
+        VALUES (#{productName}, #{price}, #{stockQuantity})
     </insert>
 
-    <select id="selectAll" resultType="com.ssg.todo.domain.TodoVO">
-        select *
-        from tbl_todo
-        order by tno desc
+    <select id="findProductById" resultType="com.ssg.productmanageapp.domain.ProductVO">
+        SELECT PRODUCT_ID, PRODUCT_NAME, PRICE, STOCKQUANTITY
+        FROM PRODUCT
+        WHERE PRODUCT_ID = #{productId}
     </select>
 
-    <update id="update" parameterType="com.ssg.todo.domain.TodoVO">
-        update tbl_todo
-        set title    = #{title},
-            dueDate  = #{dueDate},
-            finished = #{finished}
-        where tno = #{tno}
+    <select id="findAllProducts" resultType="com.ssg.productmanageapp.domain.ProductVO">
+        SELECT PRODUCT_ID, PRODUCT_NAME, PRICE, STOCKQUANTITY
+        FROM PRODUCT
+    </select>
+
+    <select id="findProductByName" resultType="com.ssg.productmanageapp.domain.ProductVO">
+        SELECT PRODUCT_ID, PRODUCT_NAME, PRICE, STOCKQUANTITY
+        FROM PRODUCT
+        WHERE PRODUCT_NAME = #{productName}
+    </select>
+
+    <update id="updateProduct" parameterType="com.ssg.productmanageapp.domain.ProductVO">
+        UPDATE PRODUCT
+        SET PRODUCT_NAME = #{productName}, PRICE = #{price}, STOCKQUANTITY = #{stockQuantity}
+        WHERE PRODUCT_ID = #{productId}
     </update>
 
-    <delete id="deleteByTno">
-        delete
-        from tbl_todo
-        where tno = #{tno}
+    <delete id="deleteProduct" parameterType="com.ssg.productmanageapp.domain.ProductVO">
+        DELETE FROM PRODUCT
+        WHERE PRODUCT_ID = #{productId}
     </delete>
-
-    <select id="selectList" resultType="com.ssg.todo.domain.TodoVO">
-        select * from tbl_todo
-<!--        <foreach collection="types" item="type">-->
-<!--            <if test="type == 't'.toString()">-->
-<!--                title like concat('%', #{keyword}, '%')-->
-<!--            </if>-->
-<!--            <if test="type == 'w'.toString()">-->
-<!--                writer like concat('%', #{keyword}, '%')-->
-<!--            </if>-->
-<!--#         </foreach>-->
-        <where>
-            <if test="types != null and types.length > 0">
-                <foreach collection="types" item="type" open="(" close=") " separator=" OR ">
-                    <if test="type == 't'.toString()">
-                        title like concat('%', #{keyword}, '%')
-                    </if>
-                    <if test="type == 'w'.toString()">
-                        writer like concat('%', #{keyword}, '%')
-                    </if>
-                </foreach>
-            </if>
-            <if test="finished">
-                <trim prefix="and">
-                    finished = 1
-                </trim>
-            </if>
-            <if test="from != null and to != null">
-                <trim prefix="and">
-                    dueDate between #{from} and #{to}
-                </trim>
-            </if>
-        </where>
-        order by tno desc limit #{skip}, #{size}
-    </select>
-
-    <select id="getCount" resultType="int">
-        select count(tno)
-        from tbl_todo
-    </select>
 </mapper>
