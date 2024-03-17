@@ -1,9 +1,7 @@
 package com.ssg.productmanageapp.service.inpl;
 
 import com.ssg.productmanageapp.domain.ProductVO;
-import com.ssg.productmanageapp.dto.ProductAddDTO;
-import com.ssg.productmanageapp.dto.ProductDTO;
-import com.ssg.productmanageapp.dto.ProductUpdateDTO;
+import com.ssg.productmanageapp.dto.*;
 import com.ssg.productmanageapp.mapper.ProductMapper;
 import com.ssg.productmanageapp.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -83,5 +81,21 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void getAllTestProducts() {
         productMapper.deleteTestDatas();
+    }
+
+    @Override
+    public PageResponseDTO<ProductDTO> getAllProducts(PageRequestDTO pageRequestDTO) {
+        List<ProductVO> voList = productMapper.findAllProducts(pageRequestDTO);
+        List<ProductDTO> dtoList = voList.stream()
+                .map(ProductDTO::from)
+                .collect(Collectors.toList());
+        int total = productMapper.getCount(pageRequestDTO);
+
+        PageResponseDTO<ProductDTO> pageResponseDTO = PageResponseDTO.<ProductDTO>withAll()
+                .dtoList(dtoList)
+                .total(total)
+                .pageRequestDTO(pageRequestDTO).build();
+
+        return pageResponseDTO;
     }
 }

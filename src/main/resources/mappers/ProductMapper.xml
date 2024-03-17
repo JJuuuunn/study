@@ -52,4 +52,23 @@
         DELETE FROM PRODUCT
         WHERE PRODUCT_NAME LIKE 'test%'
     </delete>
+
+    <select id="selectList" resultType="com.ssg.productmanageapp.domain.ProductVO">
+        SELECT * FROM PRODUCT
+        <where>
+            <if test="keyword != null and keyword != ''">
+                PNAME LIKE CONCAT('%', #{KEYWORD}, '%')
+            </if>
+        </where>
+        ORDER BY PNO DESC LIMIT #{SKIP}, #{SIZE};
+    </select>
+
+    <select id="getCount" resultType="int">
+        SELECT COUNT(PRODUCT_ID) FROM PRODUCT
+        <where>
+            <if test="keyword != null and keyword != ''">
+                PNAME LIKE CONCAT('%', #{KEYWORD}, '%')
+            </if>
+        </where>
+    </select>
 </mapper>

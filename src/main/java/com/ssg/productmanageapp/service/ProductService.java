@@ -1,8 +1,6 @@
 package com.ssg.productmanageapp.service;
 
-import com.ssg.productmanageapp.dto.ProductAddDTO;
-import com.ssg.productmanageapp.dto.ProductDTO;
-import com.ssg.productmanageapp.dto.ProductUpdateDTO;
+import com.ssg.productmanageapp.dto.*;
 
 import java.util.List;
 
@@ -15,4 +13,6 @@ public interface ProductService {
     void removeProduct(Long id);
 
     void getAllTestProducts();
+
+    PageResponseDTO<ProductDTO> getAllProducts(PageRequestDTO pageRequestDTO);
 }

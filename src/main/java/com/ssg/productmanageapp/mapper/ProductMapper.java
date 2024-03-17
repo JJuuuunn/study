@@ -1,6 +1,7 @@
 package com.ssg.productmanageapp.mapper;
 
 import com.ssg.productmanageapp.domain.ProductVO;
+import com.ssg.productmanageapp.dto.PageRequestDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -48,4 +49,18 @@ public interface ProductMapper {
      * 테스트 데이터들을 삭제합니다.
      */
     void deleteTestDatas();
+
+    /**
+     * 전체 상품 목록을 페이징 처리해서 조회합니다.
+     * @param pageRequestDTO
+     * @return
+     */
+    List<ProductVO> findAllProducts(PageRequestDTO pageRequestDTO);
+
+    /**
+     * 전체 상품 개수를 조회합니다.
+     * @param pageRequestDTO
+     * @return
+     */
+    int getCount(PageRequestDTO pageRequestDTO);
 }
