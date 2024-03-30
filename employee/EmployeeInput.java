@@ -5,7 +5,7 @@ import employee.domain.Secretary;
 import employee.domain.Staff;
 
 public interface EmployeeInput {
-	public boolean insertStaff(Staff emp);
-	public boolean insertManager(Manager emp);
-	public boolean insertSecretary(Secretary emp);
+	boolean insertStaff(Staff emp);
+	boolean insertManager(Manager emp);
+	boolean insertSecretary(Secretary emp);
 }
