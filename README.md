@@ -32,8 +32,8 @@
     </thead>
     <tbody>
         <tr>
-            <td>ERD설계, <br>개발 환경구성, <br>GitHub 관리, <br>전체 개발관리</td>
-            <td>통합재고 관리,<br> 창고 관리,<br> 유즈케이스 작성</td>
+            <td>ERD설계, <br>GitHub 관리, <br>프로젝트 환경구성, <br>전체 개발관리</td>
+            <td>창고 관리,<br> 통합재고 관리,<br> 유즈케이스 작성</td>
             <td>발주 관리</td>
             <td>상품 관리</td>
             <td>주문 관리</td>
@@ -58,7 +58,8 @@
 ---
 ### 시연 영상
 
-[여기를 클릭하시면 구현된 영상을 확인 가능합니다]([https://www.youtube.com/watch?v=cJ7K8-btvWc](https://youtu.be/3EDp340JiCI))
+[여기를 클릭하시면 구현된 영상을 확인 가능합니다](https://youtu.be/3EDp340JiCI?si=b-9qvMnLrfBoQ22_)
+
 
 ---
 ### 사용기술
