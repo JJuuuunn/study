@@ -64,15 +64,6 @@
 ---
 ### 사용기술
 
-- JAVA : 전체적인 백엔드 JAVA 객체지향으로 구현
-- MySQL : 관계형 데이터베이스로 데이터 저장 및 관리
-- Spring Boot : 생산성 향상을 통해 빠르고 효율적인 웹 애플리케이션 개발 구현
-- MyBatis : SQL 매핑을 통해 복잡한 쿼리를 효율적으로 관리하며 DB 연동을 단순화
-- Data JPA : 자바 객체와 데이터베이스 테이블 간의 매핑을 관리하는 자바 표준 ORM
-- Spring Security : 인증 및 인가를 효율적으로 관리하기 위한 라이브러리
-- Thymeleaf : HTML 템플릿 엔진을 사용하여 서버 사이드에서 동적인 웹페이지를 손쉽게 랜더링
-- BootStrap : 반응형 웹 디자인을 쉽게 구현하기 위한 프론트엔드 프레임워크
-
 #### 백엔드
 ![Spring Boot](https://img.shields.io/badge/spring%20boot-6DB33F.svg?&style=for-the-badge&logo=spring&logoColor=white)
 ![Java](https://img.shields.io/badge/java-007396.svg?&style=for-the-badge&logo=java&logoColor=white)
