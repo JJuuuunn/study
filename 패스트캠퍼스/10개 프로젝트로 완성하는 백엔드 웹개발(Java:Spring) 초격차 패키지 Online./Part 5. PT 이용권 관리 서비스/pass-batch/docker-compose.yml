@@ -4,8 +4,8 @@ services:
     container_name: mysql_local
     image: mysql:8.0.30
     volumes:
-      - /Users/jjuuuunn/Desktop/Coding/study/backend-project/db/conf.d:/etc/mysql/conf.d
-      - /Users/jjuuuunn/Desktop/Coding/study/backend-project/db/initdb.d:/docker-entrypoint-initdb.d
+      - ./db/conf.d:/etc/mysql/conf.d
+      - ./db/initdb.d:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
     environment:
