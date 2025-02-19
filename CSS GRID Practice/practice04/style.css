@@ -1,0 +1,75 @@
+div {
+  position: relative;
+}
+
+h1 {
+  margin: 0px 0px 0px 0px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  color: #fff;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.box {
+  width: 760px;
+  padding: 10px;
+}
+
+.box1 {
+  width: 760px;
+  height: 65px;
+  background-color: #02bfb1;
+}
+
+.box2::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.box3 {
+  height: 65px;
+  background-color: #02bfb1;
+}
+
+
+.box4 {
+  width: 230px;
+  height: 389px;
+  float: left;
+  background-color: #6edb6e;
+}
+
+.box5 {
+  width: 520px;
+  height: 389px;
+  float: left;
+  position: relative;
+  background-color: #fbb04c;
+}
+
+.box-botton {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+}
+
+.box6 {
+  width: 160px;
+  height: 150px;
+  float: left;
+  background-color: #fcd24a;
+}
+
+.box6:not(:last-child) {
+  margin-right: 10px;
+}
