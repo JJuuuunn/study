@@ -1,4 +1,17 @@
+body {
+    position: relative;
+    background-color: #2b2e56;
+}
 
+.box {
+    width: 1318px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 140px;
+    color: #fff;
+}
 
 .box::after {
     content: " ";
@@ -47,7 +60,7 @@
 
 .box-left {
     float: left;
-    
+
     /* margin-right: 10px; */
 }
 
@@ -72,4 +85,10 @@
 
 .red {
     background-color: #ec3437;
+}
+
+.box9::before {
+    content: " ";
+    display: block;
+    clear: both;
 }

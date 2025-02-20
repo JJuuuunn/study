@@ -2,12 +2,17 @@ div {
   position: relative;
 }
 
-p {
+h1 {
+  text-align: center;
+}
+
+h2 {
   margin: 0px 0px 0px 0px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
+  font-size: 20px;
 }
 
 .mt-10 {
@@ -22,11 +27,15 @@ p {
   width: 524px;
 }
 
-.box1 {
+.color {
+  background-color: #34ff33;
+}
+
+#Header {
   width: 523px;
   height: 70px;
 
-  background-color: #34ff33;
+  
 }
 
 .box2::after {
@@ -35,32 +44,28 @@ p {
   clear: both;
 }
 
-.box3 {
+#Footer {
   width: 523px;
   height: 75px;
-  background-color: #34ff33;
 }
 
-.box4 {
+#Aside {
   width: 70px;
   height: 192px;
   float: left;
-  background-color: #34ff33;
 }
 
 .box5 {
   float: left;
 }
 
-.box6 {
+#Content1 {
   width: 444px;
   height: 92px;
-  background-color: #34ff33;
 }
 
 .box7 {
   width: 217px;
   height: 90px;
   float: left;
-  background-color: #34ff33;
 }

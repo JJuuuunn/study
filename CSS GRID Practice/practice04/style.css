@@ -1,3 +1,7 @@
+body {
+  background-color: #c4ebf9;
+}
+
 div {
   position: relative;
 }
@@ -24,7 +28,7 @@ h1 {
   padding: 10px;
 }
 
-.box1 {
+#header {
   width: 760px;
   height: 65px;
   background-color: #02bfb1;
@@ -36,20 +40,19 @@ h1 {
   clear: both;
 }
 
-.box3 {
+#Footer {
   height: 65px;
   background-color: #02bfb1;
 }
 
-
-.box4 {
+#Aside {
   width: 230px;
   height: 389px;
   float: left;
   background-color: #6edb6e;
 }
 
-.box5 {
+#Article {
   width: 520px;
   height: 389px;
   float: left;
