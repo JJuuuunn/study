@@ -1,0 +1,188 @@
+body {
+    width: 1000px;
+    margin: 0 auto;
+}
+
+/* div {
+    border: 1px solid #000;
+} */
+
+header {
+    height: 70px;
+}
+
+header a {
+    float: left;
+}
+
+header nav {
+    float: right;
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+header nav ul li {
+    float: left;
+    margin: 0 10px;
+}
+
+a {
+    color: #000;
+    text-decoration-line: none;
+}
+
+.slider {
+    width: 100%;
+}
+
+.slider img {
+    width: 100%;
+}
+
+.content1 {
+    width: 100%;
+    height: 130px;
+    margin: 10px 0;
+}
+
+.content1 div {
+    background-color: #F2F2F2;
+    padding: 5px 20px;
+}
+
+.content1-detail {
+    width: 60%;
+}
+
+.content1-detail p {
+    font-size: 12px;
+}
+
+.content1-icon-detail{
+    margin: 0 30px;
+}
+
+.content1-img {
+    width: 20%;
+    margin: 20px 0;
+}
+
+.content1-img img {
+    width: 100%;
+}
+
+.icon {
+    width:22px;
+    height:22px;
+    /* object-fit: fill; */
+    float: left;
+}
+
+.content1-left {
+    float: left;
+    width: 450px;
+}
+
+.content1-right {
+    float: right;
+    width: 450px;
+}
+
+.content1 div div {
+    float: left;
+}
+
+.content2 {
+    width: 100%;
+    height: 430px;
+    margin: 10px 0;
+}
+
+.content2-article {
+    width: 320px;
+    float: left;
+    margin: 0 5px;
+}
+
+img {
+    width: 100%;
+}
+
+.content2-article-detail {
+    float: left;
+}
+
+
+.cart-icon {
+    width:40px;
+    height:40px;
+    object-fit: fill;
+    margin: 10px;
+    float: right;
+}
+
+p {
+    margin: 0;
+}
+
+footer {
+    height: 110px;
+    clear: both;
+    background-color: #202020;
+    padding: 10px 20px;
+}
+
+
+footer img {
+    float: left;
+    width: 180px;
+    margin-top: 30px;
+}
+
+footer nav {
+    float: right;
+    padding: 10px;
+}
+
+footer nav ul {
+    height: 10px;
+    margin: 10px 0;
+    padding: 0;
+}
+
+footer nav ul li {
+    float: left;
+    margin-right: 10px;
+}
+
+footer nav ul li a {
+    color: #fff;
+}
+
+address {
+    color: #858585;
+    font-size: 10px;
+    margin-top: 30px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.찬양문 {
+    color: #585858;
+    font-size: 13px;
+    position: absolute;
+}
