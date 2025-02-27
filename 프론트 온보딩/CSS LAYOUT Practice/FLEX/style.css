@@ -1,0 +1,46 @@
+.box {
+    border: 1px solid #000;
+    width: 250px;
+    height: 250px;
+    box-sizing: border-box;
+    position: relative
+}
+
+.name {
+  margin: 0px 0px 0px 0px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  color: white;
+  font-size: 40px;
+}
+
+.color1 {
+    background-color: red;
+}
+
+.color2 {
+    background-color: orange;
+}
+
+.color3 {
+    background-color: yellow;
+}
+
+.color4 {
+    background-color: green;
+}
+
+.container-flex {
+    width: 1000px;
+    display: flex;
+    background-color: purple;
+}
+
+.container-row {
+    width: 1000px;
+    background-color: purple;
+    display: flex;
+    flex-direction: column-reverse;
+}

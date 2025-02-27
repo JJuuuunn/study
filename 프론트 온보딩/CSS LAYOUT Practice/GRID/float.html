@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<head>
+    <style>
+        .wrap {
+            border: 5px solid #000;
+        }
+
+        .wrap::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .wrap div:first-child {
+            width: 200px;
+            height: 200px;
+            background: #ff9e9e;
+            float: left;
+        }
+
+        .wrap div:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            background: #9efc9e;
+            float: left;
+        }
+
+        .wrap div:last-child {
+            width: 200px;
+            height: 200px;
+            background: #9e9eff;
+            float: left;
+        }
+
+        h1 {
+            clear: both;
+            padding-top: 50px;
+        }
+
+        .box1 {
+            height: 200px;
+        }
+
+        .box2 {
+            float: left;
+        }
+
+        .box3 {
+            overflow: hidden;
+        }
+
+        .box4::after {
+            content: " ";
+            display: block;
+            clear: both;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>기본</h1>
+    <div class="wrap">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <h1>부모에 높이 적용</h1>
+    <div class="wrap box1">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <h1>부모에 float</h1>
+    <div class="wrap box2">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <h1>부모에 overflow</h1>
+    <div class="wrap box3">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <h1>부모에 clearfix</h1>
+    <div class="wrap box4">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</body>
