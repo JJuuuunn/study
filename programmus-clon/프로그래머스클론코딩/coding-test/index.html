@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Project_CODING-TEST</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-setting">
+        <div class="container-fluid header-background-color">
+              <!-- 로고 이미지 부분 -->
+              <div>
+                  <a class="navbar-brand" href="../Homepagemain/index.html">
+                    <img src="https://vepimg.b8cdn.com/uploads/vjfnew/8560/content/files/1666941370logo-png1666941370.png" class="header-logo-size">
+                  </a>
+              </div>
+              <!-- 로고 이미지 부분 -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">  
+                    
+                    <div class="header-space">
+                    <div class="header-left">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link header-left-font" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            교육
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="../education/index.html">교육홈</a></li>
+                                <li><a class="dropdown-item" href="#">국비지원</a></li>
+                                <li><a class="dropdown-item" href="#">강사신청</a></li>
+                                <li><a class="dropdown-item" href="#">강의</a></li>
+                                <li><a class="dropdown-item" href="#">MY스쿨</a></li>
+                                <li><a class="dropdown-item" href="#">캠퍼스</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link header-left-font" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            채용
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="../Recruit/Recruit.html">채용홈</a></li>
+                                <li><a class="dropdown-item" href="#">채용 프로그램</a></li>
+                                <li><a class="dropdown-item" href="#">탑프로그래머스</a></li>
+                                <li><a class="dropdown-item" href="#">채용 공고</a></li>
+                                <li><a class="dropdown-item" href="#">이력서</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link header-left-font" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            코딩테스트
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="../coding-test/index.html">코딩테스트 문제</a></li>
+                                <li><a class="dropdown-item" href="#">스킬체크</a></li>
+                                <li><a class="dropdown-item" href="#">코딩역량인증시험</a></li>
+                            </ul>
+                        </li>
+                      
+                  </div>   
+
+                  <div class="header-right"> 
+                    <li class="nav-item header-rirght-font">
+                        <a class="nav-link" href="#">로그인</a>
+                    </li>
+                    <li class="nav-item header-rirght-font">
+                        <a class="nav-link" href="#">기업서비스</a>
+                    </li>
+                  </div>
+                </div>
+
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+    <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="3"
+                aria-label="Slide 4"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="4"
+                aria-label="Slide 5"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active bg-color_se" style="background-color: #0e1f5f;" data-bs-interval="10000">
+                <div class="container d-flex justify-content-center align-items-center text-white">
+                    <div>
+                        <div class="h5">assert/코딩테스트-캐러셀-1.png</div>
+                        <div>
+                            Some representative placeholder content for the first slide.
+                        </div>
+                    </div>
+                    <div class="" style="">
+                        <img src="assert/코딩테스트-캐러셀-1.png" class="d-block w-100" alt="..." />
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item  bg-color_th" style="background-color: #f7d1c8;" data-bs-interval="2000">
+                <div class="container d-flex justify-content-center align-items-center ">
+                    <div>
+                        <div class="h5">assert/코딩테스트-캐러셀-2.png</div>
+                        <div>
+                            Some representative placeholder content for the second slide.
+                        </div>
+                    </div>
+                    <div class="">
+                        <img src="assert/코딩테스트-캐러셀-2.png" class="d-block w-100" alt="..." />
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item  bg-color_th" style="background-color: #00237e;" data-bs-interval="2000">
+                <div class="container d-flex justify-content-center align-items-center ">
+                    <div>
+                        <div class="h5">assert/코딩테스트-캐러셀-3.png</div>
+                        <div>
+                            Some representative placeholder content for the second slide.
+                        </div>
+                    </div>
+                    <div class="">
+                        <img src="assert/코딩테스트-캐러셀-3.png" class="d-block w-100" alt="..." />
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item  bg-color_th" style="background-color: #4fc3f7;" data-bs-interval="2000">
+                <div class="container d-flex justify-content-center align-items-center ">
+                    <div>
+                        <div class="h5">assert/코딩테스트-캐러셀-4.png</div>
+                        <div>
+                            Some representative placeholder content for the second slide.
+                        </div>
+                    </div>
+                    <div class="">
+                        <img src="assert/코딩테스트-캐러셀-4.png" class="d-block w-100" alt="..." />
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item  bg-color_th" style="background-color: #007aff;" data-bs-interval="2000">
+                <div class="container d-flex justify-content-center align-items-center ">
+                    <div>
+                        <div class="h5">assert/코딩테스트-캐러셀-5.png</div>
+                        <div>
+                            Some representative placeholder content for the second slide.
+                        </div>
+                    </div>
+                    <div class="">
+                        <img src="assert/코딩테스트-캐러셀-5.png" class="d-block w-100" alt="..." />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <div class="container">
+        <main class="box container d-flex justify-content-center">
+            <div class="box col-md-8 col-12 px-3">
+
+                <div class="box">
+                    <nav class="navbar bg-white" style="">
+                        <div class="container-fluid ">
+                            <form class="row d-flex col box bg-white pt-3" role="search">
+                                <div class="col-md-10">
+                                    <input class="form-control me-2" type="search" placeholder="Search"
+                                        aria-label="Search">
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-outline-success" type="submit">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </nav>
+
+                    <div class="d-flex mt-2 mb-2">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false" style="background-color: white; color: #000; border: none;">
+                                난이도
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">lv.0</a></li>
+                                <li><a class="dropdown-item" href="#">lv.1</a></li>
+                                <li><a class="dropdown-item" href="#">lv.2</a></li>
+                                <li><a class="dropdown-item" href="#">lv.3</a></li>
+                                <li><a class="dropdown-item" href="#">lv.4</a></li>
+                                <li><a class="dropdown-item" href="#">lv.5</a></li>
+                            </ul>
+                        </div>
+                        <div class="dropdown px-3">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false" style="background-color: white; color: #000; border: none;">
+                                언어
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Java</a></li>
+                                <li><a class="dropdown-item" href="#">Python</a></li>
+                                <li><a class="dropdown-item" href="#">Go</a></li>
+                                <li><a class="dropdown-item" href="#">C</a></li>
+                                <li><a class="dropdown-item" href="#">C#</a></li>
+                                <li><a class="dropdown-item" href="#">C++</a></li>
+                                <li><a class="dropdown-item" href="#">JavaScript</a></li>
+                                <li><a class="dropdown-item" href="#">Kotlin</a></li>
+                                <li><a class="dropdown-item" href="#">Ruby</a></li>
+                                <li><a class="dropdown-item" href="#">Mysql</a></li>
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false" style="background-color: white; color: #000; border: none;">
+                                기출 문제
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">뭔가</a></li>
+                                <li><a class="dropdown-item" href="#">있겠지?</a></li>
+                                <li><a class="dropdown-item" href="#">나는</a></li>
+                                <li><a class="dropdown-item" href="#">모르겠다</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="box mt-2 mb-2">
+                    <div class="d-flex justify-content-between">
+                        <div class="mt-2"> 백준 문제들</div>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false" style="background-color: white; color: #000; border: none;">
+                                정답률 높은 문제
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">정답률 낮은 문제</a></li>
+                                <li><a class="dropdown-item" href="#">최신순</a></li>
+                                <li><a class="dropdown-item" href="#">나는</a></li>
+                                <li><a class="dropdown-item" href="#">모르겠다</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="container box">
+                    <div class="row box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">상태</div>
+                        <div class="col">제목</div>
+                        <div class="col-2">난이도</div>
+                        <div class="col-2">완료한 사람</div>
+                        <div class="col-2">정답률</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.1</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1000"
+                                style="text-decoration-line: none; color: #000;">A + B</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">276683 명</div>
+                        <div class="col-2">39.437%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.2</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1001"
+                                style="text-decoration-line: none; color: #000;">A - B</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">236652 명</div>
+                        <div class="col-2">69.768%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.3</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1002"
+                                style="text-decoration-line: none; color: #000;">터렛</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">35718 명</div>
+                        <div class="col-2">22.471%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.3</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1003"
+                                style="text-decoration-line: none; color: #000;">피보나치 함수</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">50512 명</div>
+                        <div class="col-2">45.968%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.4</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1004"
+                                style="text-decoration-line: none; color: #000;">어린왕자</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">14895 명</div>
+                        <div class="col-2">32.953%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.5</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1005"
+                                style="text-decoration-line: none; color: #000;">ACM Craft</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">13213 명</div>
+                        <div class="col-2">28.280%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.6</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1006"
+                                style="text-decoration-line: none; color: #000;">습격자 초라기</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">2043 명</div>
+                        <div class="col-2">19.938%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.7</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1007"
+                                style="text-decoration-line: none; color: #000;">벡터 매칭</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">3231 명</div>
+                        <div class="col-2">37.478%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.8</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1008"
+                                style="text-decoration-line: none; color: #000;">A / B</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">192461 명</div>
+                        <div class="col-2">34.566%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.9</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1009"
+                                style="text-decoration-line: none; color: #000;">분산처리</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">19937 명</div>
+                        <div class="col-2">24.312%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.10</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1010"
+                                style="text-decoration-line: none; color: #000;">다리 놓기</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">35353 명</div>
+                        <div class="col-2">47.976%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.11</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1011"
+                                style="text-decoration-line: none; color: #000;">Fly me to the Alpha Centauri</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">22669 명</div>
+                        <div class="col-2">31.518%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.12</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1012"
+                                style="text-decoration-line: none; color: #000;">유기농 배추</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">47082 명</div>
+                        <div class="col-2">38.104%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.13</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1013"
+                                style="text-decoration-line: none; color: #000;">Contact</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">Contact 명</div>
+                        <div class="col-2">36.880%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.14</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1014"
+                                style="text-decoration-line: none; color: #000;">컨닝</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">2020 명</div>
+                        <div class="col-2">47.053%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.15</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1015"
+                                style="text-decoration-line: none; color: #000;">열 정렬</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">6330 명</div>
+                        <div class="col-2">54.744%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.16</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1016"
+                                style="text-decoration-line: none; color: #000;">제곱 ㄴㄴ 수</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">8276 명</div>
+                        <div class="col-2">21.694%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.17</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1017"
+                                style="text-decoration-line: none; color: #000;">소수 쌍</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">2113 명</div>
+                        <div class="col-2">26.353%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.18</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1018"
+                                style="text-decoration-line: none; color: #000;">체스판 다시 칠하기</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2"> 44988 명</div>
+                        <div class="col-2">49.791%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.19</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1019"
+                                style="text-decoration-line: none; color: #000;">책 페이지</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">4225 명</div>
+                        <div class="col-2">42.170%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.20</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1020"
+                                style="text-decoration-line: none; color: #000;">디지털 카운터</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">505 명</div>
+                        <div class="col-2">28.956%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.21</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1021"
+                                style="text-decoration-line: none; color: #000;">회전하는 큐</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">20835 명</div>
+                        <div class="col-2">61.206%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.22</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1022"
+                                style="text-decoration-line: none; color: #000;">소용돌이 예쁘게 출력하기</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">3079 명</div>
+                        <div class="col-2">29.723%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.23</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1023"
+                                style="text-decoration-line: none; color: #000;">괄호 문자열</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">651 명</div>
+                        <div class="col-2">35.151%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.24</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1024"
+                                style="text-decoration-line: none; color: #000;">수열의 합</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">5351 명</div>
+                        <div class="col-2">28.868%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.25</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1025"
+                                style="text-decoration-line: none; color: #000;">제곱수 찾기</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">1960 명</div>
+                        <div class="col-2">34.069%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.26</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1026"
+                                style="text-decoration-line: none; color: #000;">보물</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">33201 명</div>
+                        <div class="col-2">68.748%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.27</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1027"
+                                style="text-decoration-line: none; color: #000;">고층 건물</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">3493 명</div>
+                        <div class="col-2">45.828%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2"> No.28</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1028"
+                                style="text-decoration-line: none; color: #000;">다이아몬드 광산</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">1588 명</div>
+                        <div class="col-2">25.271%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.29</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1029"
+                                style="text-decoration-line: none; color: #000;">그림 교환</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">1209 명</div>
+                        <div class="col-2">28.228%</div>
+                    </div>
+
+                    <div class="row question pt-2 box" style="font-size: smaller;">
+                        <div class="col-md-1 col-2">No.30</div>
+                        <div class="col"><a href="https://www.acmicpc.net/problem/1030"
+                                style="text-decoration-line: none; color: #000;">프렉탈 평면</a></div>
+                        <div class="col-2"></div>
+                        <div class="col-2">940 명</div>
+                        <div class="col-2">45.214%</div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="box col-3 mt-4 right-box">
+                <div class="box">
+                    <div class="login-wrapper-postion">
+                        <div class="login-position p-2">로그인하고 코딩테스트를 연습을 시작하세요.</div>
+                        <button class="btn btn-primary login-position box"><a href="#"
+                                class="text-decoration-none text-white">로그인</a></button>
+                    </div>
+                </div>
+                <div class="box mt-4">
+                    <section class="s-m">
+                        <div class="first-m">
+                            <div class="f-t">
+                                <div>
+                                    <span>내 실력 향상을 위한 추천 유튜브 영상</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        class="">
+                                        <path fill-rule="evenodd" d="m9 16.34 4.58-4.59L9 7.16l1.41-1.41 6 6-6 6z"
+                                            clip-rule="evenodd">
+                                        </path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-3" style="max-width: 540px;">
+                            <div class="row g-0">
+                                <div class="col-md-5">
+                                    <img src="https://i.ytimg.com/vi/0RQymLPFNXs/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCgEhHVbpPJtN6m00cusX2keT-URQ"
+                                        class="img-fluid rounded-start" alt="...">
+                                </div>
+                                <div class="col-md-7 d-flex align-items-center">
+                                    <p class="card-text text-break" style="font-size: small;">(2024 최신 후기) 코딩 학원의 실태와
+                                        취업률의 실태를 알려드립니다.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mb-3" style="max-width: 540px;">
+                            <div class="row g-0">
+                                <div class="col-md-5">
+                                    <img src="https://i.ytimg.com/vi/4v52lmRgvK4/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLABhL22UanMPh0Ga5o-qF1uw-epGw"
+                                        class="img-fluid rounded-start" alt="...">
+                                </div>
+                                <div class="col-md-7 d-flex align-items-center">
+                                    <p class="card-text text-break" style="font-size: small;">그룹프로젝트 하고싶은 사람 모여라! | 코딩
+                                        스터디그룹 모집</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mb-3" style="max-width: 540px;">
+                            <div class="row g-0">
+                                <div class="col-md-5">
+                                    <img src="https://i.ytimg.com/vi/wrXmqtOtisU/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAJ1Fvd-KfKI8d-HS-rEl1h7KGuCw"
+                                        class="img-fluid rounded-start" alt="...">
+                                </div>
+                                <div class="col-md-7 d-flex align-items-center">
+                                    <p class="card-text text-break" style="font-size: small;">이래도 나이 때문에 포기하시나요? | 41살
+                                        전직 목사의 개발자 성공 비결</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mb-3" style="max-width: 540px;">
+                            <div class="row g-0">
+                                <div class="col-md-5">
+                                    <img src="https://i.ytimg.com/vi/Mqh13dNI8jc/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDooIo9fa2ZAG1Xaw4UDQbj-QO5NQ"
+                                        class="img-fluid rounded-start" alt="...">
+                                </div>
+                                <div class="col-md-7 d-flex align-items-center">
+                                    <p class="card-text text-break" style="font-size: small;">웹개발자면서 이것도 모름? | DOM과
+                                        CSSOM, 렌더링 과정</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+                </div>
+                <div class="box mt-4">
+                    <section class="s-m">
+                        <div class="first-m">
+                            <div class="f-t">
+                                <div>
+                                    <span>채팅앱 만들기 위한 추천 영상</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        class="">
+                                        <path fill-rule="evenodd" d="m9 16.34 4.58-4.59L9 7.16l1.41-1.41 6 6-6 6z"
+                                            clip-rule="evenodd">
+                                        </path>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div class="card pt-3 mb-3" style="max-width: 540px;">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="https://i.ytimg.com/vi/pRGOEtGjI-k/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDBOdvkiqxxOnjZ_Jy1lWuuTNtWYg"
+                                            class="img-fluid rounded-start" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-text text-break" style="font-size: medium;">채팅앱 만들기 1</div>
+                                        <div class="card-text text-break" style="font-size: small;">웹소켓이란 뭘까?</div>
+                                        <div class="card-text text-break" style="font-size: small;">풀스택으로 만들어보자</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card pt-3 pb-3 mb-3" style="max-width: 540px;">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="https://i.ytimg.com/vi/oFiw5VvgRFg/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLADfxYBLDD430q8aBvvGRF1HtuXyA"
+                                            class="img-fluid rounded-start" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-text text-break" style="font-size: medium;">채팅앱 만들기 2</div>
+                                        <div class="card-text text-break" style="font-size: small;">웹소켓을 이용해 채팅앱을 만들어보자!
+                                        </div>
+                                        <div class="card-text text-break" style="font-size: small;">유저 로그인편</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card pt-3 pb-3 mb-3" style="max-width: 540px;">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="https://i.ytimg.com/vi/pRGOEtGjI-k/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDBOdvkiqxxOnjZ_Jy1lWuuTNtWYg"
+                                            class="img-fluid rounded-start" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-text text-break" style="font-size: medium;">채팅앱 만들기 3</div>
+                                        <div class="card-text text-break" style="font-size: small;">어떻게 메세지를 주고받을까?
+                                        </div>
+                                        <div class="card-text text-break" style="font-size: small;">웹소켓을 이용해 채팅앱을 만들어보자!
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                    </section>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="container-f">
+
+                <div class="footer-menu mt-3">
+                    <div class="row first-box">
+                        <div class="col-md-3 col-sm-12">
+                            <div class="sub-title">서비스</div>
+                            <div><a href="#" class="footer-menu-item a-line">개발용 프로그래머스</a></div>
+                            <div><a href="#" class="footer-menu-item a-line">기업용 프로그래머스</a></div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="sub-title">문의</div>
+                            <div><a href="#" class="footer-menu-item a-line">FAQ/문의</a></div>
+                            <div><a href="#" class="footer-menu-item a-line">교육 결제, 환불 관련 문의</a></div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="sub-title">고객센터</div>
+                            <div class="footer-menu-item">대표번호: 1533-1886</div>
+                            <div class="time-desc">운영시간: 오전 9시 ~ 오후 6시(주말 및 공휴일 휴무)</div>
+                            <div class="time-desc ">점심시간: 오후 12시 ~ 오후 1시</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-menu mt-5">
+                    <div class="first-box">
+                        <div class="col-sm-12">
+                            <a href="#" class="footer-menu-item a-line">2024 프로그래머스</a>
+                            <div class="footer-sub-menu-item">(주)그렙 / 대표 임성수 / 서울특별시 서초구 강남대로 327, 2층 프로그래머스(서초동,
+                                대륭서초타워) /
+                                사업자등록번호 220-88-75699 / 통신판매업신고 제 2014-서울강</div>
+                            <div class="footer-sub-menu-item">남-03241호 / 직업정보제공사업 신고번호 J1200020180027 / 프로그래머스 사이트의 모든
+                                콘텐츠,
+                                정보, UI, HTML 소스 등에 대한 무단 복제, 전송, 배포, 크롤링, 스크래핑 등의 행위를 거부하며, 이러한 행위는 관련 법령에 의해 엄격히 금지됩니다.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-menu mt-3">
+                    <div class="first-box">
+                        <div class="col-sm-12">
+                            <div>
+                                <span class="sub-title">개인정보 처리방침</span>
+                                <span class="footer-sub-menu-item last-sub-item">이용약관</span>
+                                <span class="footer-sub-menu-item last-sub-item">프로그래머스 인채 채용</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </footer>
+
+    </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+
+</html>
