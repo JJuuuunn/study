@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SMODERS MODIFY</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+<div class="container mt-5">
+    <!-- 차트를 그릴 캔버스 -->
+    <canvas id="myChart" width="400" height="400"></canvas>
+</div>
+
+<script>
+    $(document).ready(function() {
+        // Ajax request to fetch data
+        $.ajax({
+            url: '/chart/chart-data', // 실제 데이터를 가져올 URL로 수정해야 합니다.
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                // 데이터 배열 초기화
+                var labels = [];
+                var insertQuantities = [];
+                var releaseQuantities = [];
+
+                // 데이터를 추출하여 배열에 저장
+                for (var i = 0; i < data.length; i++) {
+                    labels.push(data[i].year + '-' + data[i].month);
+                    insertQuantities.push(data[i].insertQuantity);
+                    releaseQuantities.push(data[i].releaseQuantity);
+                }
+
+                // 차트 생성
+                var ctx = document.getElementById('myChart').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Insert Quantity',
+                            data: insertQuantities,
+                            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        }, {
+                            label: 'Release Quantity',
+                            data: releaseQuantities,
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            },
+            error: function(xhr, status, error) {
+                // Log any errors to the console
+                console.error('Error fetching data:', error);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

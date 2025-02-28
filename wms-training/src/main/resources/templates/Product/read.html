@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/layout1}">
+
+<head>
+    <title>상품 조회</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <h2>상품 상세정보</h2>
+    <div class="modify-form">
+        <form action="/product/modify">
+            <input type="hidden" name="id" th:value="${dto.id}" />
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">상품  ID</span>
+                <input type="text" name="id" class="form-control" th:value="${dto.id}" readonly>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">상품 이름</span>
+                <input type="text" name="name" class="form-control" th:value="${dto.name}" readonly>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">상품 상태</span>
+                <input type="text" name="status" class="form-control" th:value="${dto.status}" readonly>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">상품 원가</span>
+                <!-- 현재 상품의 원가를 기본값으로 설정 -->
+                <input type="text" name="cost" class="form-control" th:value="${dto.cost}" readonly>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">상품 가격</span>
+                <!-- 현재 상품의 가격을 기본값으로 설정 -->
+                <input type="text" name="price" class="form-control" th:value="${dto.price}" readonly>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">브랜드 ID</span>
+                <!-- 현재 상품의 가격을 기본값으로 설정 -->
+                <input type="text" name="brandId" class="form-control" th:value="${dto.brandId}" readonly>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">사업자 ID</span>
+                <!-- 현재 상품의 가격을 기본값으로 설정 -->
+                <input type="text" name="businessOwnerId" class="form-control" th:value="${dto.businessOwnerId}" readonly>
+            </div>
+
+            <br>
+            <button type="submit" class="btn btn-primary m-2">수정하기</button>
+        </form>
+
+
+        <!--   상품 삭제는 보기용임~~   -->
+        <div class="register-btn" >
+            <form action="/product/remove" method="post" >
+                <input type="text" th:value="${dto.id}" name="id" hidden />
+                <button type="submit" class="btn btn-primary m-2">상품삭제</button>
+            </form>
+        </div>
+
+        <div class="register-btn">
+            <form action="/product/list">
+                <button type="submit" class="btn btn-primary m-2">리스트</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
