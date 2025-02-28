@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssg.productmanageapp.mapper.ProductMapper">
+
+
+<!--    Return Value      Modifier	       	Description-->
+<!--    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<!--    void	            addProduct	       	상품을 추가합니다.-->
+<!--    Product	        findProductById	   	상품을 조회합니다.-->
+<!--    List<Product>	    findAllProducts	   	전체 상품 목록을 조회합니다.-->
+<!--    List<Product>	    findProductsByName	상품 이름으로 상품을 검색합니다.-->
+<!--    void	            updateProduct	   	상품 정보를 수정합니다.-->
+<!--    void      	    deleteProduct	   	상품을 제거합니다.-->
+
+
+    <insert id="addProduct" parameterType="com.ssg.productmanageapp.domain.ProductVO" useGeneratedKeys="true" keyProperty="productId">
+        INSERT INTO PRODUCT (PRODUCT_NAME, PRICE, STOCKQUANTITY)
+        VALUES (#{productName}, #{price}, #{stockQuantity})
+    </insert>
+
+    <select id="findProductById" resultType="com.ssg.productmanageapp.domain.ProductVO">
+        SELECT PRODUCT_ID, PRODUCT_NAME, PRICE, STOCKQUANTITY
+        FROM PRODUCT
+        WHERE PRODUCT_ID = #{productId}
+    </select>
+
+    <select id="findAllProducts" resultType="com.ssg.productmanageapp.domain.ProductVO">
+        SELECT PRODUCT_ID, PRODUCT_NAME, PRICE, STOCKQUANTITY
+        FROM PRODUCT
+    </select>
+
+    <select id="findProductByName" resultType="com.ssg.productmanageapp.domain.ProductVO">
+        SELECT PRODUCT_ID, PRODUCT_NAME, PRICE, STOCKQUANTITY
+        FROM PRODUCT
+        WHERE PRODUCT_NAME = #{productName}
+    </select>
+
+    <update id="updateProduct" parameterType="com.ssg.productmanageapp.domain.ProductVO">
+        UPDATE PRODUCT
+        SET PRODUCT_NAME = #{productName}, PRICE = #{price}, STOCKQUANTITY = #{stockQuantity}
+        WHERE PRODUCT_ID = #{productId}
+    </update>
+
+    <delete id="deleteProduct" parameterType="com.ssg.productmanageapp.domain.ProductVO">
+        DELETE FROM PRODUCT
+        WHERE PRODUCT_ID = #{productId}
+    </delete>
+
+    <delete id="deleteTestDatas">
+        DELETE FROM PRODUCT
+        WHERE PRODUCT_NAME LIKE 'test%'
+    </delete>
+
+    <select id="selectList" resultType="com.ssg.productmanageapp.domain.ProductVO">
+        SELECT * FROM PRODUCT
+        <where>
+            <if test="keyword != null and keyword != ''">
+                PNAME LIKE CONCAT('%', #{KEYWORD}, '%')
+            </if>
+        </where>
+        ORDER BY PNO DESC LIMIT #{SKIP}, #{SIZE};
+    </select>
+
+    <select id="getCount" resultType="int">
+        SELECT COUNT(PRODUCT_ID) FROM PRODUCT
+        <where>
+            <if test="keyword != null and keyword != ''">
+                PNAME LIKE CONCAT('%', #{KEYWORD}, '%')
+            </if>
+        </where>
+    </select>
+</mapper>
