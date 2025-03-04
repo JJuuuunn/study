@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>replit</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <script
+      src="https://kit.fontawesome.com/2c827c8cca.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-setting">
+      <div class="container-fluid header-background-color">
+        <!-- 로고 이미지 부분 -->
+        <div>
+          <a class="navbar-brand" href="../Homepagemain/index.html">
+            <img
+              src="https://vepimg.b8cdn.com/uploads/vjfnew/8560/content/files/1666941370logo-png1666941370.png"
+              class="header-logo-size"
+            />
+          </a>
+        </div>
+        <!-- 로고 이미지 부분 -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <div class="header-space">
+              <div class="header-left">
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link header-left-font text-black"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    교육
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="dropdown-item" href="../education/index.html"
+                        >교육홈</a
+                      >
+                    </li>
+                    <li><a class="dropdown-item" href="#">국비지원</a></li>
+                    <li><a class="dropdown-item" href="#">강사신청</a></li>
+                    <li><a class="dropdown-item" href="#">강의</a></li>
+                    <li><a class="dropdown-item" href="#">MY스쿨</a></li>
+                    <li><a class="dropdown-item" href="#">캠퍼스</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link header-left-font text-black"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    채용
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="dropdown-item" href="../Recruit/Recruit.html"
+                        >채용홈</a
+                      >
+                    </li>
+                    <li><a class="dropdown-item" href="#">채용 프로그램</a></li>
+                    <li>
+                      <a class="dropdown-item" href="#">탑프로그래머스</a>
+                    </li>
+                    <li><a class="dropdown-item" href="#">채용 공고</a></li>
+                    <li><a class="dropdown-item" href="#">이력서</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link header-left-font text-black"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    코딩테스트
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="dropdown-item" href="../coding-test/index.html"
+                        >코딩테스트 문제</a
+                      >
+                    </li>
+                    <li><a class="dropdown-item" href="#">스킬체크</a></li>
+                    <li>
+                      <a class="dropdown-item" href="#">코딩역량인증시험</a>
+                    </li>
+                  </ul>
+                </li>
+              </div>
+
+              <div class="header-right">
+                <li class="nav-item header-rirght-font">
+                  <a class="nav-link text-black" href="#">로그인</a>
+                </li>
+                <li class="nav-item header-rirght-font">
+                  <a class="nav-link text-black" href="#">기업서비스</a>
+                </li>
+              </div>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div
+      id="carouselExampleDark"
+      class="carousel carousel-dark slide"
+      data-bs-ride="carousel"
+    >
+      <div class="carousel-indicators">
+        <button
+          type="button"
+          data-bs-target="#carouselExampleDark"
+          data-bs-slide-to="0"
+          class="active"
+          aria-current="true"
+          aria-label="Slide 1"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#carouselExampleDark"
+          data-bs-slide-to="1"
+          aria-label="Slide 2"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#carouselExampleDark"
+          data-bs-slide-to="2"
+          aria-label="Slide 3"
+        ></button>
+      </div>
+      <div class="carousel-inner">
+        <div
+          class="carousel-item active bg-color_se"
+          style=""
+          data-bs-interval="10000"
+        >
+          <div
+            class="container d-flex justify-content-center align-items-center text-white"
+          >
+            <div>
+              <div class="h5">YouTube 인기강의 TOP 10</div>
+              <div>비전공자들도 쉽게 이해할수있는 강의!</div>
+            </div>
+            <div class="" style="">
+              <img
+                src="https://grepp-programmers.s3.amazonaws.com/production/file_resource/3533/2306_banner__1_.png"
+                class="d-block w-100"
+                alt="..."
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-item bg-color_th" style="" data-bs-interval="2000">
+          <div
+            class="container d-flex justify-content-center align-items-center"
+          >
+            <div>
+              <div class="h5">실무에서 바로 쓰는 데이터 분석 과정</div>
+              <div>누구나 쉽게 따라할수있는 강의를 보세요.</div>
+            </div>
+            <div class="">
+              <img
+                src="https://grepp-programmers.s3.amazonaws.com/production/file_resource/5620/KDT-Data_Analysis-main_banner_school_1440x552_.png"
+                class="d-block w-100"
+                alt="..."
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-item bg-color_fi" style="" data-bs-interval="2000">
+          <div
+            class="container d-flex justify-content-center align-items-center text-white"
+          >
+            <div>
+              <div class="h5">코딩알려주는누나가 얼려주는 코딩 강의</div>
+              <div>이론과 실습을 통하여 개념을 학습해 보아요.</div>
+            </div>
+            <div class="">
+              <img
+                src="https://grepp-programmers.s3.amazonaws.com/production/file_resource/5483/Main_Banner_01_1440x552_.png"
+                class="d-block w-100"
+                alt="..."
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExampleDark"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExampleDark"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+
+    <div class="container">
+      <div class="container mt-5 fw-bolder fs-1 mb-5">
+        코딩알려주는누나의 강의!
+      </div>
+
+      <div
+        id="carouselExampleFade"
+        class="carousel slide carousel-fade d-sm-block d-md-none d-lg-none d-xl-none"
+        data-bs-ride="carousel"
+      >
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img
+              src="https://import.cdn.thinkific.com/523761/MyDXYTa6R0eXRilFHNng_html%20css.gif?width=380"
+              class="d-block w-100"
+              alt="..."
+            />
+          </div>
+          <div class="carousel-item">
+            <img
+              src="https://import.cdn.thinkific.com/523761/rrnzKBhcSHqJCA37r3hN_javascript.gif?width=380"
+              class="d-block w-100"
+              alt="..."
+            />
+          </div>
+          <div class="carousel-item">
+            <img
+              src="https://cdn.inflearn.com/public/courses/329051/cover/e7e306c8-0947-4240-8b42-0bc537c74d33/%E1%84%8F%E1%85%A9%E1%84%83%E1%85%B5%E1%86%BC%E1%84%8B%E1%85%A1%E1%86%AF%E1%84%85%E1%85%A7%E1%84%8C%E1%85%AE%E1%84%82%E1%85%B3%E1%86%AB%E1%84%82%E1%85%AE%E1%84%82%E1%85%A1%20%E1%84%85%E1%85%B5%E1%84%8B%E1%85%A2%E1%86%A8%E1%84%90%E1%85%B32.jpg"
+              class="d-block w-100"
+              alt="..."
+            />
+          </div>
+          <div class="carousel-item">
+            <img
+              src="https://import.cdn.thinkific.com/523761/courses/2296383/JmapfTQEi6fHpVV0AdpR_nodejs%20%EB%B0%B0%EB%84%88.jpg?width=380"
+              class="d-block w-100"
+              alt="..."
+            />
+          </div>
+        </div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleFade"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleFade"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+      <div
+        id="carouselExampleControls"
+        class="carousel slide d-none d-md-block d-lg-block d-xl-block"
+        data-bs-ride="carousel"
+      >
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="row">
+              <div class="col-md-3 col-sm-12">
+                <div class="card card-radius">
+                  <img
+                    src="https://import.cdn.thinkific.com/523761/MyDXYTa6R0eXRilFHNng_html%20css.gif?width=380"
+                    class="card-img-top"
+                    alt="..."
+                  />
+                  <div class="card-body">
+                    <h5 class="card-text">1.HTML/CSS:웹개발의 첫 번째 단계</h5>
+
+                    <p class="card-text">$37.00</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-sm-12">
+                <div class="card card-radius">
+                  <img
+                    src="https://import.cdn.thinkific.com/523761/rrnzKBhcSHqJCA37r3hN_javascript.gif?width=380"
+                    class="card-img-top"
+                    alt="..."
+                  />
+                  <div class="card-body">
+                    <h5 class="card-text">
+                      2.자바스크립트:실전 웹사이트 만들기
+                    </h5>
+                    <p class="card-text">$66.00</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-12">
+                <div class="card card-radius">
+                  <img
+                    src="https://cdn.inflearn.com/public/courses/329051/cover/e7e306c8-0947-4240-8b42-0bc537c74d33/%E1%84%8F%E1%85%A9%E1%84%83%E1%85%B5%E1%86%BC%E1%84%8B%E1%85%A1%E1%86%AF%E1%84%85%E1%85%A7%E1%84%8C%E1%85%AE%E1%84%82%E1%85%B3%E1%86%AB%E1%84%82%E1%85%AE%E1%84%82%E1%85%A1%20%E1%84%85%E1%85%B5%E1%84%8B%E1%85%A2%E1%86%A8%E1%84%90%E1%85%B32.jpg"
+                    class="card-img-top"
+                    alt="..."
+                  />
+                  <div class="card-body">
+                    <h5 class="card-text">
+                      3리액트:프론트엔드 개발자로 가는 마지막 단계
+                    </h5>
+                    <p class="card-text">$99.00</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-sm-12">
+                <div class="card card-radius">
+                  <img
+                    src="https://import.cdn.thinkific.com/523761/courses/2296383/JmapfTQEi6fHpVV0AdpR_nodejs%20%EB%B0%B0%EB%84%88.jpg?width=380"
+                    class="card-img-top"
+                    alt="..."
+                  />
+                  <div class="card-body">
+                    <h5 class="card-text">
+                      4.NodeJS:풀스택 개발자로가는 마지막 단계
+                    </h5>
+                    <p class="card-text">$120.00</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="row">
+              <div class="col-md-3 col-sm-12">
+                <div class="card card-radius">
+                  <img
+                    src="https://i.ytimg.com/vi/tDZROpAdJ9w/mqdefault.jpg"
+                    class="card-img-top"
+                    alt="..."
+                  />
+                  <div class="card-body">
+                    <h5 class="card-text">
+                      자바스크립트의 THIS에 대해서 싹다 정리해보자
+                    </h5>
+                    <p class="card-text">YouTube 강의</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-sm-12">
+                <div class="card card-radius">
+                  <img
+                    src="https://i.ytimg.com/vi/X8wzfgKcl8s/maxresdefault.jpg"
+                    class="card-img-top"
+                    alt="..."
+                  />
+                  <div class="card-body">
+                    <h5 class="card-text">
+                      비전공자분들이 IT지식에대해 쉽게 배우기 좋은 책
+                    </h5>
+                    <p class="card-text">YouTube 강의</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-12">
+                <div class="card card-radius">
+                  <img
+                    src="https://i.ytimg.com/vi/lelVripbt2M/maxresdefault.jpg"
+                    class="card-img-top"
+                    alt="..."
+                  />
+                  <div class="card-body">
+                    <h5 class="card-text">
+                      취업할때 놓치는 Git, Github반드시 알아야합니다
+                    </h5>
+                    <p class="card-text">YouTube 강의</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-sm-12">
+                <div class="card card-radius">
+                  <img
+                    src="https://i.ytimg.com/vi/sCK6pxThh5M/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLASWwvFQ0-J2Octf9J6Z33G3wttlw"
+                    class="card-img-top"
+                    alt="..."
+                  />
+                  <div class="card-body">
+                    <h5 class="card-text">
+                      코드가 가면갈수록 더러운가(난가?) 코드 짜는법
+                    </h5>
+                    <p class="card-text">YouTube 강의</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="row">
+              <div class="col-md-3 col-sm-12">
+                <div class="card card-radius">
+                  <img
+                    src="https://i.ytimg.com/vi/UKnLwVm9suY/mqdefault.jpg"
+                    class="card-img-top"
+                    alt="..."
+                  />
+                  <div class="card-body">
+                    <h5 class="card-text">
+                      우리 좀더 편한 redux toolkit으로 갈아타 볼까요?
+                    </h5>
+                    <p class="card-text">YouTube 강의</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-sm-12">
+                <div class="card card-radius">
+                  <img
+                    src="https://i.ytimg.com/vi/jOSu8VzJbpQ/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDAsuHKWTgSBVgNE2Rl06owtQ_Xpg"
+                    class="card-img-top"
+                    alt="..."
+                  />
+                  <div class="card-body">
+                    <h5 class="card-text">
+                      내 웹사이트를 더 풍부하게 만들어줄 React Spring
+                    </h5>
+                    <p class="card-text">YouTube 강의</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-12">
+                <div class="card card-radius">
+                  <img
+                    src="https://i.ytimg.com/vi/lHlfTterIgw/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLAL0wjuTKrUApwupR7iKoU45Xiq3g"
+                    class="card-img-top"
+                    alt="..."
+                  />
+                  <div class="card-body">
+                    <h5 class="card-text">
+                      챗 GPT 등장 후 개발자 직업에 대한 전망
+                    </h5>
+                    <p class="card-text">YouTube 강의</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-sm-12">
+                <div class="card card-radius">
+                  <img
+                    src="https://i.ytimg.com/vi/r0Nlm6HAyPU/mqdefault.jpg"
+                    class="card-img-top"
+                    alt="..."
+                  />
+                  <div class="card-body">
+                    <h5 class="card-text">
+                      아무리 열심히 해도 이런 개발자면 소용없다
+                    </h5>
+                    <p class="card-text">YouTube 강의</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleControls"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleControls"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="container mt-5 fw-bolder fs-1 mb-5">
+      <a href="#" class="custom-link">오늘의 연습문제</a>
+    </div>
+
+    <div class="container">
+      <div
+        id="carouselExampleInterval"
+        class="carousel slide d-sm-block d-md-none d-lg-none d-xl-none"
+        data-bs-ride="carousel"
+      >
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-bs-interval="10000">
+            <div class="card card-radius">
+              <div class="card-body">
+                <h5 class="card-title">구글 웹사이트만들기</h5>
+                <p class="card-text fw-light">
+                  웹사이트를 처음에 어떻게 분석할까?
+                </p>
+                <div class="d-flex">
+                  <a href="#" class="btn btn-primary ms-auto">도전하기</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item" data-bs-interval="2000">
+            <div class="card card-radius">
+              <div class="card-body">
+                <h5 class="card-title">HTML을 좀 더 쉽게 움직이는 방법</h5>
+                <p class="card-text fw-light">
+                  positon과 flexbox를 연습해보자!
+                </p>
+                <div class="d-flex">
+                  <a href="#" class="btn btn-primary ms-auto">도전하기</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="card card-radius">
+              <div class="card-body">
+                <h5 class="card-title">
+                  반응형 웹사이트 만들기 (with 부트스트랩)
+                </h5>
+                <p class="card-text fw-light">
+                  부트스트랩을 이용하여 웹사이트를 만들어 보세요.
+                </p>
+                <div class="d-flex">
+                  <a href="#" class="btn btn-primary ms-auto">도전하기</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleInterval"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleInterval"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+      <div
+        class="container overflow-hidden d-none d-md-block d-lg-block d-xl-block"
+      >
+        <div class="row gy-5">
+          <div class="col-sm-12 col-md-6 me-auto">
+            <div class="card card-radius">
+              <div class="card-body">
+                <h5 class="card-title">구글 웹사이트만들기</h5>
+                <p class="card-text fw-light">
+                  웹사이트를 처음에 어떻게 분석할까?
+                </p>
+                <div class="d-flex">
+                  <a href="#" class="btn btn-primary ms-auto">도전하기</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-md-6">
+            <div class="card card-radius">
+              <div class="card-body">
+                <h5 class="card-title">HTML을 좀 더 쉽게 움직이는 방법</h5>
+                <p class="card-text fw-light">
+                  positon과 flexbox를 연습해보자!
+                </p>
+                <div class="d-flex">
+                  <a href="#" class="btn btn-primary ms-auto">도전하기</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-md-6">
+            <div class="card card-radius me-auto">
+              <div class="card-body">
+                <h5 class="card-title">
+                  반응형 웹사이트 만들기 (with 부트스트랩)
+                </h5>
+                <p class="card-text fw-light">
+                  부트스트랩을 이용하여 웹사이트를 만들어 보세요.
+                </p>
+                <div class="d-flex">
+                  <a href="#" class="btn btn-primary ms-auto">도전하기</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-md-6">
+            <div class="card card-radius">
+              <div class="card-body">
+                <h5 class="card-title">나만의 웹사이트 만들기</h5>
+                <p class="card-text fw-light">
+                  자신만의 웹사이트를 만들어 보세요.
+                </p>
+                <div class="d-flex">
+                  <a href="#" class="btn btn-primary ms-auto">도전하기</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="container footer_container">
+        <div class="footer-menu mt-3">
+          <div class="row first-box">
+            <div class="col-md-3 col-sm-12">
+              <div class="sub-title">서비스</div>
+              <div>
+                <a href="#" class="footer-menu-item a-line"
+                  >개발용 프로그래머스</a
+                >
+              </div>
+              <div>
+                <a href="#" class="footer-menu-item a-line"
+                  >기업용 프로그래머스</a
+                >
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="sub-title">문의</div>
+              <div>
+                <a href="#" class="footer-menu-item a-line">FAQ/문의</a>
+              </div>
+              <div>
+                <a href="#" class="footer-menu-item a-line"
+                  >교육 결제, 환불 관련 문의</a
+                >
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+              <div class="sub-title">고객센터</div>
+              <div class="footer-menu-item">대표번호: 1533-1886</div>
+              <div class="time-desc">
+                운영시간: 오전 9시 ~ 오후 6시(주말 및 공휴일 휴무)
+              </div>
+              <div class="time-desc">점심시간: 오후 12시 ~ 오후 1시</div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-menu mt-5">
+          <div class="first-box">
+            <div class="col-sm-12">
+              <a href="#" class="footer-menu-item a-line">2024 프로그래머스</a>
+              <div class="footer-sub-menu-item">
+                (주)그렙 / 대표 임성수 / 서울특별시 서초구 강남대로 327, 2층
+                프로그래머스(서초동, 대륭서초타워) / 사업자등록번호 220-88-75699
+                / 통신판매업신고 제 2014-서울강
+              </div>
+              <div class="footer-sub-menu-item">
+                남-03241호 / 직업정보제공사업 신고번호 J1200020180027 /
+                프로그래머스 사이트의 모든 콘텐츠, 정보, UI, HTML 소스 등에 대한
+                무단 복제, 전송, 배포, 크롤링, 스크래핑 등의 행위를 거부하며,
+                이러한 행위는 관련 법령에 의해 엄격히 금지됩니다.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-menu mt-3">
+          <div class="first-box">
+            <div class="col-sm-12">
+              <div>
+                <span class="sub-title">개인정보 처리방침</span>
+                <span class="footer-sub-menu-item last-sub-item">이용약관</span>
+                <span class="footer-sub-menu-item last-sub-item"
+                  >프로그래머스 인채 채용</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
