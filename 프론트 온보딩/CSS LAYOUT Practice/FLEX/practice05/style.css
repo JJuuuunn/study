@@ -11,23 +11,21 @@ li {
 .container {
     margin: 0 auto;
     width: 800px;
+    height: 400px;
     display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
 
 .mt-10 {
     margin-top: 10px;
 }
 
-.items {
-    flex: 400px;
-}
-
 .item {
-    flex: auto;
+    width: 400px;
     height: 90px;
     display: flex;
-    margin: 10px 0;
-    border-bottom: 1px solid #ddd;
+    margin-top: 10px;
 }
 
 .rank {

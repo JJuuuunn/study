@@ -26,7 +26,7 @@ body {
   display: flex;
 }
 
-.event-item:not(first-child) {
+.event-item:not(:first-child) {
   margin-top: 10px;
 }
 
