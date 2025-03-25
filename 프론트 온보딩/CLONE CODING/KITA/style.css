@@ -50,7 +50,7 @@ a {
 
 .carousel {
   width: 100%;
-  height: 400px;
+  height: 500px;
   overflow: hidden;
 }
 
@@ -125,7 +125,7 @@ a {
 .duration-name {
   margin: 0 5px;
   flex: 0 0 24%;
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 700;
   background-color: #6791d4;
   color: #fff;
@@ -180,13 +180,13 @@ a {
 }
 
 .news-title {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
 }
 
 .date {
   color: #777777;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 400;
 }
 
@@ -231,7 +231,7 @@ a {
 
 .seminar-content {
   color: #fff;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .seminar-btn {
@@ -260,7 +260,7 @@ a {
 
 .information-title {
   display: block;
-  font-size: 16px;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -315,7 +315,7 @@ a {
 
 .footer-address {
   flex: 0 0 30%;
-  font-size: 14px;
+  font-size: 12px;
   text-align: left;
   margin: auto 0;
 }
@@ -329,7 +329,7 @@ a {
 .footer-call {
   display: inline-block;
   flex: 0 0 10%;
-  font-size: 14px;
+  font-size: 12px;
   text-align: left;
   border-left: 1px solid #fff;
   margin: auto 0;
